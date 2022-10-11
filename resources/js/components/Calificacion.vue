@@ -6,7 +6,7 @@
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
                         <b-dropdown-item v-if="rol == 1" href="/home">Home</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Adscripciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
@@ -23,16 +23,16 @@
         </b-navbar>
         <div class="container my-4">
             <b-row align-h="end">
-              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Adscripción</b-button>
+              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Puesto</b-button>
             </b-row>
 
             <!-- Inicio modal crear -->
 
-            <b-modal centered id="modal-crear" title="Nueva Adscripción" hide-footer>
+            <b-modal centered id="modal-crear" title="Nuevo Puesto" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
                         <b-col cols="12">
-                          <b-form-input id="descripcion" name="descripcion" v-model="adscripcion.descripcion">
+                          <b-form-input id="descripcion" name="descripcion" v-model="puesto.descripcion">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -46,11 +46,11 @@
 
             <!-- Inicio modal editar -->
 
-            <b-modal centered id="modal-editar" title="Editar Adscripción" hide-footer>
-                    <b-form @submit.prevent="editar(adscripcion_)">
+            <b-modal centered id="modal-editar" title="Editar Puesto" hide-footer>
+                    <b-form @submit.prevent="editar(puesto_)">
                       <b-row>
                         <b-col cols="12">
-                          <b-form-input id="descripcion" name="descripcion" v-model="adscripcion_.descripcion">
+                          <b-form-input id="descripcion" name="descripcion" v-model="puesto_.descripcion">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -94,7 +94,7 @@
                 <!-- Main table element -->
                 <b-table
                 class="table table-sm"
-                :items="adscripciones"
+                :items="calificaciones"
                 :fields="fields"
                 :current-page="currentPage"
                 :per-page="perPage"
@@ -176,19 +176,23 @@
     data() {
       return {
         fields: [
-          { key: 'id_adscripcion', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'descripcion', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'id_calificacion', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'empleado', label: 'Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'curso', label: 'Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'calif', label: 'Calificación', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'hrsCap', label: 'Horas de Capacitación', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'fecha', label: 'Fecha', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
         msgResult:'',
         rol:'',
         usrActual:'',
-        adscripciones:[],
-        adscripcion:{
+        calificaciones:[],
+        puesto:{
           descripcion:''
         },
-        adscripcion_:{
-          id_adscripcion:'',
+        puesto_:{
+          id_puesto:'',
           descripcion:''
         },
         totalRows: 1,
@@ -208,9 +212,9 @@
       }
     },
     created(){
-        axios.get('/adscripcion')
+        axios.get('/calificacion')
         .then(res=>{
-            this.adscripciones = res.data;
+            this.calificaciones = res.data;
         })
         axios.get('/rol')
         .then(res=>{
@@ -231,12 +235,12 @@
           })
       },
       totalregistros(){
-          return this.adscripciones.length;
+          return this.calificaciones.length;
         },
     },
     mounted() {
       // Set the initial number of items
-      this.totalRows = this.adscripciones.length
+      this.totalRows = this.calificaciones.length
     },
     methods: {
       info(item, index, button) {
@@ -259,7 +263,7 @@
 
       },
       showMsgBoxCrear(){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar la nueva adscripción?`, {
+        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar el nuevo puesto?`, {
                 title: 'Aviso',
                 size: 'sm',
                 buttonSize: 'sm',
@@ -272,25 +276,25 @@
             .then(value=>{
               if(value){
               const params={
-                descripcion: this.adscripcion.descripcion
+                descripcion: this.puesto.descripcion
               }
-              axios.post('/adscripcion', params)
+              axios.post('/puesto', params)
               .then(res=>{
                 //ocultar modal
                 this.$bvModal.hide('modal-crear');
-                this.adscripciones.push(res.data)
+                this.puestos.push(res.data)
                 //mostrar toaster
-                this.$toaster.success('¡Adscripción creada con éxito!')
+                this.$toaster.success('Puesto creado con éxito!')
                 //Limpiamos los campos
-                this.adscripcion.descripcion = '';
+                this.puesto.descripcion = '';
                 //recargamos cambios
-                axios.get('/adscripcion')
+                axios.get('/puesto')
                 .then(res=>{
-                    this.adscripciones = res.data;
+                    this.puestos = res.data;
                 })
                 .catch((error) => {
                             if (error) {
-                                this.$toaster.error('Lo sentimos, la adscripción no se pudo crear ')
+                                this.$toaster.error('Lo sentimos, el puesto no se pudo crear ')
                                 console.log(error);
                             }
                     })
@@ -299,15 +303,15 @@
             })
       },
       cargarDatos(item){
-        this.adscripcion_.id_adscripcion = item.id_adscripcion,
-        this.adscripcion_.descripcion = item.descripcion
+        this.puesto_.id_puesto = item.id_puesto,
+        this.puesto_.descripcion = item.descripcion
       },
       editar(item){
         this.msgResult='';
         this.showMsgBoxEditar(item); //Modal confirmación
       },
       showMsgBoxEditar(item){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea editar la consulta actual ?`, {
+        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea editar el puesto actual ?`, {
             title: 'Aviso',
             size: 'sm',
             buttonSize: 'sm',
@@ -320,23 +324,23 @@
         .then(value=>{
           if(value){
             const params = {
-              id_adscripcion : item.id_adscripcion,
+              id_puesto : item.id_puesto,
               descripcion: item.descripcion
             }
-            axios.put(`/adscripcion/${item.id_adscripcion}`, params)
+            axios.put(`/puesto/${item.id_puesto}`, params)
             .then(res =>{
               //ocultar modal
               this.$bvModal.hide('modal-editar');
-              const index = this.adscripciones.findIndex(
-                adscripcionBuscar => adscripcionBuscar.id_adscripcion === item.id_adscripcion
+              const index = this.puestos.findIndex(
+                puestoBuscar => puestoBuscar.id_puesto === item.id_puesto
               )
-              this.adscripciones[index] = res.data
+              this.puestos[index] = res.data
               //mostrar toaster
-              this.$toaster.success('¡Adscripción actualizada con éxito')
+              this.$toaster.success('¡Puesto actualizado con éxito')
               //Recargamos los cambios
-              axios.get('/adscripcion')
+              axios.get('/puesto')
                 .then(res=>{
-                    this.adscripciones = res.data
+                    this.puestos = res.data
                 })
               .catch((error) => {
                 if (error) {

@@ -6,11 +6,11 @@
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
                         <b-dropdown-item v-if="rol == 1" href="/home">Home</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Adscripciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
@@ -23,12 +23,13 @@
         </b-navbar>
         <div class="container my-4">
             <b-row align-h="end">
-              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Adscripción</b-button>
+              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Usuario</b-button>
+              {{usuarios}}
             </b-row>
 
             <!-- Inicio modal crear -->
 
-            <b-modal centered id="modal-crear" title="Nueva Adscripción" hide-footer>
+            <b-modal centered id="modal-crear" title="Nuevo Usuario" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
                         <b-col cols="12">
@@ -94,7 +95,7 @@
                 <!-- Main table element -->
                 <b-table
                 class="table table-sm"
-                :items="adscripciones"
+                :items="usuarios"
                 :fields="fields"
                 :current-page="currentPage"
                 :per-page="perPage"
@@ -176,14 +177,17 @@
     data() {
       return {
         fields: [
-          { key: 'id_adscripcion', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'descripcion', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'id', label: 'Número de Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'name', label: 'Nombre completo', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'puesto', label: 'Puesto', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'adscripcion', label: 'Adscripcion', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'email', label: 'Correo electrónico', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
         msgResult:'',
         rol:'',
         usrActual:'',
-        adscripciones:[],
+        usuarios:[],
         adscripcion:{
           descripcion:''
         },
@@ -208,9 +212,9 @@
       }
     },
     created(){
-        axios.get('/adscripcion')
+        axios.get('/usuario')
         .then(res=>{
-            this.adscripciones = res.data;
+            this.usuarios = res.data;
         })
         axios.get('/rol')
         .then(res=>{
@@ -231,12 +235,12 @@
           })
       },
       totalregistros(){
-          return this.adscripciones.length;
+          return this.usuarios.length;
         },
     },
     mounted() {
       // Set the initial number of items
-      this.totalRows = this.adscripciones.length
+      this.totalRows = this.usuarios.length
     },
     methods: {
       info(item, index, button) {

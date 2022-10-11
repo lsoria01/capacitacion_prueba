@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Curso;
 
 class CursoController extends Controller
 {
@@ -13,7 +14,8 @@ class CursoController extends Controller
      */
     public function index()
     {
-        //
+        $cursos = Curso::all();
+        return $cursos;
     }
 
     /**
@@ -34,7 +36,10 @@ class CursoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cursos = new Curso();
+        $cursos->nombre = $request->nombre;
+        $cursos->save();
+        return $cursos;
     }
 
     /**
@@ -66,9 +71,12 @@ class CursoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_curso)
     {
-        //
+        $cursos = Curso::find($id_curso);
+        $cursos->nombre = $request->nombre;
+        $cursos->save();
+        return $cursos;
     }
 
     /**

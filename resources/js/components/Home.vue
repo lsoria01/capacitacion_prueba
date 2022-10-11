@@ -4,6 +4,14 @@
             <img v-bind:src="'img/logo-header.svg'" class="logo-gobmx">
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
+                <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
+                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Adscripciones</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
+                </b-nav-item-dropdown>
                 <b-nav-item-dropdown right>
                     <!-- Using 'button-content' slot -->
                     <template #button-content>
@@ -17,8 +25,8 @@
             <h3 class="my-4 row justify-content-center">EXPEDIENTE ELECTRÓNICO DE DESARROLLO PROFESIONAL</h3>
             <br> <br>
             <!-- Información del usuario -->
-            <div style="padding-left: 90px; padding-right: 90px;" v-for="autentic in autenticado" :key="autentic.id">
-                <table class="table">
+            <div style="padding-left: 90px; padding-right: 90px;" >
+                <table class="table striped hover">
                     <thead style="display:none">
                         <tr>
                         <th></th>
@@ -29,7 +37,7 @@
                         <th></th>
                         </tr>
                     </thead>
-                    <tbody style="text-align: center;">
+                    <tbody style="text-align: center;" v-for="autentic in autenticado" :key="autentic.id">
                         <tr>
                             <th colspan="3" class="renglonUno">ID Empleado</th>
                             <th colspan="3" class="renglonUno">Nombre</th>
@@ -61,7 +69,7 @@
             </div>
             <!-- Información del nombramiento -->
             <br> <br>
-            <div style="padding-left: 90px; padding-right: 90px;" v-for="nombram in nombramiento" :key="nombram.id">
+            <div style="padding-left: 90px; padding-right: 90px;" >
                 <p style="text-align: center;"><b>Nombramiento</b></p>
                 <table class="table table-striped">
                     <thead style="text-align: center;">
@@ -71,7 +79,7 @@
                         <th class="renglonUno">Ratificación</th>
                         </tr>
                     </thead>
-                    <tbody style="text-align: center;">
+                    <tbody style="text-align: center;" v-for="nombram in nombramiento" :key="nombram.id">
                         <tr>
                             <td>{{nombram.tipo}}</td>
                             <td>{{nombram.fecEmis}}</td>
@@ -131,7 +139,7 @@
                             <tr v-for="calif in resultado" :key="calif.id">
                                 <td>{{calif.id_calificacion}}</td>
                                 <td>{{calif.curso}}</td>
-                                <td></td>
+                                <td>{{calif.calif}}</td>
                                 <td>{{calif.fecha}}</td>
                                 <td></td>
                                 <td>{{calif.hrsCap}}</td>
@@ -193,7 +201,8 @@ export default{
             usrActual:'',
             calificacion:[],
             anio:'',
-            historial:false
+            historial:false,
+            rol:''
         }
     },
     created(){
@@ -201,7 +210,7 @@ export default{
         .then(res=>{
             this.autenticado = res.data;
         })
-        axios.get('/nombramiento')
+        axios.get('/nombramientoAuth')
         .then(res=>{
             this.nombramiento = res.data;
         })
@@ -213,6 +222,11 @@ export default{
         .then(res=>{
             this.calificacion = res.data;
         })
+        axios.get('/rol')
+        .then(res=>{
+            this.rol = res.data;
+        })
+
         
     },
     methods:{

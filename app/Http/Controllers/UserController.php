@@ -114,7 +114,7 @@ class UserController extends Controller
         return $autenticado;
     }
 
-    public function nombramiento(){
+    public function nombramientoAuth(){
         $nombramiento = Nombramiento::leftJoin('users', 'nombramiento.empleado', '=' , 'users.id')
         ->select([
             'nombramiento.id_nombramiento',
@@ -131,5 +131,10 @@ class UserController extends Controller
     public function usrActual(){
         $usrActual = Auth::user()->name;
         return $usrActual;
+    }
+
+    public function rol(){
+        $rol = Auth::user()->rol;
+        return $rol;
     }
 }

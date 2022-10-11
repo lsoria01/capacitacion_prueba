@@ -183,6 +183,22 @@
       <vue-qr :bgSrc='src' :logoSrc="src2" text="Hello world!" :size="200"></vue-qr>
       <vue-qr text="www.centrolaboral.gob.mx" :callback="test" qid="testid"></vue-qr>
     <!-- Qr -->
+
+    <!-- Autocomplete -->
+      <vue-bootstrap-typeahead
+          class="mb-4"
+          v-model="query"
+          :data="pruebas"
+          :serializer="seleccionado => seleccionado.descripcion"
+          @hit="selectedUser = $event"
+          placeholder="Search GitHub pruebas"
+        />
+
+      <h3>Selected User JSON</h3>
+      <pre>{{ selectedUser }}</pre>
+      <p>Que se imprime:</p>
+      {{selectedUser.id_puesto}}
+    <!-- Autocomplete -->
   </b-container>
 </template>
 
@@ -230,6 +246,13 @@
           { key: 'actions', label: 'Actions' }
         ],
         totalRows: 1,
+        query: '',
+        selectedUser:{
+          id_puesto:'',
+          descripcion:''
+        },
+        pruebas: [],
+        elemento:'',
         currentPage: 1,
         perPage: 5,
         pageOptions: [5, 10, 15, { value: 100, text: "Show a lot" }],
@@ -245,6 +268,16 @@
         }
       }
     },
+
+    created(){
+      axios.get('/puesto')
+        .then(res=>{
+            this.pruebas = res.data;
+        })
+    },
+
+   
+    
     computed: {
       sortOptions() {
         // Create an options list from our fields

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Nombramiento;
 
 class NombramientoController extends Controller
 {
@@ -13,7 +14,16 @@ class NombramientoController extends Controller
      */
     public function index()
     {
-        //
+        $nombramientos = Nombramiento::leftJoin('users', 'nombramiento.empleado', '=', 'users.id')
+        ->select([
+            'nombramiento.id_nombramiento',
+            'users.name as empleado',
+            'nombramiento.tipo',
+            'nombramiento.fecEmis',
+            'nombramiento.fecRatif'
+        ])
+        ->get();
+        return $nombramientos;
     }
 
     /**
@@ -34,7 +44,13 @@ class NombramientoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $nombramientos = new Nombramiento();
+        $nombramientos->empleado = $request->empleado;
+        $nombramientos->tipo = $request->tipo;
+        $nombramientos->fecEmis = $request->fecEmis;
+        $nombramientos->fecRatif = $request->fecRatif;
+        $nombramientos->save();
+        return $nombramientos;
     }
 
     /**
@@ -66,9 +82,15 @@ class NombramientoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_nombramiento)
     {
-        //
+        $nombramientos = Nombramiento::find($id_nombramiento);
+        $nombramientos->empleado = $request->empleado;
+        $nombramientos->tipo = $request->tipo;
+        $nombramientos->fecEmis = $request->fecEmis;
+        $nombramientos->fecRatif = $request->fecRatif;
+        $nombramientos->save();
+        return $nombramientos;
     }
 
     /**

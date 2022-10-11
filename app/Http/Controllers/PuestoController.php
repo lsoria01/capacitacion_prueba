@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Puesto;
 use Illuminate\Http\Request;
 
 class PuestoController extends Controller
@@ -13,7 +14,8 @@ class PuestoController extends Controller
      */
     public function index()
     {
-        //
+        $puestos = Puesto::all();
+        return $puestos;
     }
 
     /**
@@ -34,7 +36,10 @@ class PuestoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $puestos = new Puesto();
+        $puestos->descripcion = $request->descripcion;
+        $puestos->save();
+        return $puestos;
     }
 
     /**
@@ -66,9 +71,12 @@ class PuestoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_puesto)
     {
-        //
+        $puestos = Puesto::find($id_puesto);
+        $puestos->descripcion = $request->descripcion;
+        $puestos->save();
+        return $puestos;
     }
 
     /**

@@ -15,9 +15,10 @@ class CalificacionController extends Controller
     public function index()
     {
         $calificaciones = Calificacion::leftJoin('curso', 'calificacion.curso', '=', 'curso.id_curso')
+        ->leftJoin('users', 'calificacion.empleado', '=', 'users.id')
         ->select([
             'calificacion.id_calificacion',
-            'calificacion.empleado',
+            'users.name as empleado',
             'curso.nombre as curso',
             'calificacion.calif',
             'calificacion.hrsCap',

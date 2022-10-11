@@ -25,6 +25,8 @@
     },
     "dependencies": {
         "bootstrap-vue": "^2.22.0",
+        "v-toaster": "^1.0.3",
+        "vue-bootstrap-typeahead": "^0.2.6",
         "vue-qr": "^4.0.9"
     }
 }

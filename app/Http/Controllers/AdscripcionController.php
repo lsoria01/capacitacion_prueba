@@ -15,7 +15,7 @@ class AdscripcionController extends Controller
     public function index()
     {
         $adscripciones = Adscripcion::all();
-        return $adscripciones;
+        return $adscripciones; 
     }
 
     /**
@@ -36,7 +36,10 @@ class AdscripcionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $adscripciones = new Adscripcion();
+        $adscripciones->descripcion = $request->descripcion;
+        $adscripciones->save();
+        return $adscripciones;
     }
 
     /**
@@ -68,9 +71,12 @@ class AdscripcionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_adscripcion)
     {
-        //
+        $adscripciones = Adscripcion::find($id_adscripcion);
+        $adscripciones->descripcion = $request->descripcion;
+        $adscripciones->save();
+        return $adscripciones;
     }
 
     /**

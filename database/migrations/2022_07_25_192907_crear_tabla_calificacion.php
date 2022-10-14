@@ -17,10 +17,16 @@ class CrearTablaCalificacion extends Migration
             $table->id('id_calificacion');
             $table->unsignedBigInteger('empleado')->nullable();
             $table->unsignedBigInteger('curso')->nullable();
+            $table->boolean('cursoFin')->nullable();
+            $table->boolean('aprobado')->nullable();
+            $table->boolean('cursoOblig')->nullable();
             $table->decimal('calif', 10,2)->nullable();
             $table->integer('hrsCap')->nullable();
             $table->date('fecha')->nullable();
             $table->integer('anio')->nullable();
+            $table->boolean('cursoIntExt')->nullable();
+            $table->string('categoriaInst')->nullable();
+            $table->boolean('difundidoDP')->nullable();
             $table->timestamps();
         });
     }

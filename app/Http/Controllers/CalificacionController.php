@@ -23,7 +23,10 @@ class CalificacionController extends Controller
             'calificacion.calif',
             'calificacion.hrsCap',
             'calificacion.fecha',
-            'calificacion.anio'
+            'calificacion.anio',
+            'calificacion.cursoOblig',
+            'calificacion.categoriaInst',
+
         ])
         ->get();
         return $calificaciones;

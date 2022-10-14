@@ -18,9 +18,16 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable();
             $table->unsignedBigInteger('puesto')->nullable();
             $table->unsignedBigInteger('adscripcion')->nullable();
-            $table->string('lugarAdscr')->nullable();
+            $table->unsignedBigInteger('nivel')->nullable();
+            $table->string('ciudadAdscr')->nullable();
+            $table->string('estadoAdscr')->nullable();
             $table->string('email')->nullable();
+            $table->string('rfc')->nullable();
+            $table->boolean('sexo')->nullable();
             $table->string('curp')->nullable();
+            $table->string('gradoEstud')->nullable();
+            $table->string('descripEstud')->nullable();
+            $table->date('fechaIngr')->nullable();
             $table->string('password')->nullable();
             $table->string('indicio')->nullable();
             $table->boolean('estatus')->nullable();

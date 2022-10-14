@@ -19,7 +19,8 @@ class CrearRelacionesRestantes extends Migration
 
         Schema::table('users', function (Blueprint $table) {
             $table->foreign('puesto')->references('id_puesto')->on('puesto'); 
-            $table->foreign('adscripcion')->references('id_adscripcion')->on('adscripcion');           
+            $table->foreign('adscripcion')->references('id_adscripcion')->on('adscripcion'); 
+            $table->foreign('nivel')->references('id_nivel')->on('nivel');             
         });
 
         Schema::table('calificacion', function (Blueprint $table) {
@@ -42,6 +43,7 @@ class CrearRelacionesRestantes extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('puesto');
             $table->dropColumn('adscripcion');
+            $table->dropColumn('nivel');
         });
 
         Schema::table('calificacion', function (Blueprint $table) {

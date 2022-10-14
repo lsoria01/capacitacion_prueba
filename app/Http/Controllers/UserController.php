@@ -19,13 +19,16 @@ class UserController extends Controller
     {
         $usuario = User::leftJoin('puesto', 'users.puesto', '=', 'puesto.id_puesto')
         ->leftJoin('adscripcion', 'users.adscripcion', '=', 'adscripcion.id_adscripcion')
+        ->leftJoin('nivel', 'users.nivel', '=', 'nivel.id_nivel')
         ->select([
             'users.id',
             'users.name',
             'puesto.descripcion as puesto',
             'adscripcion.descripcion as adscripcion',
+            'nivel.nomenclatura as nivel',
             'users.email',
-            'users.curp'
+            'users.curp',
+            'users.fechaIngr'
         ])
         ->get();
         return $usuario;
@@ -101,13 +104,16 @@ class UserController extends Controller
         
         $autenticado = User::leftJoin('puesto', 'users.puesto', '=', 'puesto.id_puesto')
         ->leftJoin('adscripcion', 'users.adscripcion', '=', 'adscripcion.id_adscripcion')
+        ->leftJoin('nivel', 'users.nivel', '=', 'nivel.id_nivel')
         ->select([
             'users.id',
             'users.name',
             'puesto.descripcion as puesto',
             'adscripcion.descripcion as adscripcion',
+            'nivel.nomenclatura as nivel',
             'users.email',
-            'users.curp'
+            'users.curp',
+            'users.fechaIngr'
         ])
         ->where('users.id', Auth::user()->id)
         ->get();

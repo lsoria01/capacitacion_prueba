@@ -47,12 +47,20 @@
                             <td colspan="3" class="renglonDos">{{autentic.name}}</td>
                         </tr>
                         <tr>
-                            <th colspan="3" class="renglonUno">Puesto</th>
-                            <th colspan="3" class="renglonUno">Adscripción</th>
+                            <th colspan="2" class="renglonUno">Puesto</th>
+                            <th colspan="2" class="renglonUno">Nivel</th>
+                            <th colspan="2" class="renglonUno">Adscripción</th>
                         </tr>
                         <tr>
-                            <td colspan="3">{{autentic.puesto}}</td>
-                            <td colspan="3">{{autentic.adscripcion}}</td>
+                            <td colspan="2">{{autentic.puesto}}</td>
+                            <td colspan="2">{{autentic.nivel}}</td>
+                            <td colspan="2">{{autentic.adscripcion}}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="6" class="renglonUno">Fecha de ingreso al CFCRL</th>
+                        </tr>
+                        <tr>
+                            <td colspan="6">{{autentic.fechaIngr}}</td>
                         </tr>
                         <tr>
                             <th colspan="2" class="renglonUno">CURP</th>
@@ -69,7 +77,7 @@
             </div>
             <!-- Información del nombramiento -->
             <br> <br>
-            <div style="padding-left: 90px; padding-right: 90px;" >
+            <!-- <div style="padding-left: 90px; padding-right: 90px;" >
                 <p style="text-align: center;"><b>Nombramiento</b></p>
                 <table class="table table-striped">
                     <thead style="text-align: center;">
@@ -88,7 +96,7 @@
                     </tbody>
                 </table>
             </div>
-            <br> <br>
+            <br> <br> -->
             <!-- Sección de búsqueda -->
             <p class="my-4 row justify-content-center"><b>Seleccione el año del ejercicio o el periodo de consulta</b></p>
             <b-row>
@@ -128,20 +136,25 @@
                         <thead>
                             <tr>
                                 <th class="renglonUno">No.</th>
+                                <th class="renglonUno">Año</th>
+                                <th class="renglonUno">Tipo de curso</th>
+                                <th class="renglonUno">Categoría</th>
                                 <th class="renglonUno">Nombre del curso</th>
-                                <th class="renglonUno">Calificación</th>
-                                <th class="renglonUno">Fecha</th>
-                                <th class="renglonUno">ID_Curso</th>
+                                <!-- <th class="renglonUno">Calificación</th> -->
+                                <!-- <th class="renglonUno">Fecha</th>
+                                <th class="renglonUno">ID_Curso</th> -->
                                 <th class="renglonUno">Horas de Capacitación</th>
+                                <th class="renglonUno">Calificación</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="calif in resultado" :key="calif.id">
                                 <td>{{calif.id_calificacion}}</td>
+                                <td>{{calif.anio}}</td>
+                                <td>{{calif.cursoOblig}}</td>                                
+                                <td>{{calif.categoriaInst}}</td>
                                 <td>{{calif.curso}}</td>
-                                <td>{{calif.calif}}</td>
-                                <td>{{calif.fecha}}</td>
-                                <td></td>
+                                <td>{{calif.hrsCap}}</td>
                                 <td>{{calif.hrsCap}}</td>
                             </tr>
                         </tbody>
@@ -178,9 +191,9 @@
                     <br> <br>
                     <div class="mb-4">
                         <b-row>
-                            <b-col cols="3">
+                            <!-- <b-col cols="3">
                                 <vue-qr text="www.centrolaboral.gob.mx" :callback="test" qid="testid"></vue-qr>
-                            </b-col>
+                            </b-col> -->
                             <b-col cols="9">
                                 <div class="my-4 row justify-content-center renglonUno"> Observaciones: </div>
                                 <textarea class="form-control" id="observaciones" rows="4"></textarea>

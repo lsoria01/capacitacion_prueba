@@ -16,6 +16,7 @@ class CrearTablaPuesto extends Migration
         Schema::create('puesto', function (Blueprint $table) {
             $table->id('id_puesto');
             $table->string('descripcion')->nullable();
+            $table->unsignedBigInteger('superior')->nullable();
             $table->timestamps();
         });
     }

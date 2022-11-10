@@ -109,6 +109,7 @@ class UserController extends Controller
             'users.id',
             'users.name',
             'puesto.descripcion as puesto',
+            'puesto.superior as superior',
             'adscripcion.descripcion as adscripcion',
             'nivel.nomenclatura as nivel',
             'users.email',

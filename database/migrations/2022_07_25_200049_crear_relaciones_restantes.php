@@ -27,6 +27,10 @@ class CrearRelacionesRestantes extends Migration
             $table->foreign('empleado')->references('id')->on('users'); 
             $table->foreign('curso')->references('id_curso')->on('curso');           
         });
+
+        Schema::table('puesto', function (Blueprint $table) {
+            $table->foreign('superior')->references('id_puesto')->on('puesto');            
+        });
     }
 
     /**

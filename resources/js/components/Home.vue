@@ -57,10 +57,12 @@
                             <td colspan="2">{{autentic.adscripcion}}</td>
                         </tr>
                         <tr>
-                            <th colspan="6" class="renglonUno">Fecha de ingreso al CFCRL</th>
+                            <th colspan="3" class="renglonUno">Fecha de ingreso al CFCRL</th>
+                            <th colspan="3" class="renglonUno">Superior Jerárquico</th>
                         </tr>
                         <tr>
-                            <td colspan="6">{{autentic.fechaIngr}}</td>
+                            <td colspan="3">{{autentic.fechaIngr}}</td>
+                            <td colspan="3"><p v-if="autentic.superior == 22">DIRECCIÓN DE INNOVACIÓN Y PROCESOS</p> </td>
                         </tr>
                         <tr>
                             <th colspan="2" class="renglonUno">CURP</th>
@@ -70,7 +72,7 @@
                         <tr>
                             <td colspan="2">{{autentic.curp}}</td>
                             <td colspan="2">{{autentic.email}}</td>
-                            <td colspan="2">27/07/2022</td>
+                            <td colspan="2">{{fecha_hoy}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -147,15 +149,16 @@
                                 <th class="renglonUno">Calificación</th>
                             </tr>
                         </thead>
+                        
                         <tbody>
                             <tr v-for="calif in resultado" :key="calif.id">
                                 <td>{{calif.id_calificacion}}</td>
                                 <td>{{calif.anio}}</td>
-                                <td>{{calif.cursoOblig}}</td>                                
+                                <td><p v-if="calif.cursoOblig">Obligatorio</p> <p v-else>Optativo</p> </td>                                
                                 <td>{{calif.categoriaInst}}</td>
                                 <td>{{calif.curso}}</td>
                                 <td>{{calif.hrsCap}}</td>
-                                <td>{{calif.hrsCap}}</td>
+                                <td>{{calif.calif}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -167,39 +170,31 @@
                                     <th class="renglonUno">No.</th>
                                     <th class="renglonUno">Ejercicio</th>
                                     <th class="renglonUno">TOTAL DE HORAS DE AÑO</th>
+                                    <th class="renglonUno">CUMPLIMIENTO</th> 
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td>año</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>año</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>año</td>
-                                    <td></td>
+                                    <td>2022</td>
+                                    <td>50</td>
+                                    <td>Cumple</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <br> <br>
-                    <div class="mb-4">
+                    <!-- <div class="mb-4">
                         <b-row>
-                            <!-- <b-col cols="3">
+                             <b-col cols="3">
                                 <vue-qr text="www.centrolaboral.gob.mx" :callback="test" qid="testid"></vue-qr>
-                            </b-col> -->
+                            </b-col>
                             <b-col cols="9">
                                 <div class="my-4 row justify-content-center renglonUno"> Observaciones: </div>
                                 <textarea class="form-control" id="observaciones" rows="4"></textarea>
                             </b-col>
                         </b-row>                    
-                    </div>
+                    </div> -->
             </div>
         </div>
     </div>
@@ -208,7 +203,17 @@
 <script>
 export default{
     data(){
+            /* Obtener la fecha de hoy */
+            /* const today = new Date().toISOString().slice(0, 10) */
+            /* const today = new Date().toLocaleDateString().split('T')[0].replaceAll("/", "-") */
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
+            const fecha = today;
         return{
+            fecha_hoy:fecha,
             autenticado:'',
             nombramiento:'',
             usrActual:'',

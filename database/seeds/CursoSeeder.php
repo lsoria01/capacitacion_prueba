@@ -11,7 +11,6 @@ class CursoSeeder extends Seeder
      */
     public function run()
     {
-        /* DB::table('curso')->insert(['id_curso' => 'CFCRL05GOAV04912022','nombre'=>'HACIA UN NUEVO MODELO LABORAL' ]);
-        DB::table('curso')->insert(['id_curso' => 'CFCRL05GOAV04912022','nombre'=>'HACIA UN NUEVO MODELO LABORAL' ]); */
+        DB::table('curso')->insert(['nombre'=>'Verificacion' ]);
     }
 }

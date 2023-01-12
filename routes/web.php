@@ -17,8 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/prueba', function () {
-    return view('prueba');
+Route::get('/capturar', function () {
+    return view('capturar');
 });
 
 Route::get('/calificaciones', function () {

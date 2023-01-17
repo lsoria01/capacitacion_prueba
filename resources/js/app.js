@@ -14,6 +14,8 @@ Vue.component('informe', require('./components/Informe.vue').default);
 Vue.component('consulta', require('./components/Consulta.vue').default);
 Vue.component('usuario', require('./components/Usuario.vue').default);
 Vue.component('home', require('./components/Home.vue').default);
+Vue.component('institucion', require('./components/Institucion.vue').default);
+Vue.component('nivel', require('./components/Nivel.vue').default);
 
 import VueQr from 'vue-qr'
 Vue.component('vue-qr', VueQr);

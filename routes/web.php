@@ -53,6 +53,14 @@ Route::get('/usuarios', function () {
     return view('usuario');
 });
 
+Route::get('/instituciones', function () {
+    return view('institucion');
+});
+
+Route::get('/niveles', function () {
+    return view('nivel');
+});
+
 Auth::routes();
 
 Route::get('/autenticado', 'UserController@autenticado')->name('autenticado'); //Información del usuario atenticado
@@ -69,3 +77,5 @@ Route::resource('adscripcion', 'AdscripcionController');
 Route::resource('puesto', 'PuestoController');
 Route::resource('curso', 'CursoController');
 Route::resource('nombramiento', 'NombramientoController');
+Route::resource('institucion', 'InstitucionController');
+Route::resource('nivel', 'NivelController');

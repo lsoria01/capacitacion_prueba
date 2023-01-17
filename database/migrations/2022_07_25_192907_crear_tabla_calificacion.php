@@ -20,13 +20,15 @@ class CrearTablaCalificacion extends Migration
             $table->boolean('cursoFin')->nullable();
             $table->boolean('aprobado')->nullable();
             $table->boolean('cursoOblig')->nullable();
-            $table->decimal('calif', 10,2)->nullable();
+            $table->string('calif')->nullable();
             $table->integer('hrsCap')->nullable();
             $table->date('fecha')->nullable();
             $table->integer('anio')->nullable();
             $table->boolean('cursoIntExt')->nullable();
             $table->string('categoriaInst')->nullable();
             $table->boolean('difundidoDP')->nullable();
+            $table->string('modalidad')->nullable();
+            $table->integer('estatus')->nullable();
             $table->timestamps();
         });
     }

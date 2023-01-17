@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Calificacion;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Nivel;
 
-class CalificacionController extends Controller
+class NivelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,25 +14,8 @@ class CalificacionController extends Controller
      */
     public function index()
     {
-        $calificaciones = Calificacion::leftJoin('curso', 'calificacion.curso', '=', 'curso.id_curso')
-        ->leftJoin('users', 'calificacion.empleado', '=', 'users.id')
-        ->select([
-            'calificacion.id_calificacion',
-            'users.name as empleado',
-            'curso.nombre as curso',
-            'calificacion.calif',
-            'calificacion.hrsCap',
-            'calificacion.fecha',
-            'calificacion.anio',
-            'calificacion.cursoOblig',
-            'calificacion.categoriaInst',
-
-        ])
-        ->where('users.id', Auth::user()->id)
-        ->get();
-        return $calificaciones;
-
-
+        $niveles = Nivel::all();
+        return $niveles;
     }
 
     /**
@@ -54,7 +36,11 @@ class CalificacionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $niveles = new Nivel();
+        $niveles->nomenclatura = $request->nomenclatura;
+        $niveles->nombre = $request->nombre;
+        $niveles->save();
+        return $niveles;
     }
 
     /**
@@ -86,9 +72,13 @@ class CalificacionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_nivel)
     {
-        //
+        $niveles = Nivel::find($id_nivel);
+        $niveles->nomenclatura = $request->nomenclatura;
+        $niveles->nombre = $request->nombre;
+        $niveles->save();
+        return $niveles;
     }
 
     /**

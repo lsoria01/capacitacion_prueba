@@ -32,6 +32,7 @@
                     <b-form @submit.prevent="crear">
                       <b-row>
                         <b-col cols="12">
+                          <label>Nombre:</label>
                           <b-form-input id="descripcion" name="descripcion" v-model="puesto.descripcion">
                           </b-form-input>
                         </b-col>
@@ -50,6 +51,7 @@
                     <b-form @submit.prevent="editar(puesto_)">
                       <b-row>
                         <b-col cols="12">
+                          <label>Nombre:</label>
                           <b-form-input id="descripcion" name="descripcion" v-model="puesto_.descripcion">
                           </b-form-input>
                         </b-col>

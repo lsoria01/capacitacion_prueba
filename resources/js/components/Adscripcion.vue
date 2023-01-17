@@ -32,6 +32,7 @@
                     <b-form @submit.prevent="crear">
                       <b-row>
                         <b-col cols="12">
+                          <label>Nombre:</label>
                           <b-form-input id="descripcion" name="descripcion" v-model="adscripcion.descripcion">
                           </b-form-input>
                         </b-col>
@@ -50,6 +51,7 @@
                     <b-form @submit.prevent="editar(adscripcion_)">
                       <b-row>
                         <b-col cols="12">
+                          <label>Nombre:</label>
                           <b-form-input id="descripcion" name="descripcion" v-model="adscripcion_.descripcion">
                           </b-form-input>
                         </b-col>
@@ -307,7 +309,7 @@
         this.showMsgBoxEditar(item); //Modal confirmación
       },
       showMsgBoxEditar(item){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea editar la consulta actual ?`, {
+        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea editar la adscripción actual ?`, {
             title: 'Aviso',
             size: 'sm',
             buttonSize: 'sm',

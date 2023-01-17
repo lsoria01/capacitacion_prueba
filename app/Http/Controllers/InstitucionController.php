@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Calificacion;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Institucion;
 
-class CalificacionController extends Controller
+class InstitucionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,25 +14,8 @@ class CalificacionController extends Controller
      */
     public function index()
     {
-        $calificaciones = Calificacion::leftJoin('curso', 'calificacion.curso', '=', 'curso.id_curso')
-        ->leftJoin('users', 'calificacion.empleado', '=', 'users.id')
-        ->select([
-            'calificacion.id_calificacion',
-            'users.name as empleado',
-            'curso.nombre as curso',
-            'calificacion.calif',
-            'calificacion.hrsCap',
-            'calificacion.fecha',
-            'calificacion.anio',
-            'calificacion.cursoOblig',
-            'calificacion.categoriaInst',
-
-        ])
-        ->where('users.id', Auth::user()->id)
-        ->get();
-        return $calificaciones;
-
-
+        $instituciones = Institucion::all();
+        return $instituciones; 
     }
 
     /**
@@ -54,7 +36,10 @@ class CalificacionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $instituciones = new Institucion();
+        $instituciones->descripcion = $request->descripcion;
+        $instituciones->save();
+        return $instituciones;
     }
 
     /**
@@ -86,9 +71,12 @@ class CalificacionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_institucion)
     {
-        //
+        $instituciones = Institucion::find($id_institucion);
+        $instituciones->descripcion = $request->descripcion;
+        $instituciones->save();
+        return $instituciones;
     }
 
     /**

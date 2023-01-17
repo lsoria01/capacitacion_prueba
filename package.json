@@ -27,6 +27,9 @@
         "bootstrap-vue": "^2.22.0",
         "v-toaster": "^1.0.3",
         "vue-bootstrap-typeahead": "^0.2.6",
-        "vue-qr": "^4.0.9"
+        "vue-html2pdf": "^1.8.0",
+        "vue-qr": "^4.0.9",
+        "vue-loader": "^15.8",
+        "vue-loading-overlay": "^3.4.2"
     }
 }

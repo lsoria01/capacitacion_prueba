@@ -8,9 +8,14 @@
                         <b-dropdown-item v-if="rol == 1" href="/adscripciones">Adscripciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
+                </b-nav-item-dropdown>
+                <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
+                        <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Capturar cursos</b-dropdown-item>
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown right>
                     <!-- Using 'button-content' slot -->
@@ -177,13 +182,16 @@
                                 <tr>
                                     <td>1</td>
                                     <td>2022</td>
-                                    <td>50</td>
+                                    <td>42</td>
                                     <td>Cumple</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <br> <br>
+                    <b-row align-h="end">
+                        <b-button class="renglonDos my-4" @click="reportePDF()">Generar PDF</b-button>
+                    </b-row>
                     <!-- <div class="mb-4">
                         <b-row>
                              <b-col cols="3">
@@ -196,6 +204,164 @@
                         </b-row>                    
                     </div> -->
             </div>
+        </div>
+
+        <!-- Inicio del rubro PDF -->
+        <div>
+            <vue-html2pdf
+              :show-layout="false"
+              :float-layout="true"
+              :enable-download="false"
+              :preview-modal="false"
+              :paginate-elements-by-height="1000"
+              :pdf-quality="2"
+              :manual-pagination="true"
+              :html-to-pdf-options="htmlToPdfOptions"
+              pdf-format="a4"
+              pdf-content-width="92%"
+              @beforeDownload="beforeDownload($event)"              
+              @hasStartedGeneration="hasStartedGeneration()"
+              
+              ref="html2Pdf"
+            >
+                <section slot="pdf-content">
+                    <section class="pdf-item">
+                        <!-- Imagen header -->
+                        <div class="container ml-4 mb-4">
+                            <b-img left v-bind:src="'img/encabezado.png'" width= "158px" height= "35px" alt="Left image"></b-img>
+                            <p style="text-align: right; font-size: 10px">CENTRO FEDERAL DE CONCILIACIÓN Y REGISTRO LABORAL <br> COORDINACIÓN GENERAL DE ADMINISTRACIÓN Y FINAZAS <br>DIRECCIÓN DE PROFESIONALIZACIÓN</p>
+                        </div>
+                        <div>
+                            <h3 class="my-4 row justify-content-center" style="font-size: 13px">EXPEDIENTE ELECTRÓNICO DE DESARROLLO PROFESIONAL</h3>
+                            <!-- Información del usuario -->
+                            <div style="padding-left: 40px;">
+                                <table class="table table-sm striped hover">
+                                    <thead style="display:none">
+                                        <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="text-align: center; font-size: 10px" v-for="autentic in autenticado" :key="autentic.id">
+                                        <tr>
+                                            <th colspan="3" class="renglonUno">ID Empleado</th>
+                                            <th colspan="3" class="renglonUno">Nombre</th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="renglonDos">{{autentic.id}}</td>
+                                            <td colspan="3" class="renglonDos">{{autentic.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="renglonUno">Puesto</th>
+                                            <th colspan="2" class="renglonUno">Nivel</th>
+                                            <th colspan="2" class="renglonUno">Adscripción</th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">{{autentic.puesto}}</td>
+                                            <td colspan="2">{{autentic.nivel}}</td>
+                                            <td colspan="2">{{autentic.adscripcion}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3" class="renglonUno">Fecha de ingreso al CFCRL</th>
+                                            <th colspan="3" class="renglonUno">Superior Jerárquico</th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">{{autentic.fechaIngr}}</td>
+                                            <td colspan="3"><p v-if="autentic.superior == 22">DIRECCIÓN DE INNOVACIÓN Y PROCESOS</p> </td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" class="renglonUno">CURP</th>
+                                            <th colspan="2" class="renglonUno">Correo Electrónico</th>
+                                            <th colspan="2" class="renglonUno">Fecha</th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">{{autentic.curp}}</td>
+                                            <td colspan="2">{{autentic.email}}</td>
+                                            <td colspan="2">{{fecha_hoy}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br> <br>
+                            <!-- Historial de horas de capacitación -->
+                            <div v-if="historial" style="padding-left: 40px;">
+                                    <table class="table table-sm striped hover" style="text-align: center; font-size: 10px">
+                                        <thead style="display:none">
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th colspan="7" class="renglonUno">Historial de Capacitación</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="1" class="renglonDos">No.</th>
+                                                <th colspan="1" class="renglonDos">Año</th>
+                                                <th colspan="1" class="renglonDos">Tipo de curso</th>
+                                                <th colspan="1" class="renglonDos">Categoría</th>
+                                                <th colspan="1" class="renglonDos">Nombre del curso</th>
+                                                <th colspan="1" class="renglonDos">Horas de Capacitación</th>
+                                                <th colspan="1" class="renglonDos">Calificación</th>
+                                            </tr>
+                                            <tr v-for="calif in resultado" :key="calif.id">
+                                                <td colspan="1">{{calif.id_calificacion}}</td>
+                                                <td colspan="1">{{calif.anio}}</td>
+                                                <td colspan="1"><p v-if="calif.cursoOblig">Obligatorio</p> <p v-else>Optativo</p> </td>                                
+                                                <td colspan="1">{{calif.categoriaInst}}</td>
+                                                <td colspan="1">{{calif.curso}}</td>
+                                                <td colspan="1">{{calif.hrsCap}}</td>
+                                                <td colspan="1">{{calif.calif}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br> <br>
+                                    <div style="margin-left: 60%;">
+                                        <table class="table table-sm striped hover" style="text-align: center; font-size: 10px">
+                                            <thead>
+                                                <tr>
+                                                    <th class="renglonUno">No.</th>
+                                                    <th class="renglonUno">Ejercicio</th>
+                                                    <th class="renglonUno">TOTAL DE HORAS DE AÑO</th>
+                                                    <th class="renglonUno">CUMPLIMIENTO</th> 
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>2022</td>
+                                                    <td>42</td>
+                                                    <td>Cumple</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <br> <br>
+                            </div>
+                        </div>
+                        <br> <br> <br> <br> <br> <br> <br> <br> <br>
+                        <div class="container ml-4">
+                            <p style="text-align: center; font-size: 8px">Si tienes alguna duda, envía por favor un correo al Mtro. Oscar Olguín León, Subdirector de Formación y Desarrollo, al correo: oscar.olguin@centrolaboral.gob.mx; Extensión: 20073 
+                                o bien, con la Lic. Rebeca Berenice Sánchez Santos, Jefa de Departamento de Seguimiento a la Formación Profesional, al correo: rebeca.sanchez@centrolaboral.gob.mx 
+                                <br>
+                                <!-- Imagen footer -->
+                                <b-img center v-bind:src="'img/footer.png'" width= "624px" height= "45px" alt="Center image"></b-img>
+                             </p>
+                        </div>                        
+                    </section>
+                </section>
+
+            </vue-html2pdf>
         </div>
     </div>
 </template>
@@ -220,7 +386,26 @@ export default{
             calificacion:[],
             anio:'',
             historial:false,
-            rol:''
+            rol:'',
+            //PDF
+            htmlToPdfOptions: {
+                margin: [0.5, 1, 0.5, 1], //top, left, bottom, right
+                filename: "expediente", 
+                image: { type: 'svg'},
+                enableLinks: true,
+                html2canvas: {
+                dpi: 384,
+                letterRendering: true,
+                useCORS: true,
+                scrollX: 0,
+                scrollY: 0,
+                },
+                jsPDF: {
+                unit: 'cm',
+                format: 'a4',
+                orientation: 'portrait' //Vertical
+                }
+            }
         }
     },
     created(){
@@ -263,10 +448,46 @@ export default{
             console.log(this.resultado);
             this.historial = 1;
             this.anio = '';
+            //iniciar spinner
+            var loader =  this.$loading.show({
+                container: null
+            });
+            //ocultar spinner
+            loader.hide();
 
         },
         buscarIniFin(){
             console.log('buscarIniFin');
+        },
+
+        reportePDF(){
+            this.generateReport();
+        },
+
+        generateReport () {
+            this.$refs.html2Pdf.generatePdf()
+            
+        },
+        async beforeDownload ({ html2pdf, options, pdfContent }) {
+              //iniciar spinner
+              var loader =  this.$loading.show({
+              container: null
+              });
+              await html2pdf().set(options).from(pdfContent).toPdf().get('pdf').then((pdf) => {
+                  const totalPages = pdf.internal.getNumberOfPages()
+                  for (let i = 1; i <= totalPages; i++) {
+                      pdf.setPage(i)
+                      pdf.setFontSize(8)
+                      pdf.setTextColor(150)
+                      //Footer PDF
+                      
+                      //paginado
+                      pdf.text('Pagina ' + i + ' de ' + totalPages, (pdf.internal.pageSize.getWidth() * 0.81), (pdf.internal.pageSize.getHeight() - 0.9))
+                  } 
+              }).save()
+              //ocultar spinner
+              loader.hide();
+              this.$toaster.success('¡PDF generado con éxito!')
         }
     }
 }
@@ -288,5 +509,8 @@ height: 48px;
 .renglonDos{
     background-color: #B38E5D;
     color: #fff
+}
+.fuente{
+    font-size: 10px;
 }
 </style>

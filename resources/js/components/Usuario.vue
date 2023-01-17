@@ -24,16 +24,99 @@
         <div class="container my-4">
             <b-row align-h="end">
               <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Usuario</b-button>
-              {{usuarios}}
             </b-row>
 
             <!-- Inicio modal crear -->
 
-            <b-modal centered id="modal-crear" title="Nuevo Usuario" hide-footer>
+            <b-modal centered id="modal-crear" size="xl" title="Nuevo Usuario" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
+                        <b-col cols="3">
+                          <label>Número de empleado:</label>
+                          <b-form-input id="id" name="id">
+                          </b-form-input>
+                        </b-col>
+                        <b-col cols="9">
+                          <label>Nombre completo:</label>
+                          <b-form-input id="name" name="name">
+                          </b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col cols="6">
+                          <label>CURP:</label>
+                          <b-form-input id="curp" name="curp">
+                          </b-form-input>
+                        </b-col>
+                        <b-col cols="4">
+                          <label>RFC:</label>
+                          <b-form-input id="rfc" name="rfc">
+                          </b-form-input>
+                        </b-col>
+                        <b-col cols="2">
+                          <label>Sexo:</label>
+                          <b-form-input id="sexo" name="sexo">
+                          </b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col cols="6">
+                          <label>Correo:</label>
+                          <b-form-input id="email" name="email" type="mail" required>
+                          </b-form-input>
+                        </b-col>
+                        <b-col cols="3">
+                          <label>Fecha de ingreso:</label>
+                          <b-form-input id="fechaIngr" name="fechaIngr">
+                          </b-form-input>
+                        </b-col>
+                        <b-col cols="3">
+                          <label>Estatus:</label>
+                          <b-form-input id="estatus" name="estatus">
+                          </b-form-input>
+                        </b-col>
+                      </b-row>
+                      <br> <hr><br>
+                      <b-row>
+                        <b-col cols="2">
+                          <label>Nivel:</label>
+                          <b-form-input id="nivel" name="nivel">
+                          </b-form-input>
+                        </b-col>
+                        <b-col cols="10">
+                          <label>Puesto:</label>
+                          <b-form-input id="puesto" name="puesto">
+                          </b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row>
                         <b-col cols="12">
-                          <b-form-input id="descripcion" name="descripcion" v-model="adscripcion.descripcion">
+                          <label>Adscripción:</label>
+                          <b-form-input id="adscripcion" name="adscripcion">
+                          </b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col cols="6">
+                          <label>Ciudad en donde está adscrita la plaza:</label>
+                          <b-form-input id="ciudadAdscr" name="ciudadAdscr">
+                          </b-form-input>
+                        </b-col>
+                        <b-col cols="6">
+                          <label>Estado en donde está adscrita la plaza:</label>
+                          <b-form-input id="estadoAdscr" name="estadoAdscr">
+                          </b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col cols="5">
+                          <label>Último grado de estudios:</label>
+                          <b-form-input id="gradoEstud" name="gradoEstud">
+                          </b-form-input>
+                        </b-col>
+                        <b-col cols="7">
+                          <label>Nombre del último grado de estudios:</label>
+                          <b-form-input id="descripEstud" name="descripEstud">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -382,5 +465,9 @@ height: 48px;
   background-color: #B38E5D !important;
   border-color: #B38E5D !important;
   color: #fff !important;
+}
+
+label {
+  font-weight: bold;
 }
 </style>

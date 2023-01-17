@@ -5,7 +5,7 @@ window.Vue = require('vue');
 Vue.component('adscripcion', require('./components/Adscripcion.vue').default);
 Vue.component('calificacion', require('./components/Calificacion.vue').default);
 Vue.component('curso', require('./components/Curso.vue').default);
-Vue.component('prueba', require('./components/prueba.vue').default);
+Vue.component('capturar', require('./components/Capturar.vue').default);
 Vue.component('nombramiento', require('./components/Nombramiento.vue').default);
 Vue.component('puesto', require('./components/Puesto.vue').default);
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
@@ -14,6 +14,8 @@ Vue.component('informe', require('./components/Informe.vue').default);
 Vue.component('consulta', require('./components/Consulta.vue').default);
 Vue.component('usuario', require('./components/Usuario.vue').default);
 Vue.component('home', require('./components/Home.vue').default);
+Vue.component('institucion', require('./components/Institucion.vue').default);
+Vue.component('nivel', require('./components/Nivel.vue').default);
 
 import VueQr from 'vue-qr'
 Vue.component('vue-qr', VueQr);
@@ -21,6 +23,27 @@ Vue.component('vue-qr', VueQr);
 import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
 // Global registration
 Vue.component('vue-bootstrap-typeahead', VueBootstrapTypeahead)
+
+//importar html2pdf
+
+import VueHtml2pdf from 'vue-html2pdf'
+Vue.component('vue-html2pdf', VueHtml2pdf);
+
+//importar Spinner
+
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
+//Spinner
+Vue.use(Loading,{
+    color: "#285C4D",
+    canCancel: false,
+    loader: 'spinner',
+    height: 100,
+    width:100,
+    opacity:.8,
+    zIndex: 999
+  });
 
 const app = new Vue({
     el: '#app',
@@ -34,5 +57,6 @@ import Toaster from 'v-toaster'
 import 'v-toaster/dist/v-toaster.css'
 // optional set default imeout, the default is 10000 (10 seconds).
 Vue.use(Toaster, {timeout: 5000})
+
 
 

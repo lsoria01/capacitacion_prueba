@@ -6,8 +6,9 @@
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
                         <b-dropdown-item v-if="rol == 1" href="/home">Home</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Adscripciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
@@ -23,17 +24,17 @@
         </b-navbar>
         <div class="container my-4">
             <b-row align-h="end">
-              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Curso</b-button>
+              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Institución</b-button>
             </b-row>
 
             <!-- Inicio modal crear -->
 
-            <b-modal centered id="modal-crear" title="Nuevo Curso" hide-footer>
+            <b-modal centered id="modal-crear" title="Nueva Institución" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="curso.nombre">
+                          <b-form-input id="descripcion" name="descripcion" v-model="institucion.descripcion">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -47,12 +48,12 @@
 
             <!-- Inicio modal editar -->
 
-            <b-modal centered id="modal-editar" title="Editar Curso" hide-footer>
-                    <b-form @submit.prevent="editar(curso_)">
+            <b-modal centered id="modal-editar" title="Editar Institución" hide-footer>
+                    <b-form @submit.prevent="editar(institucion_)">
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="curso_.nombre">
+                          <b-form-input id="descripcion" name="descripcion" v-model="institucion_.descripcion">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -96,7 +97,7 @@
                 <!-- Main table element -->
                 <b-table
                 class="table table-sm"
-                :items="cursos"
+                :items="instituciones"
                 :fields="fields"
                 :current-page="currentPage"
                 :per-page="perPage"
@@ -178,20 +179,20 @@
     data() {
       return {
         fields: [
-          { key: 'id_curso', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'nombre', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'id_institucion', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'descripcion', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
         msgResult:'',
         rol:'',
         usrActual:'',
-        cursos:[],
-        curso:{
-          nombre:''
+        instituciones:[],
+        institucion:{
+          descripcion:''
         },
-        curso_:{
-          id_curso:'',
-          nombre:''
+        institucion_:{
+          id_institucion:'',
+          descripcion:''
         },
         totalRows: 1,
         currentPage: 1,
@@ -210,9 +211,9 @@
       }
     },
     created(){
-        axios.get('/curso')
+        axios.get('/institucion')
         .then(res=>{
-            this.cursos = res.data;
+            this.instituciones = res.data;
         })
         axios.get('/rol')
         .then(res=>{
@@ -233,12 +234,12 @@
           })
       },
       totalregistros(){
-          return this.cursos.length;
+          return this.instituciones.length;
         },
     },
     mounted() {
       // Set the initial number of items
-      this.totalRows = this.cursos.length
+      this.totalRows = this.instituciones.length
     },
     methods: {
       info(item, index, button) {
@@ -261,7 +262,7 @@
 
       },
       showMsgBoxCrear(){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar el nuevo curso?`, {
+        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar la nueva institución?`, {
                 title: 'Aviso',
                 size: 'sm',
                 buttonSize: 'sm',
@@ -274,25 +275,25 @@
             .then(value=>{
               if(value){
               const params={
-                nombre: this.curso.nombre
+                descripcion: this.institucion.descripcion
               }
-              axios.post('/curso', params)
+              axios.post('/institucion', params)
               .then(res=>{
                 //ocultar modal
                 this.$bvModal.hide('modal-crear');
-                this.cursos.push(res.data)
+                this.instituciones.push(res.data)
                 //mostrar toaster
-                this.$toaster.success('Curso creado con éxito!')
+                this.$toaster.success('¡Institución creada con éxito!')
                 //Limpiamos los campos
-                this.curso.nombre = '';
+                this.institucion.descripcion = '';
                 //recargamos cambios
-                axios.get('/curso')
+                axios.get('/institucion')
                 .then(res=>{
-                    this.cursos = res.data;
+                    this.instituciones = res.data;
                 })
                 .catch((error) => {
                             if (error) {
-                                this.$toaster.error('Lo sentimos, el curso no se pudo crear ')
+                                this.$toaster.error('Lo sentimos, la institución no se pudo crear ')
                                 console.log(error);
                             }
                     })
@@ -301,15 +302,15 @@
             })
       },
       cargarDatos(item){
-        this.curso_.id_curso = item.id_curso,
-        this.curso_.nombre = item.nombre
+        this.institucion_.id_institucion = item.id_institucion,
+        this.institucion_.descripcion = item.descripcion
       },
       editar(item){
         this.msgResult='';
         this.showMsgBoxEditar(item); //Modal confirmación
       },
       showMsgBoxEditar(item){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea editar el curso actual ?`, {
+        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea editar la institución actual ?`, {
             title: 'Aviso',
             size: 'sm',
             buttonSize: 'sm',
@@ -322,23 +323,23 @@
         .then(value=>{
           if(value){
             const params = {
-              id_curso : item.id_curso,
-              nombre: item.nombre
+              id_institucion : item.id_institucion,
+              descripcion: item.descripcion
             }
-            axios.put(`/curso/${item.id_curso}`, params)
+            axios.put(`/institucion/${item.id_institucion}`, params)
             .then(res =>{
               //ocultar modal
               this.$bvModal.hide('modal-editar');
-              const index = this.cursos.findIndex(
-                cursoBuscar => cursoBuscar.id_curso === item.id_curso
+              const index = this.instituciones.findIndex(
+                institucionBuscar => institucionBuscar.id_institucion === item.id_institucion
               )
-              this.cursos[index] = res.data
+              this.instituciones[index] = res.data
               //mostrar toaster
-              this.$toaster.success('Curso actualizado con éxito')
+              this.$toaster.success('¡Institución actualizada con éxito')
               //Recargamos los cambios
-              axios.get('/curso')
+              axios.get('/institucion')
                 .then(res=>{
-                    this.cursos = res.data
+                    this.instituciones = res.data
                 })
               .catch((error) => {
                 if (error) {

@@ -10,11 +10,11 @@
                         <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
@@ -26,108 +26,24 @@
                 </b-navbar-nav>
         </b-navbar>
         <div class="container my-4">
-          {{ api}}
             <b-row align-h="end">
-              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Usuario</b-button>
+              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Grado de Estudios</b-button>
             </b-row>
 
             <!-- Inicio modal crear -->
 
-            <b-modal centered id="modal-crear" size="xl" title="Nuevo Usuario" hide-footer>
+            <b-modal centered id="modal-crear" title="Nuevo Grado" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
-                        <b-col cols="3">
-                          <label>Número de empleado:</label>
-                          <b-form-input id="id" name="id">
-                          </b-form-input>
-                        </b-col>
-                        <b-col cols="9">
-                          <label>Nombre completo:</label>
-                          <b-form-input id="name" name="name">
-                          </b-form-input>
-                        </b-col>
-                      </b-row>
-                      <b-row>
-                        <b-col cols="6">
-                          <label>CURP:</label>
-                          <b-form-input id="curp" name="curp">
-                          </b-form-input>
-                        </b-col>
-                        <b-col cols="4">
-                          <label>RFC:</label>
-                          <b-form-input id="rfc" name="rfc">
-                          </b-form-input>
-                        </b-col>
-                        <b-col cols="2">
-                          <label>Sexo:</label>
-                          <b-form-input id="sexo" name="sexo">
-                          </b-form-input>
-                        </b-col>
-                      </b-row>
-                      <b-row>
-                        <b-col cols="6">
-                          <label>Correo:</label>
-                          <b-form-input id="email" name="email" type="mail" required>
-                          </b-form-input>
-                        </b-col>
-                        <b-col cols="3">
-                          <label>Fecha de ingreso:</label>
-                          <b-form-input id="fechaIngr" name="fechaIngr">
-                          </b-form-input>
-                        </b-col>
-                        <b-col cols="3">
-                          <label>Estatus:</label>
-                          <b-form-input id="estatus" name="estatus">
-                          </b-form-input>
-                        </b-col>
-                      </b-row>
-                      <br> <hr><br>
-                      <b-row>
-                        <b-col cols="2">
-                          <label>Nivel:</label>
-                          <b-form-input id="nivel" name="nivel">
-                          </b-form-input>
-                        </b-col>
-                        <b-col cols="10">
-                          <label>Puesto:</label>
-                          <b-form-input id="puesto" name="puesto">
-                          </b-form-input>
-                        </b-col>
-                      </b-row>
-                      <b-row>
                         <b-col cols="12">
-                          <label>Adscripción:</label>
-                          <b-form-input id="adscripcion" name="adscripcion">
-                          </b-form-input>
-                        </b-col>
-                      </b-row>
-                      <b-row>
-                        <b-col cols="6">
-                          <label>Ciudad en donde está adscrita la plaza:</label>
-                          <b-form-input id="ciudadAdscr" name="ciudadAdscr">
-                          </b-form-input>
-                        </b-col>
-                        <b-col cols="6">
-                          <label>Estado en donde está adscrita la plaza:</label>
-                          <b-form-input id="estado" name="estado">
-                          </b-form-input>
-                        </b-col>
-                      </b-row>
-                      <b-row>
-                        <b-col cols="5">
-                          <label>Último grado de estudios:</label>
-                          <b-form-input id="gradoEstud" name="gradoEstud">
-                          </b-form-input>
-                        </b-col>
-                        <b-col cols="7">
-                          <label>Nombre del último grado de estudios:</label>
-                          <b-form-input id="descripEstud" name="descripEstud">
+                          <label>Nombre:</label>
+                          <b-form-input id="nombre" name="nombre" v-model="grado.nombre">
                           </b-form-input>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <!-- <b-button class="botones" type="submit">Guardar</b-button> -->
+                              <b-button class="botones" type="submit">Guardar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>
@@ -135,11 +51,12 @@
 
             <!-- Inicio modal editar -->
 
-            <b-modal centered id="modal-editar" title="Editar Adscripción" hide-footer>
-                    <b-form @submit.prevent="editar(adscripcion_)">
+            <b-modal centered id="modal-editar" title="Editar Grado de Estudios" hide-footer>
+                    <b-form @submit.prevent="editar(grado_)">
                       <b-row>
                         <b-col cols="12">
-                          <b-form-input id="descripcion" name="descripcion" v-model="adscripcion_.descripcion">
+                          <label>Nombre:</label>
+                          <b-form-input id="nombre" name="nombre" v-model="grado_.nombre">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -183,7 +100,7 @@
                 <!-- Main table element -->
                 <b-table
                 class="table table-sm"
-                :items="usuarios"
+                :items="grados"
                 :fields="fields"
                 :current-page="currentPage"
                 :per-page="perPage"
@@ -265,26 +182,21 @@
     data() {
       return {
         fields: [
-          { key: 'id', label: 'Número de Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'nombre', label: 'Nombre completo', class: 'text-center small', sortable: true, sortDirection: 'desc' }, 
-          { key: 'puesto', label: 'Puesto', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'adscripcion', label: 'Adscripcion', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'email', label: 'Correo electrónico', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'id_gradoEst', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'nombre', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
         msgResult:'',
-        url: 'http://10.68.8.25:8001/curp/MOBE020124HMNRRRA6',
         rol:'',
         usrActual:'',
-        usuarios:[],
-        adscripcion:{
-          descripcion:''
+        grados:[],
+        grado:{
+          nombre:''
         },
-        adscripcion_:{
-          id_adscripcion:'',
-          descripcion:''
+        grado_:{
+          id_grado:'',
+          nombre:''
         },
-        api: [],
         totalRows: 1,
         currentPage: 1,
         perPage: 5,
@@ -302,9 +214,9 @@
       }
     },
     created(){
-        axios.get('/usuario')
+        axios.get('/grado')
         .then(res=>{
-            this.usuarios = res.data;
+            this.grados = res.data;
         })
         axios.get('/rol')
         .then(res=>{
@@ -313,11 +225,6 @@
         axios.get('/usrActual')
         .then(res=>{
             this.usrActual = res.data;
-        })
-
-        axios.get(this.url)
-        .then(res=>{
-            this.api = res.datos;
         })
     },
     computed: {
@@ -330,12 +237,12 @@
           })
       },
       totalregistros(){
-          return this.usuarios.length;
+          return this.grados.length;
         },
     },
     mounted() {
       // Set the initial number of items
-      this.totalRows = this.usuarios.length
+      this.totalRows = this.grados.length
     },
     methods: {
       info(item, index, button) {
@@ -358,7 +265,7 @@
 
       },
       showMsgBoxCrear(){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar la nueva adscripción?`, {
+        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar el nuevo grado de estudios?`, {
                 title: 'Aviso',
                 size: 'sm',
                 buttonSize: 'sm',
@@ -371,25 +278,25 @@
             .then(value=>{
               if(value){
               const params={
-                descripcion: this.adscripcion.descripcion
+                nombre: this.grado.nombre
               }
-              axios.post('/adscripcion', params)
+              axios.post('/grado', params)
               .then(res=>{
                 //ocultar modal
                 this.$bvModal.hide('modal-crear');
-                this.adscripciones.push(res.data)
+                this.grados.push(res.data)
                 //mostrar toaster
-                this.$toaster.success('¡Adscripción creada con éxito!')
+                this.$toaster.success('Grado de estudios creado con éxito!')
                 //Limpiamos los campos
-                this.adscripcion.descripcion = '';
+                this.grado.nombre = '';
                 //recargamos cambios
-                axios.get('/adscripcion')
+                axios.get('/grado')
                 .then(res=>{
-                    this.adscripciones = res.data;
+                    this.grados = res.data;
                 })
                 .catch((error) => {
                             if (error) {
-                                this.$toaster.error('Lo sentimos, la adscripción no se pudo crear ')
+                                this.$toaster.error('Lo sentimos, el grado de estudios no se pudo crear ')
                                 console.log(error);
                             }
                     })
@@ -398,15 +305,15 @@
             })
       },
       cargarDatos(item){
-        this.adscripcion_.id_adscripcion = item.id_adscripcion,
-        this.adscripcion_.descripcion = item.descripcion
+        this.grado_.id_gradoEst = item.id_gradoEst,
+        this.grado_.nombre = item.nombre
       },
       editar(item){
         this.msgResult='';
         this.showMsgBoxEditar(item); //Modal confirmación
       },
       showMsgBoxEditar(item){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea editar la consulta actual ?`, {
+        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea editar el grado actual ?`, {
             title: 'Aviso',
             size: 'sm',
             buttonSize: 'sm',
@@ -419,23 +326,23 @@
         .then(value=>{
           if(value){
             const params = {
-              id_adscripcion : item.id_adscripcion,
-              descripcion: item.descripcion
+              id_gradoEst : item.id_gradoEst,
+              nombre: item.nombre
             }
-            axios.put(`/adscripcion/${item.id_adscripcion}`, params)
+            axios.put(`/grado/${item.id_gradoEst}`, params)
             .then(res =>{
               //ocultar modal
               this.$bvModal.hide('modal-editar');
-              const index = this.adscripciones.findIndex(
-                adscripcionBuscar => adscripcionBuscar.id_adscripcion === item.id_adscripcion
+              const index = this.grados.findIndex(
+                gradoBuscar => gradoBuscar.id_gradoEst === item.id_gradoEst
               )
-              this.adscripciones[index] = res.data
+              this.grados[index] = res.data
               //mostrar toaster
-              this.$toaster.success('¡Adscripción actualizada con éxito')
+              this.$toaster.success('Grado de estudios actualizado con éxito')
               //Recargamos los cambios
-              axios.get('/adscripcion')
+              axios.get('/grado')
                 .then(res=>{
-                    this.adscripciones = res.data
+                    this.grados = res.data
                 })
               .catch((error) => {
                 if (error) {
@@ -477,9 +384,5 @@ height: 48px;
   background-color: #B38E5D !important;
   border-color: #B38E5D !important;
   color: #fff !important;
-}
-
-label {
-  font-weight: bold;
 }
 </style>

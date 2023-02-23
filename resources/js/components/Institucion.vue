@@ -6,8 +6,11 @@
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
                         <b-dropdown-item v-if="rol == 1" href="/home">Home</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
@@ -29,13 +32,25 @@
 
             <!-- Inicio modal crear -->
 
-            <b-modal centered id="modal-crear" title="Nueva Institución" hide-footer>
+            <b-modal centered id="modal-crear" size="lg" title="Nueva Institución" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
                           <b-form-input id="descripcion" name="descripcion" v-model="institucion.descripcion">
                           </b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col cols="6">
+                          <label>Tipo:</label>
+                          <b-form-input id="tipo" name="tipo" v-model="institucion.tipo">
+                          </b-form-input>
+                        </b-col>
+                        <b-col cols="6">
+                          <label>Siglas:</label>
+                          <b-form-input id="siglas" name="siglas" v-model="institucion.siglas">
+                          </b-form-input>                          
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
@@ -48,13 +63,25 @@
 
             <!-- Inicio modal editar -->
 
-            <b-modal centered id="modal-editar" title="Editar Institución" hide-footer>
+            <b-modal centered id="modal-editar" size="lg" title="Editar Institución" hide-footer>
                     <b-form @submit.prevent="editar(institucion_)">
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
                           <b-form-input id="descripcion" name="descripcion" v-model="institucion_.descripcion">
                           </b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col cols="6">
+                          <label>Tipo:</label>
+                          <b-form-input id="tipo" name="tipo" v-model="institucion_.tipo">
+                          </b-form-input>
+                        </b-col>
+                        <b-col cols="6">
+                          <label>Siglas:</label>
+                          <b-form-input id="siglas" name="siglas" v-model="institucion_.siglas">
+                          </b-form-input>                          
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
@@ -181,6 +208,8 @@
         fields: [
           { key: 'id_institucion', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'descripcion', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'tipo', label: 'Tipo', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'siglas', label: 'Siglas', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
         msgResult:'',
@@ -188,16 +217,20 @@
         usrActual:'',
         instituciones:[],
         institucion:{
-          descripcion:''
+          descripcion:'',
+          tipo:'',
+          siglas:''
         },
         institucion_:{
           id_institucion:'',
-          descripcion:''
+          descripcion:'',
+          tipo:'',
+          siglas:''
         },
         totalRows: 1,
         currentPage: 1,
         perPage: 5,
-        pageOptions: [5, 10, 15, { value: 100, text: "Show a lot" }],
+        pageOptions: [5, 10, 15, { value: 100, text: "Mostrar más" }],
         sortBy: '',
         sortDesc: false,
         sortDirection: 'asc',
@@ -275,7 +308,9 @@
             .then(value=>{
               if(value){
               const params={
-                descripcion: this.institucion.descripcion
+                descripcion: this.institucion.descripcion,
+                tipo: this.institucion.tipo,
+                siglas: this.institucion.siglas,
               }
               axios.post('/institucion', params)
               .then(res=>{
@@ -304,6 +339,8 @@
       cargarDatos(item){
         this.institucion_.id_institucion = item.id_institucion,
         this.institucion_.descripcion = item.descripcion
+        this.institucion_.tipo = item.tipo
+        this.institucion_.siglas = item.siglas
       },
       editar(item){
         this.msgResult='';
@@ -324,7 +361,9 @@
           if(value){
             const params = {
               id_institucion : item.id_institucion,
-              descripcion: item.descripcion
+              descripcion: item.descripcion,
+              tipo: item.tipo,
+              siglas: item.siglas
             }
             axios.put(`/institucion/${item.id_institucion}`, params)
             .then(res =>{

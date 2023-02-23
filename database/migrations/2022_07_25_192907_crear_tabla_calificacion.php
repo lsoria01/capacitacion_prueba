@@ -25,11 +25,14 @@ class CrearTablaCalificacion extends Migration
             $table->date('fecha')->nullable();
             $table->integer('anio')->nullable();
             $table->boolean('cursoIntExt')->nullable();
-            $table->string('categoriaInst')->nullable();
+            $table->unsignedBigInteger('id_institucion')->nullable();
             $table->boolean('difundidoDP')->nullable();
             $table->string('modalidad')->nullable();
             $table->integer('estatus')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_spanish_ci';
         });
     }
 

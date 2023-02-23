@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Nivel;
+use App\Models\GradoEstudio;
 
-class NivelController extends Controller
+class GradoEstudioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,14 +14,13 @@ class NivelController extends Controller
      */
     public function index()
     {
-        $niveles = Nivel::select(
-            'nivel.id_nivel',
-            'nivel.nomenclatura',
-            'nivel.nombre'
+        $grados = GradoEstudio::select(
+            'gradoEst.id_gradoEst',
+            'gradoEst.nombre',
         )
-        ->orderBy("id_nivel")
+        ->orderBy("id_gradoEst")
         ->get();
-        return $niveles; 
+        return $grados; 
     }
 
     /**
@@ -42,11 +41,10 @@ class NivelController extends Controller
      */
     public function store(Request $request)
     {
-        $niveles = new Nivel();
-        $niveles->nomenclatura = $request->nomenclatura;
-        $niveles->nombre = $request->nombre;
-        $niveles->save();
-        return $niveles;
+        $grados = new GradoEstudio();
+        $grados->nombre = $request->nombre;
+        $grados->save();
+        return $grados;
     }
 
     /**
@@ -78,13 +76,12 @@ class NivelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_nivel)
+    public function update(Request $request, $id_gradoEst)
     {
-        $niveles = Nivel::find($id_nivel);
-        $niveles->nomenclatura = $request->nomenclatura;
-        $niveles->nombre = $request->nombre;
-        $niveles->save();
-        return $niveles;
+        $grados = GradoEstudio::find($id_gradoEst);
+        $grados->nombre = $request->nombre;
+        $grados->save();
+        return $grados;
     }
 
     /**

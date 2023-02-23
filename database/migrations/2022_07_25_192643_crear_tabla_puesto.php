@@ -18,6 +18,9 @@ class CrearTablaPuesto extends Migration
             $table->string('descripcion')->nullable();
             $table->unsignedBigInteger('superior')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_spanish_ci';
         });
     }
 

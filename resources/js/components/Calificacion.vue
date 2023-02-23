@@ -6,8 +6,12 @@
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
                         <b-dropdown-item v-if="rol == 1" href="/home">Home</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Adscripciones</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
@@ -23,22 +27,77 @@
         </b-navbar>
         <div class="container my-4">
             <b-row align-h="end">
-              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Puesto</b-button>
+              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Curso</b-button>
             </b-row>
 
             <!-- Inicio modal crear -->
 
-            <b-modal centered id="modal-crear" title="Nuevo Puesto" hide-footer>
+            <b-modal centered id="modal-crear" scrollable size="xl" title="Nuevo Curso" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
-                        <b-col cols="12">
-                          <b-form-input id="descripcion" name="descripcion" v-model="puesto.descripcion">
-                          </b-form-input>
+                        <b-col cols="6">
+                          <label for="">Seleccione el nombre del usuario:</label>
+                          <b-form-select v-model="usuario" :options="usuarios"></b-form-select>
                         </b-col>
                       </b-row>
+                      <br> <hr>
+                      <b-row>
+                        <b-col cols="4">
+                          <label for="">Curso Interno o Externo:</label>
+                            <b-form-checkbox v-model="cursoIntExt" name="check-button" switch>
+                            <b v-if="cursoIntExt"> Interno</b> <b v-else>Externo</b>
+                          </b-form-checkbox>
+                        </b-col>
+                        <b-col cols="8" v-if = "cursoIntExt ==! 1">
+                          <label for="">Nombre de la Institución</label>
+                          <b-form-input id="curso" name="curso"></b-form-input>
+                        </b-col>
+                      </b-row>
+                      <br> <hr>
+                      <b-row>
+                        <b-col cols="12" >
+                          <label for="">Nombre del curso</label>
+                          <b-form-input id="curso" name="curso"></b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col cols="4">
+                          <label for="">Fecha de finalización</label>
+                          <b-form-datepicker id="example-datepicker" class="mb-2" placeholder="Seleccione una fecha"></b-form-datepicker>
+                        </b-col>
+                        <b-col cols="2">
+                          <label for="">Calificación</label>
+                          <b-form-input id="calif" name="calif"></b-form-input>
+                        </b-col>
+                        <b-col cols="2">
+                          <label for="">Acreditación</label>
+                          <b-form-checkbox v-model="checked" name="check-button" switch>
+                            <b v-if="checked"> Aprobado</b> <b v-else>No aprobado</b>
+                          </b-form-checkbox>
+                        </b-col>
+                        <b-col cols="4">
+                          <label for="">Horas de capacitación</label>
+                            <b-form-input id="hrsCap" name="hrsCap" type="number"></b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col cols="4">
+                          <label for="">Tipo de curso:</label>
+                          <b-form-select v-model="cursoOblig" :options="cursoObligs"></b-form-select>
+                        </b-col>
+                        <b-col cols="4">
+                          <label for="">Difundido por la DP:</label>
+                          <b-form-select v-model="difundidoDP" :options="difundidoDPs"></b-form-select>
+                        </b-col>
+                        <b-col cols="4">
+                          <label for="">Modalidad:</label>
+                          <b-form-input id="modalidad" name="modalidad"></b-form-input>
+                        </b-col>
+                      </b-row>
+                      <br> <hr> <br>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <b-button class="botones" type="submit">Guardar</b-button>
+                              <!-- <b-button class="botones" type="submit">Guardar</b-button> -->
                           </b-col>
                       </b-row>
                     </b-form>
@@ -195,10 +254,27 @@
           id_puesto:'',
           descripcion:''
         },
+        usuario: null,
+        usuarios: [
+          { value: 'A', text: 'Luis de Jesús Soria Zavala' },
+          { value: 'B', text: 'Juan Manuel Vázquez Martínez' }
+        ],
+        cursoOblig: null,
+        cursoObligs: [
+          { value: 'A', text: 'Obligatorio' },
+          { value: 'B', text: 'Optativo' }
+        ],
+        difundidoDP: null,
+        difundidoDPs: [
+          { value: 'A', text: 'Si' },
+          { value: 'B', text: 'No' }
+        ],
+        checked: true,
+        cursoIntExt: true,
         totalRows: 1,
         currentPage: 1,
         perPage: 5,
-        pageOptions: [5, 10, 15, { value: 100, text: "Show a lot" }],
+        pageOptions: [5, 10, 15, { value: 100, text: "Mostrar más" }],
         sortBy: '',
         sortDesc: false,
         sortDirection: 'asc',

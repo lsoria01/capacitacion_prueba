@@ -6,9 +6,13 @@
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
                         <b-dropdown-item v-if="rol == 1" href="/home">Home</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Adscripciones</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
                     </b-nav-item-dropdown>
@@ -277,7 +281,7 @@
         totalRows: 1,
         currentPage: 1,
         perPage: 5,
-        pageOptions: [5, 10, 15, { value: 100, text: "Show a lot" }],
+        pageOptions: [5, 10, 15, { value: 100, text: "Mostrar más" }],
         sortBy: '',
         sortDesc: false,
         sortDirection: 'asc',

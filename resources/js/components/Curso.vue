@@ -6,8 +6,12 @@
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
                         <b-dropdown-item v-if="rol == 1" href="/home">Home</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Adscripciones</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
@@ -28,13 +32,38 @@
 
             <!-- Inicio modal crear -->
 
-            <b-modal centered id="modal-crear" title="Nuevo Curso" hide-footer>
+            <b-modal centered id="modal-crear" size="xl" title="Nuevo Curso" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
                           <b-form-input id="nombre" name="nombre" v-model="curso.nombre">
                           </b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col cols="4">
+                          <label for="fecha_inicio">Fecha de inicio:</label>
+                          <b-form-datepicker id="fecha_inicio" v-model="curso.fecha_inicio" placeholder=""></b-form-datepicker>
+                        </b-col>
+                        <b-col cols="4">
+                          <label for="fecha_fin">Fecha de fin:</label>
+                          <b-form-datepicker id="fecha_fin" v-model="curso.fecha_fin" placeholder=""></b-form-datepicker>
+                        </b-col>
+                        <b-col cols="4">
+                          <label>Id Curso:</label>
+                          <b-form-input id="folio" name="folio" v-model="curso.folio">
+                          </b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col>
+                          <label for="id_institucion">Institución:</label>
+                          <b-form-input list="id_institucion" v-model="curso.id_institucion" autocomplete="off">
+                          </b-form-input>
+                          <datalist id="id_institucion">
+                            <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
+                          </datalist>                          
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
@@ -47,13 +76,38 @@
 
             <!-- Inicio modal editar -->
 
-            <b-modal centered id="modal-editar" title="Editar Curso" hide-footer>
+            <b-modal centered id="modal-editar" size="xl" title="Editar Curso" hide-footer>
                     <b-form @submit.prevent="editar(curso_)">
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
                           <b-form-input id="nombre" name="nombre" v-model="curso_.nombre">
                           </b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col cols="4">
+                          <label for="fecha_inicio">Fecha de inicio:</label>
+                          <b-form-datepicker id="fecha_inicio" v-model="curso_.fecha_inicio" placeholder=""></b-form-datepicker>
+                        </b-col>
+                        <b-col cols="4">
+                          <label for="fecha_fin">Fecha de fin:</label>
+                          <b-form-datepicker id="fecha_fin" v-model="curso_.fecha_fin" placeholder=""></b-form-datepicker>
+                        </b-col>
+                        <b-col cols="4">
+                          <label>Id Curso:</label>
+                          <b-form-input id="folio" name="folio" v-model="curso_.folio">
+                          </b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row>
+                        <b-col>
+                          <label for="id_institucion">Institución:</label>
+                          <b-form-input list="id_institucion" v-model="curso_.id_institucion" autocomplete="off">
+                          </b-form-input>
+                          <datalist id="id_institucion">
+                            <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
+                          </datalist>                          
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
@@ -180,6 +234,10 @@
         fields: [
           { key: 'id_curso', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'nombre', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'fecha_inicio', label: 'fecha de inicio', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'fecha_fin', label: 'fecha de fin', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'id_institucion', label: 'Institución', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'folio', label: 'Folio (Nemotécnico)', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
         msgResult:'',
@@ -187,16 +245,30 @@
         usrActual:'',
         cursos:[],
         curso:{
-          nombre:''
+          nombre:'',
+          fecha_inicio:'',
+          fecha_fin:'',
+          id_institucion:'',
+          folio:''
         },
         curso_:{
           id_curso:'',
-          nombre:''
+          nombre:'',
+          fecha_inicio:'',
+          fecha_fin:'',
+          id_institucion:'',
+          folio:''
         },
+        instituciones:{
+          id_institucion:'',
+          descripcion:''
+        },
+        resultado_institucion:'',
+        resultado_institucion_:'',
         totalRows: 1,
         currentPage: 1,
         perPage: 5,
-        pageOptions: [5, 10, 15, { value: 100, text: "Show a lot" }],
+        pageOptions: [5, 10, 15, { value: 100, text: "Mostrar más" }],
         sortBy: '',
         sortDesc: false,
         sortDirection: 'asc',
@@ -221,6 +293,10 @@
         axios.get('/usrActual')
         .then(res=>{
             this.usrActual = res.data;
+        })
+        axios.get('/nombreInstituciones')
+        .then(res=>{
+            this.instituciones = res.data;
         })
     },
     computed: {
@@ -273,10 +349,24 @@
             })
             .then(value=>{
               if(value){
-              const params={
-                nombre: this.curso.nombre
+                  var institucion = this.curso.id_institucion
+                  var institucion_filter = this.instituciones.filter(function(e){
+                  return e.descripcion === institucion                
+                })
+                console.log(institucion_filter);
+                for( var resultado of institucion_filter){
+                  this.resultado_institucion = resultado.id_institucion
+                }
+                console.log(this.resultado_institucion);              
+                const params={
+                nombre: this.curso.nombre,
+                fecha_inicio:this.curso.fecha_inicio,
+                fecha_fin:this.curso.fecha_fin,
+                id_institucion:this.resultado_institucion,
+                folio:this.curso.folio
               }
-              axios.post('/curso', params)
+              console.log(params);
+               axios.post('/curso', params)
               .then(res=>{
                 //ocultar modal
                 this.$bvModal.hide('modal-crear');
@@ -303,6 +393,10 @@
       cargarDatos(item){
         this.curso_.id_curso = item.id_curso,
         this.curso_.nombre = item.nombre
+        this.curso_.fecha_inicio = item.fecha_inicio
+        this.curso_.fecha_fin = item.fecha_fin
+        this.curso_.id_institucion = item.id_institucion
+        this.curso_.folio = item.folio
       },
       editar(item){
         this.msgResult='';
@@ -321,9 +415,22 @@
         })
         .then(value=>{
           if(value){
+            var institucion_ = item.id_institucion
+            var institucion_filter_ = this.instituciones.filter(function(e){
+              return e.descripcion === institucion_                
+            })
+            console.log(institucion_filter_);
+            for( var resultado of institucion_filter_){
+              this.resultado_institucion_ = resultado.id_institucion
+            }
+            console.log(this.resultado_institucion_);  
             const params = {
               id_curso : item.id_curso,
-              nombre: item.nombre
+              nombre: item.nombre,
+              fecha_inicio: item.fecha_inicio,
+              fecha_fin: item.fecha_fin,
+              id_institucion:this.resultado_institucion_,
+              folio: item.folio
             }
             axios.put(`/curso/${item.id_curso}`, params)
             .then(res =>{

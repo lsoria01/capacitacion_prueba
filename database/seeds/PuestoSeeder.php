@@ -100,7 +100,7 @@ class PuestoSeeder extends Seeder
         DB::table('puesto')->insert(['descripcion'=>'SUBDIRECCIÓN DE APOYO ADMINISTRATIVO' ]);
         DB::table('puesto')->insert(['descripcion'=>'SUBDIRECCIÓN DE APOYO TÉCNICO' ]);
         DB::table('puesto')->insert(['descripcion'=>'SUBDIRECCION DE ARCHIVO Y CONSULTA DOCUMENTAL' ]);
-        DB::table('puesto')->insert(['descripcion'=>'SUBDIRECCIÓN DE ÁREA EVENTUAL' ]);
+        DB::table('puesto')->insert(['descripcion'=>'SUBDIRECCIÓN DE ÁREA EVENTUAL', 'superior' => '22' ]);
         DB::table('puesto')->insert(['descripcion'=>'SUBDIRECCIÓN DE CONCILIACIÓN COLECTIVA A' ]);
         DB::table('puesto')->insert(['descripcion'=>'SUBDIRECCIÓN DE CONCILIACIÓN COLECTIVA B' ]);
         DB::table('puesto')->insert(['descripcion'=>'SUBDIRECCIÓN DE CONCILIACIÓN COLECTIVA C' ]);

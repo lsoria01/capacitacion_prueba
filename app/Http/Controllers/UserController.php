@@ -22,7 +22,7 @@ class UserController extends Controller
         ->leftJoin('nivel', 'users.nivel', '=', 'nivel.id_nivel')
         ->select([
             'users.id',
-            'users.name',
+            'users.name as nombre',
             'puesto.descripcion as puesto',
             'adscripcion.descripcion as adscripcion',
             'nivel.nomenclatura as nivel',

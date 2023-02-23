@@ -14,7 +14,14 @@ class InstitucionController extends Controller
      */
     public function index()
     {
-        $instituciones = Institucion::all();
+        $instituciones = Institucion::select(
+            'institucion.id_institucion',
+            'institucion.descripcion',
+            'institucion.tipo',
+            'institucion.siglas'
+        )
+        ->orderBy("id_institucion")
+        ->get();
         return $instituciones; 
     }
 
@@ -38,9 +45,13 @@ class InstitucionController extends Controller
     {
         $instituciones = new Institucion();
         $instituciones->descripcion = $request->descripcion;
+        $instituciones->tipo = $request->tipo;
+        $instituciones->siglas = $request->siglas;
         $instituciones->save();
         return $instituciones;
     }
+
+
 
     /**
      * Display the specified resource.
@@ -75,6 +86,8 @@ class InstitucionController extends Controller
     {
         $instituciones = Institucion::find($id_institucion);
         $instituciones->descripcion = $request->descripcion;
+        $instituciones->tipo = $request->tipo;
+        $instituciones->siglas = $request->siglas;
         $instituciones->save();
         return $instituciones;
     }

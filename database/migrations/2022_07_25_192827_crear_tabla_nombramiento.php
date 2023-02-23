@@ -20,6 +20,9 @@ class CrearTablaNombramiento extends Migration
             $table->date('fecEmis')->nullable();
             $table->date('fecRatif')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_spanish_ci';
         });
     }
 

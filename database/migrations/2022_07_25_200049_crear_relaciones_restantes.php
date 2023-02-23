@@ -20,12 +20,15 @@ class CrearRelacionesRestantes extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->foreign('puesto')->references('id_puesto')->on('puesto'); 
             $table->foreign('adscripcion')->references('id_adscripcion')->on('adscripcion'); 
-            $table->foreign('nivel')->references('id_nivel')->on('nivel');             
+            $table->foreign('nivel')->references('id_nivel')->on('nivel');
+            $table->foreign('estado')->references('id_estado')->on('estado'); 
+            $table->foreign('gradoEst')->references('id_gradoEst')->on('gradoEst');              
         });
 
         Schema::table('calificacion', function (Blueprint $table) {
             $table->foreign('empleado')->references('id')->on('users'); 
-            $table->foreign('curso')->references('id_curso')->on('curso');           
+            $table->foreign('curso')->references('id_curso')->on('curso');
+            $table->foreign('id_institucion')->references('id_institucion')->on('institucion');           
         });
 
         Schema::table('puesto', function (Blueprint $table) {
@@ -48,11 +51,18 @@ class CrearRelacionesRestantes extends Migration
             $table->dropColumn('puesto');
             $table->dropColumn('adscripcion');
             $table->dropColumn('nivel');
+            $table->dropColumn('estado');
+            $table->dropColumn('gradoEst');
         });
 
         Schema::table('calificacion', function (Blueprint $table) {
             $table->dropColumn('empleado');
             $table->dropColumn('curso');
+            $table->dropColumn('id_institucion');
+        });
+
+        Schema::table('puesto', function (Blueprint $table) {
+            $table->dropColumn('superior');
         });
     }
 }

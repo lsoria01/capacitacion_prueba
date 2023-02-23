@@ -16,7 +16,15 @@ class CrearTablaCurso extends Migration
         Schema::create('curso', function (Blueprint $table) {
             $table->id('id_curso');
             $table->string('nombre')->nullable();
+            $table->date('fecha_inicio')->nullable();
+            $table->date('fecha_fin')->nullable();
+            $table->unsignedBigInteger('id_institucion')->nullable();
+            $table->foreign('id_institucion')->references('id_institucion')->on('institucion');
+            $table->string('folio')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_spanish_ci';
         });
     }
 

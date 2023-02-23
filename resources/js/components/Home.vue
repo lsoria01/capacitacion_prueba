@@ -5,9 +5,11 @@
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
                 <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
-                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Adscripciones</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
@@ -160,9 +162,9 @@
                                 <td>{{calif.id_calificacion}}</td>
                                 <td>{{calif.anio}}</td>
                                 <td><p v-if="calif.cursoOblig">Obligatorio</p> <p v-else>Optativo</p> </td>                                
-                                <td>{{calif.categoriaInst}}</td>
+                                <td>{{calif.id_institucion}}</td>
                                 <td>{{calif.curso}}</td>
-                                <td>{{calif.hrsCap}}</td>
+                                <td>{{calif.hrsCap}}</td> 
                                 <td>{{calif.calif}}</td>
                             </tr>
                         </tbody>
@@ -181,7 +183,7 @@
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td>2022</td>
+                                    <td>{{ anio }}</td>
                                     <td>42</td>
                                     <td>Cumple</td>
                                 </tr>
@@ -318,7 +320,7 @@
                                                 <td colspan="1">{{calif.id_calificacion}}</td>
                                                 <td colspan="1">{{calif.anio}}</td>
                                                 <td colspan="1"><p v-if="calif.cursoOblig">Obligatorio</p> <p v-else>Optativo</p> </td>                                
-                                                <td colspan="1">{{calif.categoriaInst}}</td>
+                                                <td colspan="1">{{calif.id_institucion}}</td>
                                                 <td colspan="1">{{calif.curso}}</td>
                                                 <td colspan="1">{{calif.hrsCap}}</td>
                                                 <td colspan="1">{{calif.calif}}</td>

@@ -17,6 +17,9 @@ class CrearTablaAdscripcion extends Migration
             $table->id('id_adscripcion');
             $table->string('descripcion')->nullable();            
             $table->timestamps();
+            $table->softDeletes();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_spanish_ci';
         });
     }
 

@@ -14,7 +14,12 @@ class AdscripcionController extends Controller
      */
     public function index()
     {
-        $adscripciones = Adscripcion::all();
+        $adscripciones = Adscripcion::select(
+            'adscripcion.id_adscripcion',
+            'adscripcion.descripcion',
+        )
+        ->orderBy("id_adscripcion")
+        ->get();
         return $adscripciones; 
     }
 

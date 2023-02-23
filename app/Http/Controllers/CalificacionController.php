@@ -17,6 +17,7 @@ class CalificacionController extends Controller
     {
         $calificaciones = Calificacion::leftJoin('curso', 'calificacion.curso', '=', 'curso.id_curso')
         ->leftJoin('users', 'calificacion.empleado', '=', 'users.id')
+        ->leftJoin('institucion', 'calificacion.id_institucion', '=', 'institucion.id_institucion')
         ->select([
             'calificacion.id_calificacion',
             'users.name as empleado',
@@ -26,8 +27,7 @@ class CalificacionController extends Controller
             'calificacion.fecha',
             'calificacion.anio',
             'calificacion.cursoOblig',
-            'calificacion.categoriaInst',
-
+            'institucion.siglas as id_institucion'          
         ])
         ->where('users.id', Auth::user()->id)
         ->get();

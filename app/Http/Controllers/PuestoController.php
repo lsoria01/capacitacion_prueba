@@ -14,8 +14,13 @@ class PuestoController extends Controller
      */
     public function index()
     {
-        $puestos = Puesto::all();
-        return $puestos;
+        $puestos = Puesto::select(
+            'puesto.id_puesto',
+            'puesto.descripcion',
+        )
+        ->orderBy("id_puesto")
+        ->get();
+        return $puestos; 
     }
 
     /**

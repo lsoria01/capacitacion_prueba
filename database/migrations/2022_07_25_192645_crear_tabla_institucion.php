@@ -16,7 +16,12 @@ class CrearTablaInstitucion extends Migration
         Schema::create('institucion', function (Blueprint $table) {
             $table->id('id_institucion');
             $table->string('descripcion')->nullable();
+            $table->string('tipo')->nullable();
+            $table->string('siglas')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_spanish_ci';
         });
     }
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CrearTablaNivel extends Migration
+class CrearTablaPermiso extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CrearTablaNivel extends Migration
      */
     public function up()
     {
-        Schema::create('nivel', function (Blueprint $table) {
-            $table->id('id_nivel');
-            $table->string('nomenclatura')->nullable();
+        Schema::create('permiso', function (Blueprint $table) {
+            $table->id('id_permiso');
             $table->string('nombre')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_spanish_ci';
+            $table->unsignedBigInteger('id_submodulo')->nullable();
+            $table->foreign('id_submodulo')->references('id_submodulo')->on('submodulo');
         });
     }
 
@@ -31,6 +28,6 @@ class CrearTablaNivel extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nivel');
+        Schema::dropIfExists('permiso');
     }
 }

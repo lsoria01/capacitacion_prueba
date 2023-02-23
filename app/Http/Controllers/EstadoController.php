@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Nivel;
+use App\Models\Estado;
 
-class NivelController extends Controller
+class EstadoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,14 +14,13 @@ class NivelController extends Controller
      */
     public function index()
     {
-        $niveles = Nivel::select(
-            'nivel.id_nivel',
-            'nivel.nomenclatura',
-            'nivel.nombre'
+        $estados = Estado::select(
+            'estado.id_estado',
+            'estado.nombre',
         )
-        ->orderBy("id_nivel")
+        ->orderBy("id_estado")
         ->get();
-        return $niveles; 
+        return $estados; 
     }
 
     /**
@@ -42,11 +41,10 @@ class NivelController extends Controller
      */
     public function store(Request $request)
     {
-        $niveles = new Nivel();
-        $niveles->nomenclatura = $request->nomenclatura;
-        $niveles->nombre = $request->nombre;
-        $niveles->save();
-        return $niveles;
+        $estados = new Estado();
+        $estados->nombre = $request->nombre;
+        $estados->save();
+        return $estados;
     }
 
     /**
@@ -78,13 +76,12 @@ class NivelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_nivel)
+    public function update(Request $request, $id_estado)
     {
-        $niveles = Nivel::find($id_nivel);
-        $niveles->nomenclatura = $request->nomenclatura;
-        $niveles->nombre = $request->nombre;
-        $niveles->save();
-        return $niveles;
+        $estados = Estado::find($id_estado);
+        $estados->nombre = $request->nombre;
+        $estados->save();
+        return $estados;
     }
 
     /**

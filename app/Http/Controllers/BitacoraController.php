@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\GradoEstudio;
 use App\Models\Bitacora;
-use Illuminate\Support\Facades\Auth;
 
-class GradoEstudioController extends Controller
+class BitacoraController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,13 +14,15 @@ class GradoEstudioController extends Controller
      */
     public function index()
     {
-        $grados = GradoEstudio::select(
-            'gradoEst.id_gradoEst',
-            'gradoEst.nombre',
-        )
-        ->orderBy("id_gradoEst")
+        $bitacoras = Bitacora::leftJoin('users', 'bitacora.id_user', '=', 'users.id')
+        ->select([
+            'bitacora.id_bitacora',
+            'users.name as id_user',
+            'bitacora.descripcion',
+            'bitacora.created_at'          
+        ])
         ->get();
-        return $grados; 
+        return $bitacoras;
     }
 
     /**
@@ -43,16 +43,7 @@ class GradoEstudioController extends Controller
      */
     public function store(Request $request)
     {
-        $grados = new GradoEstudio();
-        $grados->nombre = $request->nombre;
-        $grados->save();
-
-        $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Creó un nuevo grado de estudios llamado: ". " " . $request->nombre;
-        $bitacora->save(); 
-        
-        return $grados;
+        //
     }
 
     /**
@@ -84,18 +75,9 @@ class GradoEstudioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_gradoEst)
+    public function update(Request $request, $id)
     {
-        $grados = GradoEstudio::find($id_gradoEst);
-        $grados->nombre = $request->nombre;
-        $grados->save();
-
-        $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Actualizó el grado de estudios con id: " .$id_gradoEst. " por el nuevo nombre:". " " . $request->nombre;
-        $bitacora->save(); 
-
-        return $grados;
+        //
     }
 
     /**

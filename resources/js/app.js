@@ -3,6 +3,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 Vue.component('adscripcion', require('./components/Adscripcion.vue').default);
+Vue.component('bitacora', require('./components/Bitacora.vue').default);
 Vue.component('calificacion', require('./components/Calificacion.vue').default);
 Vue.component('curso', require('./components/Curso.vue').default);
 Vue.component('capturar', require('./components/Capturar.vue').default);

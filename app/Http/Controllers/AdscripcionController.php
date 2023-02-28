@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Adscripcion;
+use App\Models\Bitacora;
+use Illuminate\Support\Facades\Auth;
 
 class AdscripcionController extends Controller
 {
@@ -43,7 +45,13 @@ class AdscripcionController extends Controller
     {
         $adscripciones = new Adscripcion();
         $adscripciones->descripcion = $request->descripcion;
-        $adscripciones->save();
+        $adscripciones->save();        
+
+        $bitacora = new Bitacora();
+        $bitacora->id_user = Auth::id();
+        $bitacora->descripcion = "Creó una nueva adscripción llamada: ". " " . $request->descripcion;
+        $bitacora->save(); 
+
         return $adscripciones;
     }
 
@@ -81,6 +89,12 @@ class AdscripcionController extends Controller
         $adscripciones = Adscripcion::find($id_adscripcion);
         $adscripciones->descripcion = $request->descripcion;
         $adscripciones->save();
+
+        $bitacora = new Bitacora();
+        $bitacora->id_user = Auth::id();
+        $bitacora->descripcion = "Actualizó la adscripción con id: " .$id_adscripcion. " por el nuevo nombre:". " " . $request->descripcion;
+        $bitacora->save(); 
+
         return $adscripciones;
     }
 

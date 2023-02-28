@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Nivel;
+use App\Models\Bitacora;
+use Illuminate\Support\Facades\Auth;
 
 class NivelController extends Controller
 {
@@ -46,6 +48,12 @@ class NivelController extends Controller
         $niveles->nomenclatura = $request->nomenclatura;
         $niveles->nombre = $request->nombre;
         $niveles->save();
+
+        $bitacora = new Bitacora();
+        $bitacora->id_user = Auth::id();
+        $bitacora->descripcion = "Creó un nuevo nivel, con nomenclatura: ". $request->nomenclatura . ", llamado: " . $request->nombre;
+        $bitacora->save();
+
         return $niveles;
     }
 
@@ -84,6 +92,12 @@ class NivelController extends Controller
         $niveles->nomenclatura = $request->nomenclatura;
         $niveles->nombre = $request->nombre;
         $niveles->save();
+
+        $bitacora = new Bitacora();
+        $bitacora->id_user = Auth::id();
+        $bitacora->descripcion = "Actualizó el nivel con id: ". $id_nivel .  ", por la nomenclatura: ". $request->nomenclatura . ", y por el nombre: " . $request->nombre;
+        $bitacora->save();
+
         return $niveles;
     }
 

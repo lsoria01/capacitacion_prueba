@@ -237,7 +237,7 @@
           { key: 'fecha_inicio', label: 'fecha de inicio', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'fecha_fin', label: 'fecha de fin', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'id_institucion', label: 'Institución', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'folio', label: 'Folio (Nemotécnico)', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'folio', label: 'Id Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
         msgResult:'',

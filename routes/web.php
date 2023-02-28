@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('/bitacoras', function () {
+    return view('bitacora');
+});
+
 Route::get('/capturar', function () {
     return view('capturar');
 });
@@ -104,7 +108,6 @@ Route::get('/usrActual', 'UserController@usrActual')->name('usrActual'); //Nombr
 Route::get('/rol', 'UserController@rol')->name('rol'); //Rol del usuario atenticado
 Route::get('/nombreInstituciones', 'CursoController@nombreInstituciones')->name('nombreInstituciones'); //Nombre de las instituciones existentes
 
-
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('usuario', 'UserController');
@@ -117,3 +120,4 @@ Route::resource('institucion', 'InstitucionController');
 Route::resource('nivel', 'NivelController');
 Route::resource('estado', 'EstadoController');
 Route::resource('grado', 'GradoEstudioController');
+Route::resource('bitacora', 'BitacoraController');

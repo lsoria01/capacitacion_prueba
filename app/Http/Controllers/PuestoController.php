@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Puesto;
 use Illuminate\Http\Request;
+use App\Models\Bitacora;
+use Illuminate\Support\Facades\Auth;
 
 class PuestoController extends Controller
 {
@@ -44,6 +46,12 @@ class PuestoController extends Controller
         $puestos = new Puesto();
         $puestos->descripcion = $request->descripcion;
         $puestos->save();
+
+        $bitacora = new Bitacora();
+        $bitacora->id_user = Auth::id();
+        $bitacora->descripcion = "Creó un nuevo puesto llamado: ". " " . $request->descripcion;
+        $bitacora->save(); 
+
         return $puestos;
     }
 
@@ -81,6 +89,12 @@ class PuestoController extends Controller
         $puestos = Puesto::find($id_puesto);
         $puestos->descripcion = $request->descripcion;
         $puestos->save();
+
+        $bitacora = new Bitacora();
+        $bitacora->id_user = Auth::id();
+        $bitacora->descripcion = "Actualizó el puesto con id: " .$id_puesto. " por el nuevo nombre:". " " . $request->descripcion;
+        $bitacora->save(); 
+
         return $puestos;
     }
 

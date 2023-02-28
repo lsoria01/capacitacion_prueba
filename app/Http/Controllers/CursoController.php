@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Curso;
 use App\Models\Institucion;
+use App\Models\Bitacora;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CursoController extends Controller
 {
@@ -15,24 +18,6 @@ class CursoController extends Controller
      */
     public function index()
     {
-        /* $calificaciones = Calificacion::leftJoin('curso', 'calificacion.curso', '=', 'curso.id_curso')
-        ->leftJoin('users', 'calificacion.empleado', '=', 'users.id')
-        ->select([
-            'calificacion.id_calificacion',
-            'users.name as empleado',
-            'curso.nombre as curso',
-            'calificacion.calif',
-            'calificacion.hrsCap',
-            'calificacion.fecha',
-            'calificacion.anio',
-            'calificacion.cursoOblig',
-            'calificacion.categoriaInst',
-
-        ])
-        ->where('users.id', Auth::user()->id)
-        ->get();
-        return $calificaciones; */
-
         $cursos = Curso::leftJoin('institucion', 'curso.id_institucion', '=', 'institucion.id_institucion')
         ->select([
             'curso.id_curso',
@@ -72,6 +57,16 @@ class CursoController extends Controller
         $cursos->id_institucion = $request->id_institucion;
         $cursos->folio = $request->folio;
         $cursos->save();
+
+        $institucion = DB::table('institucion')
+                ->where('id_institucion', $request->id_institucion)
+                ->value('descripcion');
+
+        $bitacora = new Bitacora();
+        $bitacora->id_user = Auth::id();
+        $bitacora->descripcion = "Creó un nuevo curso, con nombre: ". $request->nombre . ", con fecha de inicio: " . $request->fecha_inicio. ", con fecha de fin: ".$request->fecha_fin. ", de la Institución: ".$institucion. " y con folio: " . $request->folio;
+        $bitacora->save();
+
         return $cursos;
     }
 
@@ -112,6 +107,16 @@ class CursoController extends Controller
         $cursos->fecha_fin = $request->fecha_fin;
         $cursos->id_institucion = $request->id_institucion;
         $cursos->save();
+
+        $institucion = DB::table('institucion')
+                ->where('id_institucion', $request->id_institucion)
+                ->value('descripcion');
+
+        $bitacora = new Bitacora();
+        $bitacora->id_user = Auth::id();
+        $bitacora->descripcion = "Actualizó el curso con id: " .$id_curso. ", por el nuevo nombre: ". $request->nombre . ", por la nueva fecha de inicio: " . $request->fecha_inicio. ", por la nueva fecha de fin: ".$request->fecha_fin. ", por la nueva Institución: ".$institucion. " y por el nuevo folio: " . $request->folio;
+        $bitacora->save();
+        
         return $cursos;
     }
 

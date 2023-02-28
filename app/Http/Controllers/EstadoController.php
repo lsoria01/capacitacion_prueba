@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Estado;
+use App\Models\Bitacora;
+use Illuminate\Support\Facades\Auth;
 
 class EstadoController extends Controller
 {
@@ -44,6 +46,12 @@ class EstadoController extends Controller
         $estados = new Estado();
         $estados->nombre = $request->nombre;
         $estados->save();
+
+        $bitacora = new Bitacora();
+        $bitacora->id_user = Auth::id();
+        $bitacora->descripcion = "Creó un nuevo estado llamado: ". " " . $request->nombre;
+        $bitacora->save(); 
+
         return $estados;
     }
 
@@ -81,6 +89,12 @@ class EstadoController extends Controller
         $estados = Estado::find($id_estado);
         $estados->nombre = $request->nombre;
         $estados->save();
+
+        $bitacora = new Bitacora();
+        $bitacora->id_user = Auth::id();
+        $bitacora->descripcion = "Actualizó el estado con id: " .$id_estado. " por el nuevo nombre:". " " . $request->nombre;
+        $bitacora->save(); 
+
         return $estados;
     }
 

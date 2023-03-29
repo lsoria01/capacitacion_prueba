@@ -3,18 +3,23 @@
         <b-navbar toggleable="lg" class="background-nav" type="dark">
           <img v-bind:src="'img/logo-header.svg'" class="logo-gobmx">
           <!-- Right aligned nav items -->
-                <b-navbar-nav class="ml-auto">
+                    <b-navbar-nav class="ml-auto">
+                      <b-nav-item-dropdown v-if="rol == 1" text="Catálogos" class="mr-4" right>
+                            <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
+                    </b-nav-item-dropdown>
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
-                        <b-dropdown-item v-if="rol == 1" href="/home">Home</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/kardex">Kardex</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/calificaciones">Validación de cursos externos</b-dropdown-item>
+                    </b-nav-item-dropdown>
+                    <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
+                            <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Capturar cursos</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
@@ -35,7 +40,8 @@
             <b-modal centered id="modal-crear" title="Nuevo Nombramiento" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
-                        <b-col cols="12">
+                        <!-- Antiguo autocomplete -->
+                        <!-- <b-col cols="12">
                           <label>Empleado</label>
                           <vue-bootstrap-typeahead
                             class="mb-4"
@@ -50,8 +56,15 @@
                             <span> <b>Empleado seleccionado:</b> {{empleadoSeleccionado.name}}</span><br>
                             <span> <b>Adscripción:</b> {{empleadoSeleccionado.adscripcion}}</span>
                             <br>
-                          </div>
-                         
+                          </div>                         
+                        </b-col> -->
+                        <b-col cols="12">
+                          <label>Empleado</label>
+                          <b-form-input list="empleado" size="sm" v-model="nombramiento.empleado" autocomplete="off">
+                          </b-form-input>
+                          <datalist id="empleado">
+                            <option v-for="usuario in usuarios">{{ usuario.nombre }}</option>  
+                          </datalist>
                         </b-col>
                         <b-col cols="12" class="mb-4">
                           <label size="sm">Tipo</label>
@@ -82,7 +95,8 @@
             <b-modal centered id="modal-editar" title="Editar Nombramiento" hide-footer>
                     <b-form @submit.prevent="editar(nombramiento_)">
                       <b-row>
-                        <b-col cols="12" class="mb-4" v-if="siEdita == 0">
+                        <!-- Antiguo autocomplete -->
+                        <!-- <b-col cols="12" class="mb-4" v-if="siEdita == 0">
                           <label size="sm">Empleado</label>
                           <b-form-input size="sm" v-model="nombramiento_.empleado" @click="edita()">
                           </b-form-input>
@@ -103,6 +117,14 @@
                             <span> <b>Adscripción:</b> {{empleadoSeleccionado.adscripcion}}</span>
                             <br>
                           </div>
+                        </b-col> -->
+                        <b-col cols="12">
+                          <label>Empleado</label>
+                          <b-form-input list="empleado" size="sm" v-model="nombramiento_.empleado" autocomplete="off">
+                          </b-form-input>
+                          <datalist id="empleado">
+                            <option v-for="usuario in usuarios">{{ usuario.nombre }}</option>  
+                          </datalist>
                         </b-col>
                         <b-col cols="12" class="mb-4">
                           <label size="sm">Tipo</label>
@@ -278,6 +300,8 @@
           name:'',
           adscripcion:''
         },
+        resultado_empleado:'',
+        resultado_empleado_:'',
         totalRows: 1,
         currentPage: 1,
         perPage: 5,
@@ -365,8 +389,17 @@
             })
             .then(value=>{
               if(value){
+                  var empleado = this.nombramiento.empleado
+                  var empleado_filter = this.usuarios.filter(function(e){
+                  return e.nombre === empleado                
+                })
+                console.log(empleado_filter);
+                for( var resultado of empleado_filter){
+                  this.resultado_empleado = resultado.id
+                }
+                console.log(this.resultado_empleado); 
               const params={
-                empleado: this.empleadoSeleccionado.id,
+                empleado: this.resultado_empleado,
                 tipo: this.nombramiento.tipo,
                 fecEmis: this.nombramiento.fecEmis,
                 fecRatif: this.nombramiento.fecRatif
@@ -422,6 +455,55 @@
         })
         .then(value=>{
           if(value){
+              var empleado_ = item.empleado
+              var empleado_filter_ = this.usuarios.filter(function(e){
+              return e.nombre === empleado_                
+            })
+            console.log(empleado_filter_);
+            for( var resultado_ of empleado_filter_){
+              this.resultado_empleado_ = resultado_.id
+            }
+            console.log(this.resultado_empleado_);   
+            const params = {
+              id_nombramiento : item.id_nombramiento,
+              empleado: this.resultado_empleado_,
+              tipo: item.tipo,
+              fecEmis: item.fecEmis,
+              fecRatif: item.fecRatif
+            }
+            axios.put(`/nombramiento/${item.id_nombramiento}`, params)
+              .then(res =>{
+                //ocultar modal
+                this.$bvModal.hide('modal-editar');
+                const index = this.nombramientos.findIndex(
+                  nombramientoBuscar => nombramientoBuscar.id_nombramiento === item.id_nombramiento
+                )
+                this.nombramientos[index] = res.data
+                //mostrar toaster
+                this.$toaster.success('Nombramiento actualizado con éxito')
+                //Limpiamos los campos
+                this.nombramiento_.empleado = '';
+                this.nombramiento_.tipo = '';
+                this.nombramiento_.fecEmis = '',
+                this.nombramiento_.fecRatif = '',
+                
+                this.siEdita = 0;            
+                //Recargamos los cambios
+                axios.get('/nombramiento')
+                .then(res=>{
+                    this.nombramientos = res.data;
+
+                })
+                .catch((error) => {
+                  if (error) {
+                    this.$toaster.error('Ha ocuurido un error')
+                    console.log(error);
+                  }
+                })
+            })
+          }
+          /* Antiguo autocomplete */
+          /* if(value){
             if(this.empleadoSeleccionado.id === ''){
               console.log('El id viene vacío');
               var existente = this.usuarios.filter(function(e){
@@ -511,7 +593,7 @@
                 })
               })
             }
-          }
+          } */
         })
       },
       cancelar(){

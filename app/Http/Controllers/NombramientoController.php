@@ -22,6 +22,7 @@ class NombramientoController extends Controller
             'nombramiento.fecEmis',
             'nombramiento.fecRatif'
         ])
+        ->orderBy("id_nombramiento")
         ->get();
         return $nombramientos;
     }

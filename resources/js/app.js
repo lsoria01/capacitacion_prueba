@@ -14,15 +14,17 @@ Vue.component('login', require('./components/Login.vue').default);
 Vue.component('informe', require('./components/Informe.vue').default);
 Vue.component('consulta', require('./components/Consulta.vue').default);
 Vue.component('usuario', require('./components/Usuario.vue').default);
-Vue.component('home', require('./components/Home.vue').default);
+Vue.component('kardex', require('./components/Kardex.vue').default);
 Vue.component('institucion', require('./components/Institucion.vue').default);
 Vue.component('nivel', require('./components/Nivel.vue').default);
 Vue.component('estado', require('./components/Estado.vue').default);
 Vue.component('grado', require('./components/GradoEstudio.vue').default);
+Vue.component('bienvenida', require('./components/Bienvenida.vue').default);
 
 import VueQr from 'vue-qr'
 Vue.component('vue-qr', VueQr);
 
+//Autocomplete
 import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
 // Global registration
 Vue.component('vue-bootstrap-typeahead', VueBootstrapTypeahead)

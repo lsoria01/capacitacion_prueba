@@ -3,18 +3,23 @@
         <b-navbar toggleable="lg" class="background-nav" type="dark">
           <img v-bind:src="'img/logo-header.svg'" class="logo-gobmx">
           <!-- Right aligned nav items -->
-                <b-navbar-nav class="ml-auto">
+                    <b-navbar-nav class="ml-auto">
+                      <b-nav-item-dropdown v-if="rol == 1" text="Catálogos" class="mr-4" right>
+                            <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
+                    </b-nav-item-dropdown>
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
-                        <b-dropdown-item v-if="rol == 1" href="/home">Home</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/kardex">Kardex</b-dropdown-item>
+                    </b-nav-item-dropdown>
+                    <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
+                            <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Capturar cursos</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
@@ -26,6 +31,13 @@
                 </b-navbar-nav>
         </b-navbar>
         <div class="container my-4">
+          <!-- <div>
+            <b-tabs content-class="mt-3">
+              <b-tab title="Cursos Registrados" active><p>I'm the first tab</p></b-tab>
+              <b-tab title="Second"><p>I'm the second tab</p></b-tab>
+              <b-tab title="Disabled" disabled><p>I'm a disabled tab!</p></b-tab>
+            </b-tabs>
+          </div> -->
             <b-row align-h="end">
               <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Curso</b-button>
             </b-row>
@@ -105,27 +117,110 @@
 
             <!-- Inicio modal editar -->
 
-            <b-modal centered id="modal-editar" title="Editar Puesto" hide-footer>
-                    <b-form @submit.prevent="editar(puesto_)">
-                      <b-row>
-                        <b-col cols="12">
-                          <b-form-input id="descripcion" name="descripcion" v-model="puesto_.descripcion">
-                          </b-form-input>
-                        </b-col>
-                      </b-row>
-                      <b-row class="mt-4 mb-4">
-                          <b-col cols="1">
-                              <b-button class="botones" type="submit">Editar</b-button>
-                          </b-col>
-                      </b-row>
-                    </b-form>
+            <!-- Inicio modal detalles -->
+
+            <b-modal centered id="modal-detalles" scrollable size="xl" title="Detalles del Curso" hide-footer>
+              <b-row>
+                <b-col>
+                  <label for="empleado">Usuario:</label>  
+                  <b-form-input readonly id="empleado" v-model="calificacion_.empleado"></b-form-input>
+                </b-col>
+                <b-col>
+                  <label for="empleado">Curso:</label>
+                  <b-form-input readonly id="empleado" v-model="calificacion_.curso"></b-form-input>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <label for="cursoFin">Curso finalizado:</label>
+                  <p v-if="calificacion_.cursoFin">
+                    <b-form-input readonly id="cursoFin" value="Si"></b-form-input>
+                  </p>
+                  <p v-else>
+                    <b-form-input readonly id="cursoFin" value="No"></b-form-input>
+                  </p>
+                </b-col>
+                <b-col>
+                  <label for="aprobado">Curso Aprobado:</label>
+                  <p v-if="calificacion_.aprobado">
+                    <b-form-input readonly id="aprobado" value="Si"></b-form-input>
+                  </p>
+                  <p v-else>
+                    <b-form-input readonly id="aprobado" value="No"></b-form-input>
+                  </p>
+                </b-col>
+                <b-col>
+                  <label for="cursoOblig">Curso Obligatorio:</label>
+                  <p v-if="calificacion_.cursoOblig">
+                    <b-form-input readonly id="cursoOblig" value="Si"></b-form-input>
+                  </p>
+                  <p v-else>
+                    <b-form-input readonly id="cursoOblig" value="No"></b-form-input>
+                  </p>
+                </b-col>
+                <b-col>
+                  <label for="calif">Calificación:</label>
+                  <b-form-input readonly id="calif" v-model="calificacion_.calif"></b-form-input>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <label for="hrsCap">Horas de Capacitación:</label>
+                  <b-form-input readonly id="hrsCap" v-model="calificacion_.hrsCap"></b-form-input>
+                </b-col>
+                <b-col>
+                  <label for="fecha">Fecha de finalización:</label>
+                  <b-form-input readonly id="fecha" v-model="calificacion_.fecha"></b-form-input>
+                </b-col>
+                <b-col>
+                  <label for="cursoOblig">Tipo de Curso:</label>
+                  <p v-if="calificacion_.cursoIntExt">
+                    <b-form-input readonly id="cursoOblig" value="Externo"></b-form-input>
+                  </p>
+                  <p v-else>
+                    <b-form-input readonly id="cursoOblig" value="Interno"></b-form-input>
+                  </p>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <label for="id_institucion">Institución que imparte:</label>
+                  <b-form-input readonly id="id_institucion" v-model="calificacion_.id_institucion"></b-form-input>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <label for="difundidoDP">Difundido por la Dirección de Profesionalización:</label>
+                  <p v-if="calificacion_.difundidoDP">
+                    <b-form-input readonly id="difundidoDP" value="Si"></b-form-input>
+                  </p>
+                  <p v-else>
+                    <b-form-input readonly id="difundidoDP" value="No"></b-form-input>
+                  </p>
+                </b-col>
+                <b-col>
+                  <label for="modalidad">Modalidad:</label>
+                  <b-form-input readonly id="modalidad" v-model="calificacion_.modalidad"></b-form-input>
+                </b-col>
+              </b-row>
+              <hr>
+              <b-row>
+                <b-col cols="12">
+                  <label>Constancia:</label>
+                  <br> 
+                  <a :href="calificacion_.urlConstancia" target="blank">Descargar constancia</a>
+                  <!-- <iframe src='storage/constancias/IDkmXqU6mKX4RaUNgn2eiBzANTRum2A3v7CXktAY.pdf' height="100%" width="100%" scrolling="auto"></iframe> -->
+                </b-col>
+              </b-row>
+              <br>
             </b-modal>
 
-
+            <b-modal centered id="modal-editar" title="Editar Puesto" hide-footer>
+                    
+            </b-modal>
 
             <b-container fluid>
                 <!-- User Interface controls -->
-
                 <b-row>
                     <b-col cols="3" class="mb-4">
                         <b-form-group
@@ -173,9 +268,12 @@
                 </template>
 
                 <template #cell(actions)="row">
-                    <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-editar>
-                        Editar
+                    <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-detalles>
+                        Detalles
                     </b-button>
+                    <b-button size="sm" class="botones" @click="validar(row.item)" v-if="row.item.id_estatus == 'Registrado'">
+                        Validar
+                    </b-button>                    
                 </template>
 
                 <template #row-details="row">
@@ -239,20 +337,51 @@
           { key: 'empleado', label: 'Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'curso', label: 'Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'calif', label: 'Calificación', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'hrsCap', label: 'Horas de Capacitación', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'fecha', label: 'Fecha', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'id_estatus', label: 'Estatus', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
+        link: 'http://google.com',
         msgResult:'',
         rol:'',
         usrActual:'',
         calificaciones:[],
-        puesto:{
-          descripcion:''
+        calificacion:{
+          empleado:'',
+          curso:'',
+          cursoFin:'',
+          aprobado:'',
+          cursoOblig:'',
+          calif:'',
+          hrsCap:'',
+          fecha:'',
+          anio:'',
+          cursoIntExt:'',
+          id_institucion:'',
+          difundidoDP:'',
+          modalidad:'',
+          urlConstancia:'',
+          nombreConstancia:'',
+          id_estatus:''
         },
-        puesto_:{
-          id_puesto:'',
-          descripcion:''
+        calificacion_:{
+          id_calificacion:'',
+          empleado:'',
+          curso:'',
+          cursoFin:'',
+          aprobado:'',
+          cursoOblig:'',
+          calif:'',
+          hrsCap:'',
+          fecha:'',
+          anio:'',
+          cursoIntExt:'',
+          id_institucion:'',
+          difundidoDP:'',
+          modalidad:'',
+          urlConstancia:'',
+          nombreConstancia:'',
+          id_estatus:''
         },
         usuario: null,
         usuarios: [
@@ -379,8 +508,23 @@
             })
       },
       cargarDatos(item){
-        this.puesto_.id_puesto = item.id_puesto,
-        this.puesto_.descripcion = item.descripcion
+        this.calificacion_.id_calificacion = item.id_calificacion ,
+        this.calificacion_.empleado = item.empleado,
+        this.calificacion_.curso = item.curso,
+        this.calificacion_.cursoFin = item.cursoFin,
+        this.calificacion_.aprobado = item.aprobado,
+        this.calificacion_.cursoOblig = item.cursoOblig,
+        this.calificacion_.calif = item.calif,
+        this.calificacion_.hrsCap = item.hrsCap,
+        this.calificacion_.fecha = item.fecha,
+        this.calificacion_.anio = item.anio,
+        this.calificacion_.cursoIntExt = item.cursoIntExt,
+        this.calificacion_.id_institucion = item.id_institucion,
+        this.calificacion_.difundidoDP = item.difundidoDP,
+        this.calificacion_.modalidad = item.modalidad,
+        this.calificacion_.urlConstancia = item.urlConstancia,
+        this.calificacion_.nombreConstancia = item.nombreConstancia,
+        this.calificacion_.id_estatus = item.id_estatus
       },
       editar(item){
         this.msgResult='';
@@ -428,9 +572,52 @@
           }
         })
       },
+      validar(item){
+          this.$bvModal.msgBoxConfirm('¿Está seguro de validar el curso? esta acción no se puede revertir',
+              {
+                title: 'Confirmar autorización',
+                okTitle: 'Si',
+                cancelTitle: 'Cancelar',
+                centered: true,
+                footerClass: 'p-2',
+                hideHeaderClose: false,
+              })
+              .then(value => {
+                    if (value){
+                        //iniciar spinner
+                        var loader =  this.$loading.show({
+                        container: null
+                        });
+                        console.log(item.id_calificacion);
+                        axios.post(`calificacion/validar/${item.id_calificacion}`)
+                        .then(res => {
+                            console.log(res.data);
+                            //ocultar spinner
+                            loader.hide();
+                            //mostrar toaster
+                            this.$toaster.success('¡Curso validado con éxito!')
+                            //Refrescamos cambios
+                            axios.get('/calificacion')
+                            .then(res=>{
+                                this.calificaciones = res.data;
+                            })
+                                                        
+                            })
+                            .catch((error) => {
+                                      if (error) {
+                                          this.$toaster.error('Ha ocurrido un error :( ')
+                                          //Ocultar Overlay
+                                          loader.hide();
+                                          console.log(error);
+                                      }
+                            });                 
+                    }               
+              })
+                
+      },
       cancelar(){
             this.$bvModal.hide('modal-editar');
-        },
+      },
       logout() {
             axios.post('/logout')
             .then(res=>{

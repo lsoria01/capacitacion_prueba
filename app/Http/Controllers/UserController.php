@@ -144,4 +144,9 @@ class UserController extends Controller
         $rol = Auth::user()->rol;
         return $rol;
     }
+
+    public function idUsrActual(){
+        $idUsrActual = Auth::user()->id;
+        return $idUsrActual;
+    }
 }

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="235.5" height="32.5" viewBox="0 0 235.5 32.5">
+  <g id="Grupo_9" data-name="Grupo 9" transform="translate(-785 -234)">
+    <g id="logo" transform="translate(784.998 234)">
+      <g id="Grupo_8" data-name="Grupo 8">
+        <g id="Grupo_7" data-name="Grupo 7">
+          <g id="Grupo_6" data-name="Grupo 6">
+            <g id="Grupo_4" data-name="Grupo 4">
+              <g id="Grupo_2" data-name="Grupo 2">
+                <g id="Grupo_1" data-name="Grupo 1" transform="translate(0.82 0.82)">
+                  <ellipse id="Elipse_1" data-name="Elipse 1" cx="4.332" cy="4.341" rx="4.332" ry="4.341" transform="translate(0.017 0.016)" fill="#fff"/>
+                  <ellipse id="Elipse_2" data-name="Elipse 2" cx="4.332" cy="4.341" rx="4.332" ry="4.341" transform="translate(20.866 20.873)" fill="#fff"/>
+                </g>
+                <path id="Trazado_1" data-name="Trazado 1" d="M21.727,21.735a6.07,6.07,0,0,1,8.3-.27A15.594,15.594,0,0,0,9.715,1.141,6.068,6.068,0,0,1,1.149,9.707,15.593,15.593,0,0,0,21.456,30.039,6.081,6.081,0,0,1,21.727,21.735ZM11.307,19.9a6.071,6.071,0,1,1,8.582,0,6.074,6.074,0,0,1-8.582,0Z" fill="#fff"/>
+                <ellipse id="Elipse_3" data-name="Elipse 3" cx="3.889" cy="3.897" rx="3.889" ry="3.897" transform="translate(11.709 11.709)" fill="#fff"/>
+              </g>
+            </g>
+            <path id="Trazado_3" data-name="Trazado 3" d="M147.5,1V32" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          </g>
+        </g>
+      </g>
+    </g>
+    <text id="CENTRO_FEDERAL_DE_CONCILIACION_Y_REGISTRO_LABORAL" data-name="CENTRO FEDERAL
+DE CONCILIACION
+Y REGISTRO LABORAL" transform="translate(829.5 235)" fill="#fff" stroke="#fff" stroke-width="1" font-size="8" font-family="Montserrat-ExtraLight, Montserrat" font-weight="200"><tspan x="0" y="8">CENTRO FEDERAL</tspan><tspan x="0" y="18">DE CONCILIACION</tspan><tspan x="0" y="28">Y REGISTRO LABORAL</tspan></text>
+    <text id="CAPACITACION" transform="translate(952.5 245)" fill="#fff" stroke="#fff" stroke-width="1" font-size="8" font-family="Montserrat-ExtraLight, Montserrat" font-weight="200"><tspan x="0" y="8">CAPACITACION</tspan></text>
+  </g>
+</svg>

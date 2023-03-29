@@ -28,7 +28,10 @@ class CrearTablaCalificacion extends Migration
             $table->unsignedBigInteger('id_institucion')->nullable();
             $table->boolean('difundidoDP')->nullable();
             $table->string('modalidad')->nullable();
-            $table->integer('estatus')->nullable();
+            $table->string('urlConstancia')->nullable();
+            $table->string('nombreConstancia')->nullable();
+            $table->unsignedBigInteger('id_estatus')->nullable();
+            $table->foreign('id_estatus')->references('id_estatus')->on('estatus');
             $table->timestamps();
             $table->softDeletes();
             $table->charset = 'utf8mb4';

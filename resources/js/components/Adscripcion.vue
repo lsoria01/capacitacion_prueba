@@ -4,9 +4,7 @@
           <img v-bind:src="'img/logo-header.svg'" class="logo-gobmx">
           <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
-                    <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
-                        <b-dropdown-item v-if="rol == 1" href="/home">Home</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
+                  <b-nav-item-dropdown v-if="rol == 1" text="Catálogos" class="mr-4" right>
                         <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
@@ -15,7 +13,14 @@
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
-                    </b-nav-item-dropdown>
+                </b-nav-item-dropdown>
+                <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
+                        <b-dropdown-item v-if="rol == 1" href="/kardex">Kardex</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/calificaciones">Validación de cursos externos</b-dropdown-item>
+                </b-nav-item-dropdown>
+                <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
+                        <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Capturar cursos</b-dropdown-item>
+                </b-nav-item-dropdown>
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
                         <template #button-content>

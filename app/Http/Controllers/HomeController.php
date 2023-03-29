@@ -23,6 +23,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        //return view('home');
+
+        if (auth()->user()->rol == 1){
+            return redirect('/bienvenida');
+        }
+        if (auth()->user()->rol == 2){
+            return redirect('/kardex');
+        }
     }
 }

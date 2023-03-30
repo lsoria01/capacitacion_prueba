@@ -35,10 +35,9 @@
           <b-row align-h="end">
             <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Capturar nuevo curso</b-button>
           </b-row>
-          <b-row align-h="end">
+          <!-- <b-row align-h="end">
             <b-button size="sm" class="botones mb-4" v-b-modal.modal-archivos>Capturar nuevo curso-constancia</b-button>
-          </b-row>
-
+          </b-row> -->
           
           <h3 style="color:#285C4D">Mis cursos capturados</h3>
           <hr>
@@ -50,7 +49,7 @@
             <b-form @submit.prevent="save">
               <b-row>
                 <b-col cols="12">
-                  <b-form-group label="Constancia:" >
+                  <b-form-group label="Constancia:">
                     <b-form-file placeholder="Seleccione el archivo PDF a subir" @change="select_file"></b-form-file>
                   </b-form-group>
                 </b-col>
@@ -66,12 +65,13 @@
           <!-- Inicio modal crear -->
 
           <b-modal centered id="modal-crear" size="xl" title="Nuevo Curso" hide-footer>
-                  <b-form @submit.prevent="crear">
+                  <b-form @submit.prevent="crear" enctype="multipart/form-data">
                     <b-row>
                       <b-col cols="9">
                           <label for="curso">Nombre del curso:</label>
                           <b-form-input list="curso" v-model="miCurso.curso" autocomplete="off">
                           </b-form-input>
+                          <span class="span">Seleccione un curso de la lista</span>
                           <datalist id="curso">
                             <option v-for="curso in cursos">{{ curso.nombre }}</option>  
                           </datalist>                          
@@ -118,6 +118,7 @@
                           <label for="">Nombre de la Institución:</label>
                           <b-form-input list="id_institucion" v-model="miCurso.id_institucion" autocomplete="off">
                           </b-form-input>
+                          <span class="span">Seleccione una Institución de la lista</span>
                           <datalist id="id_institucion">
                             <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
                           </datalist> 
@@ -135,7 +136,7 @@
                       </b-col>
                       <b-col cols="6">
                         <b-form-group label="Constancia:" >
-                          <b-form-file placeholder="Seleccione el archivo PDF a subir"></b-form-file>
+                          <b-form-file placeholder="Seleccione el archivo PDF a subir" @change="select_file"></b-form-file>
                         </b-form-group>
                       </b-col>
                     </b-row>
@@ -168,8 +169,8 @@
 
           <!-- Inicio modal Detalles -->
 
-          <b-modal centered id="modal-detalles" size="xl" title="Detalles del Curso" hide-footer>
-                  <b-form @submit.prevent="crear">
+          <b-modal centered id="modal-detalles" size="xl" title="Detalles del Curso" ok-only>
+                  <b-form>
                     <b-row>
                       <b-col cols="9">
                           <label for="curso">Nombre del curso:</label>
@@ -212,13 +213,13 @@
                     <br>
                     <b-row>
                         <b-col cols="2">
-                          <label for="">Curso Interno o Externo:</label>
+                          <label>Curso Interno o Externo:</label>
                             <b-form-checkbox v-model="miCurso_.cursoIntExt" switch>
                             <b v-if="miCurso_.cursoIntExt"> Externo</b> <b v-else>Interno</b>
                           </b-form-checkbox>
                         </b-col>
-                        <b-col cols="9" v-if = "miCurso_.cursoIntExt == 1">
-                          <label for="">Nombre de la Institución:</label>
+                        <b-col cols="9">
+                          <label>Nombre de la Institución:</label>
                           <b-form-input list="id_institucion" v-model="miCurso_.id_institucion" autocomplete="off" readonly>
                           </b-form-input>
                           <datalist id="id_institucion">
@@ -242,15 +243,10 @@
                         <b-form-input v-model="miCurso_.modalidad" readonly></b-form-input>
                       </b-col>
                       <b-col cols="6">
-                        <b-form-group label="Constancia:" >
-                          <b-form-file placeholder="Sin Constancia" disabled></b-form-file>
-                        </b-form-group>
+                        <label>Constancia:</label> <br>
+                        <a v-if="miCurso_.urlConstancia" :href="miCurso_.urlConstancia" target="blank">Descargar constancia</a>
+                        <p v-else>Sin constancia</p>
                       </b-col>
-                    </b-row>
-                    <b-row class="mt-4 mb-4">
-                        <b-col cols="1">
-                            <b-button class="botones" type="submit">Guardar</b-button>
-                        </b-col>
                     </b-row>
                   </b-form>
           </b-modal>
@@ -391,7 +387,7 @@ export default {
         hrsCap:'',
         fecha:'',
         anio:'',
-        cursoIntExt:false,
+        cursoIntExt:0,
         id_institucion:'',
         difundidoDP:'',
         modalidad:'',
@@ -515,6 +511,16 @@ export default {
         console.log("response", res.data)
       })
     },
+    final(){
+      let formData = new FormData();
+      formData.append('empleado', this.idUsrActual);
+      formData.append('file', this.archivo);
+      axios.post('/calificacion', formData)
+        .then(response =>{
+          console.log(response.data);
+        })
+
+    },
     info(item, index, button) {
       this.infoModal.title = `Row index: ${index}`
       this.infoModal.content = JSON.stringify(item, null, 2)
@@ -588,8 +594,25 @@ export default {
               modalidad: this.miCurso.modalidad,
               id_estatus: 1              
             }
-            console.log(params);
-            axios.post('/calificacion', params)
+            //envío de params por formData
+            let formData = new FormData();
+            formData.append('empleado', this.idUsrActual);
+            formData.append('curso', this.resultado_curso);
+            formData.append('cursoFin', this.miCurso.aprobado);
+            formData.append('aprobado', this.miCurso.aprobado);
+            formData.append('cursoOblig', this.miCurso.cursoOblig);
+            formData.append('calif', this.miCurso.calif);
+            formData.append('hrsCap', this.miCurso.hrsCap);
+            formData.append('fecha', this.miCurso.fecha);
+            formData.append('anio', this.miCurso.anio);
+            formData.append('cursoIntExt', this.miCurso.cursoIntExt);
+            formData.append('id_institucion', this.resultado_institucion);
+            formData.append('difundidoDP', this.miCurso.difundidoDP);
+            formData.append('modalidad', this.miCurso.modalidad);
+            formData.append('id_estatus', 1);
+            formData.append('file', this.archivo);
+            //console.log(params);
+            axios.post('/calificacion', formData)
             .then(res=>{
               //ocultar modal
               this.$bvModal.hide('modal-crear');
@@ -721,5 +744,9 @@ color: #fff !important;
 }
 .custom-file-input:lang(en) ~ .custom-file-label::after {
   content: 'Browse1';
+}
+.span{
+  color:#B38E5D;
+  font-size:14px;
 }
 </style>

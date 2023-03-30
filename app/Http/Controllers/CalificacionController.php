@@ -60,22 +60,6 @@ class CalificacionController extends Controller
      */
     public function store(Request $request)
     {
-        /* $calificaciones = new Calificacion();
-
-        if($request->hasFile('urlConstancia')){
-
-            $request->validate([
-                'urlConstancia' => 'required|mimes:pdf|max:10240'
-             ]);
-            $calificaciones->urlConstancia = $request->urlConstancia->store('constancias');
-            $calificaciones->nombreConstancia = $request->file('urlConstancia')->getClientOriginalName();
-        }     
-        
-        $calificaciones->modalidad = $request->modalidad;
-        $calificaciones->save();        
-
-        return $calificaciones; */
-
         $calificaciones = new Calificacion();
         $calificaciones-> empleado = $request->empleado;
         $calificaciones-> curso = $request->curso;
@@ -87,7 +71,12 @@ class CalificacionController extends Controller
         $calificaciones-> fecha = $request->fecha;
         $calificaciones-> anio = $request->anio;
         $calificaciones-> cursoIntExt = $request->cursoIntExt;
-        $calificaciones-> id_institucion = $request->id_institucion;
+        if($request->cursoIntExt == 0){
+            $calificaciones-> id_institucion = 1;
+        }
+        else{
+            $calificaciones-> id_institucion = $request->id_institucion;
+        }        
         $calificaciones-> difundidoDP = $request->difundidoDP;
         $calificaciones-> modalidad = $request->modalidad;
         try{
@@ -102,8 +91,6 @@ class CalificacionController extends Controller
                 $storage = 'storage';
                 $public = 'public';
                 $calificaciones->urlConstancia = str_replace($public, $storage, $url);
-
-                //$calificaciones->urlConstancia = $file->store('public/constancias');
             }
 
         }catch(\Exception $e){
@@ -228,6 +215,7 @@ class CalificacionController extends Controller
             'institucion.siglas as id_institucion',
             'calificacion.difundidoDP',
             'calificacion.modalidad',
+            'calificacion.urlConstancia',
             'estatus.nombre as id_estatus'          
         ])
         ->where('users.id', Auth::user()->id)

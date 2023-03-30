@@ -208,7 +208,8 @@
                 <b-col cols="12">
                   <label>Constancia:</label>
                   <br> 
-                  <a :href="calificacion_.urlConstancia" target="blank">Descargar constancia</a>
+                  <a v-if="calificacion_.urlConstancia" :href="calificacion_.urlConstancia" target="blank">Descargar constancia</a>
+                  <p v-else>Sin constancia</p>
                   <!-- <iframe src='storage/constancias/IDkmXqU6mKX4RaUNgn2eiBzANTRum2A3v7CXktAY.pdf' height="100%" width="100%" scrolling="auto"></iframe> -->
                 </b-col>
               </b-row>

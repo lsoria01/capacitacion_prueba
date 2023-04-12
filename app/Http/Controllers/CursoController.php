@@ -19,11 +19,18 @@ class CursoController extends Controller
     public function index()
     {
         $cursos = Curso::leftJoin('institucion', 'curso.id_institucion', '=', 'institucion.id_institucion')
+        ->leftJoin('estatus', 'curso.id_estatus', '=', 'estatus.id_estatus')
         ->select([
             'curso.id_curso',
             'curso.nombre',
             'curso.fecha_inicio',
             'curso.fecha_fin',
+            'curso.cursoOblig',
+            'curso.hrsCap',
+            'curso.cursoIntExt',
+            'curso.difundidoDP',
+            'curso.modalidad',
+            'estatus.nombre as id_estatus',
             'institucion.descripcion as id_institucion',
             'curso.folio'
         ])
@@ -54,6 +61,12 @@ class CursoController extends Controller
         $cursos->nombre = $request->nombre;
         $cursos->fecha_inicio = $request->fecha_inicio;
         $cursos->fecha_fin = $request->fecha_fin;
+        $cursos->cursoOblig = $request->cursoOblig;
+        $cursos->hrsCap = $request->hrsCap;
+        $cursos->cursoIntExt = $request->cursoIntExt;
+        $cursos->difundidoDP = $request->difundidoDP;
+        $cursos->modalidad = $request->modalidad;
+        $cursos->id_estatus = $request->id_estatus;
         $cursos->id_institucion = $request->id_institucion;
         $cursos->folio = $request->folio;
         $cursos->save();
@@ -142,5 +155,17 @@ class CursoController extends Controller
         ->get();
         return $instituciones; 
 
+    }
+
+    public function validar($id_curso){
+        $curso = Curso::find($id_curso);
+        if($curso->id_estatus == 1){
+            $curso->id_estatus = 2;
+            $curso->save();
+            return ("Curso validado con éxito");
+        }else{
+            return ("Error desde el controller");
+            //mensaje del fracaso de la finalización
+        }
     }
 }

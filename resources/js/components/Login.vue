@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-navbar toggleable="lg" class="background-nav" type="dark">
-        <img v-bind:src="'img/logo-header.svg'" class="logo-gobmx">
+            <a href="/home"><img v-bind:src="'img/logo-header.svg'" class="logo-gobmx"></a>
         </b-navbar>
         <!-- Alas de fondo -->
         <b-img left v-bind:src="'img/alas5.png'" alt="Escudo" class="alas-login"></b-img>

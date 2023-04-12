@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-navbar toggleable="lg" class="background-nav" type="dark">
-          <img v-bind:src="'img/logo-header.svg'" class="logo-gobmx">
+          <a href="/home"><img v-bind:src="'img/logo-header.svg'" class="logo-gobmx"></a>
           <!-- Right aligned nav items -->
                     <b-navbar-nav class="ml-auto">
                       <b-nav-item-dropdown v-if="rol == 1" text="Catálogos" class="mr-4" right>
@@ -19,7 +19,7 @@
                             <b-dropdown-item v-if="rol == 1" href="/calificaciones">Validación de cursos externos</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
-                            <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Capturar cursos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Registrar cursos externos</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
@@ -186,7 +186,7 @@
                 </b-row>
 
                 <!-- Main table element -->
-                <b-table
+                <b-table striped hover
                 class="table table-sm"
                 :items="usuarios"
                 :fields="fields"

@@ -15,25 +15,22 @@ class CalificacionController extends Controller
      */
     public function index()
     {
-        $calificaciones = Calificacion::leftJoin('curso', 'calificacion.curso', '=', 'curso.id_curso')
-        ->leftJoin('users', 'calificacion.empleado', '=', 'users.id')
+        $calificaciones = Calificacion::leftJoin('curso', 'calificacion.id_curso', '=', 'curso.id_curso')
+        ->leftJoin('users', 'calificacion.id_user', '=', 'users.id')
         ->leftJoin('institucion', 'calificacion.id_institucion', '=', 'institucion.id_institucion')
         ->leftJoin('estatus', 'calificacion.id_estatus', '=', 'estatus.id_estatus')
         ->select([
             'calificacion.id_calificacion',
-            'users.name as empleado',
-            'curso.nombre as curso',
+            'users.name as id_user',
+            'curso.nombre as id_curso',
+            'curso.cursoOblig as cursoOblig',
+            'curso.hrsCap as hrsCap',
             'calificacion.cursoFin',
             'calificacion.aprobado',
-            'calificacion.cursoOblig',
             'calificacion.calif',
-            'calificacion.hrsCap',
             'calificacion.fecha',
             'calificacion.anio',
-            'calificacion.cursoIntExt',
             'institucion.siglas as id_institucion',
-            'calificacion.difundidoDP',
-            'calificacion.modalidad',
             'calificacion.urlConstancia',
             'estatus.nombre as id_estatus'          
         ])
@@ -61,15 +58,13 @@ class CalificacionController extends Controller
     public function store(Request $request)
     {
         $calificaciones = new Calificacion();
-        $calificaciones-> empleado = $request->empleado;
-        $calificaciones-> curso = $request->curso;
+        $calificaciones-> id_user = $request->id_user;
+        $calificaciones-> id_curso = $request->id_curso;
         $calificaciones-> cursoFin = $request->cursoFin;
         $calificaciones-> aprobado = $request->aprobado;
-        $calificaciones-> cursoOblig = $request->cursoOblig;
         $calificaciones-> calif = $request->calif;
-        $calificaciones-> hrsCap = $request->hrsCap;
         $calificaciones-> fecha = $request->fecha;
-        $calificaciones-> anio = $request->anio;
+        $calificaciones-> anio = $request->anio;   
         $calificaciones-> cursoIntExt = $request->cursoIntExt;
         if($request->cursoIntExt == 0){
             $calificaciones-> id_institucion = 1;
@@ -196,27 +191,25 @@ class CalificacionController extends Controller
     }
 
     public function califAuth(){
-        $calificaciones = Calificacion::leftJoin('curso', 'calificacion.curso', '=', 'curso.id_curso')
-        ->leftJoin('users', 'calificacion.empleado', '=', 'users.id')
+        $calificaciones = Calificacion::leftJoin('curso', 'calificacion.id_curso', '=', 'curso.id_curso')
+        ->leftJoin('users', 'calificacion.id_user', '=', 'users.id')
         ->leftJoin('institucion', 'calificacion.id_institucion', '=', 'institucion.id_institucion')
         ->leftJoin('estatus', 'calificacion.id_estatus', '=', 'estatus.id_estatus')
         ->select([
             'calificacion.id_calificacion',
-            'users.name as empleado',
-            'curso.nombre as curso',
+            'users.name as id_user',
+            'curso.nombre as id_curso',
             'calificacion.cursoFin',
             'calificacion.aprobado',
-            'calificacion.cursoOblig',
             'calificacion.calif',
-            'calificacion.hrsCap',
             'calificacion.fecha',
             'calificacion.anio',
-            'calificacion.cursoIntExt',
             'institucion.siglas as id_institucion',
-            'calificacion.difundidoDP',
-            'calificacion.modalidad',
             'calificacion.urlConstancia',
-            'estatus.nombre as id_estatus'          
+            'estatus.nombre as id_estatus',
+            'curso.hrsCap as hrsCap',    
+            'curso.modalidad as modalidad'
+
         ])
         ->where('users.id', Auth::user()->id)
         ->orderBy("id_calificacion")

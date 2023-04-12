@@ -114,7 +114,8 @@ Route::get('/nombramientoAuth', 'UserController@nombramientoAuth')->name('nombra
 Route::get('/usrActual', 'UserController@usrActual')->name('usrActual'); //Nombre del usuario autenticado
 Route::get('/rol', 'UserController@rol')->name('rol'); //Rol del usuario atenticado
 Route::get('/nombreInstituciones', 'CursoController@nombreInstituciones')->name('nombreInstituciones'); //Nombre de las instituciones existentes
-Route::post('calificacion/validar/{id_calificacion}', 'CalificacionController@validar')->name('validar'); //Valida el curso
+Route::post('calificacion/validar/{id_calificacion}', 'CalificacionController@validar')->name('validar'); //Valida el curso-calificación
+Route::post('curso/validar/{id_curso}', 'CursoController@validar')->name('validar'); //Valida el curso
 Route::get('/idUsrActual', 'UserController@idUsrActual')->name('idUsrActual'); //Id del usuario autenticado
 Route::get('/califAuth', 'CalificacionController@califAuth')->name('califAuth'); //Calificaciones del usuario atenticado califAuth
 

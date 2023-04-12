@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-navbar toggleable="lg" class="background-nav" type="dark">
-          <img v-bind:src="'img/logo-header.svg'" class="logo-gobmx">
+          <a href="/home"><img v-bind:src="'img/logo-header.svg'" class="logo-gobmx"></a>
           <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
@@ -14,7 +14,7 @@
                         <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
+                        <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
@@ -55,7 +55,7 @@
                 </b-row>
 
                 <!-- Main table element -->
-                <b-table
+                <b-table striped hover
                 class="table table-sm"
                 :items="bitacoras"
                 :fields="fields"

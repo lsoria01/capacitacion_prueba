@@ -1,7 +1,7 @@
 <template>
 <div>
     <b-navbar toggleable="lg" class="background-nav" type="dark">
-        <img v-bind:src="'img/logo-header.svg'" class="logo-gobmx">
+        <a href="/home"><img v-bind:src="'img/logo-header.svg'" class="logo-gobmx"></a>
         <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
                 <b-nav-item-dropdown v-if="rol == 1" text="Catálogos" class="mr-4" right>
@@ -13,14 +13,14 @@
                         <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
+                        <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
                         <b-dropdown-item v-if="rol == 1" href="/kardex">Kardex</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/calificaciones">Validación de cursos externos</b-dropdown-item>
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
-                        <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Capturar cursos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Registrar cursos externos</b-dropdown-item>
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown right>
                     <!-- Using 'button-content' slot -->
@@ -34,7 +34,7 @@
     <br> <br> <br>
     <center><h1>Bienvenidos al Sistema: <br> "Expediente Electrónico de Capacitación"</h1></center>
     <div class="col d-flex justify-content-center">
-        <b-card
+        <b-card 
             class="text-center mt-4"
         >
             <b-card-text class="text-center">
@@ -108,5 +108,8 @@ margin-right: auto;
 }
 h1{
 color: #285C4D !important;
+}
+.card{
+    border: none;
 }
 </style>

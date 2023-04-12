@@ -13,5 +13,6 @@ class EstatusSeeder extends Seeder
     {
         DB::table('estatus')->insert(['nombre'=> 'Registrado']);
         DB::table('estatus')->insert(['nombre'=> 'Validado']);
+        DB::table('estatus')->insert(['nombre'=> 'Rechazado']);
     }
 }

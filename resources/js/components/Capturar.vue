@@ -1,7 +1,7 @@
 <template>
   <div>
       <b-navbar toggleable="lg" class="background-nav" type="dark">
-        <img v-bind:src="'img/logo-header.svg'" class="logo-gobmx">
+        <a href="/home"><img v-bind:src="'img/logo-header.svg'" class="logo-gobmx"></a>
         <!-- Right aligned nav items -->
               <b-navbar-nav class="ml-auto">
                   <b-nav-item-dropdown v-if="rol == 1" text="Catálogos" class="mr-4" right>
@@ -13,14 +13,14 @@
                           <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                           <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                           <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
-                          <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
+                          <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
                   </b-nav-item-dropdown>
                   <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
                           <b-dropdown-item v-if="rol == 1" href="/kardex">Kardex</b-dropdown-item>
                           <b-dropdown-item v-if="rol == 1" href="/calificaciones">Validación de cursos externos</b-dropdown-item>
                   </b-nav-item-dropdown>
                   <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
-                          <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Capturar cursos</b-dropdown-item>
+                          <b-dropdown-item class="activo active" v-if="rol == 1 || rol == 2" href="/adscripciones">Registrar cursos externos</b-dropdown-item>
                   </b-nav-item-dropdown>
                   <b-nav-item-dropdown right>
                       <!-- Using 'button-content' slot -->
@@ -33,13 +33,13 @@
       </b-navbar>
       <div class="container my-4">
           <b-row align-h="end">
-            <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Capturar nuevo curso</b-button>
+            <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Registrar curso</b-button>
           </b-row>
           <!-- <b-row align-h="end">
             <b-button size="sm" class="botones mb-4" v-b-modal.modal-archivos>Capturar nuevo curso-constancia</b-button>
           </b-row> -->
           
-          <h3 style="color:#285C4D">Mis cursos capturados</h3>
+          <h3 style="color:#285C4D">Mis cursos registrados</h3>
           <hr>
           <br> <br>
 
@@ -174,7 +174,7 @@
                     <b-row>
                       <b-col cols="9">
                           <label for="curso">Nombre del curso:</label>
-                          <b-form-input list="curso" v-model="miCurso_.curso" autocomplete="off" readonly>
+                          <b-form-input list="curso" v-model="miCurso_.id_curso" autocomplete="off" readonly>
                           </b-form-input>
                           <datalist id="curso">
                             <option v-for="curso in cursos">{{ curso.nombre }}</option>  
@@ -279,7 +279,7 @@
               </b-row>
 
               <!-- Main table element -->
-              <b-table
+              <b-table striped hover
               class="table table-sm"
               :items="misCursos"
               :fields="fields"
@@ -364,7 +364,7 @@ export default {
     return {
       fields: [
           { key: 'id_calificacion', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'curso', label: 'Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'id_curso', label: 'Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'calif', label: 'Calificación', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'hrsCap', label: 'Hrs de Cap.', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'fecha', label: 'Fecha', class: 'text-center small', sortable: true, sortDirection: 'desc' },
@@ -378,8 +378,8 @@ export default {
       idUsrActual:'',
       misCursos:[],
       miCurso:{
-        empleado:'',
-        curso:'',
+        id_user:'',
+        id_curso:'',
         cursoFin:'',
         aprobado:false,
         cursoOblig:false,
@@ -396,8 +396,8 @@ export default {
         id_estatus:''
       },
       miCurso_:{
-        empleado:'',
-        curso:'',
+        id_user:'',
+        id_curso:'',
         cursoFin:'',
         aprobado:false,
         cursoOblig:false,
@@ -513,7 +513,7 @@ export default {
     },
     final(){
       let formData = new FormData();
-      formData.append('empleado', this.idUsrActual);
+      formData.append('id_user', this.idUsrActual);
       formData.append('file', this.archivo);
       axios.post('/calificacion', formData)
         .then(response =>{
@@ -554,7 +554,7 @@ export default {
           .then(value=>{
             if(value){
               //valor del id-curso
-              var curso = this.miCurso.curso
+              var curso = this.miCurso.id_curso
               var curso_filter = this.cursos.filter(function(e){
               return e.nombre === curso                
               })
@@ -579,8 +579,8 @@ export default {
               this.miCurso.anio = fecha[0];
               //console.log(this.miCurso.anio);   
             const params={
-              empleado: this.idUsrActual,
-              curso: this.resultado_curso,
+              id_user: this.idUsrActual,
+              id_curso: this.resultado_curso,
               cursoFin: this.miCurso.aprobado,
               aprobado: this.miCurso.aprobado,
               cursoOblig: this.miCurso.cursoOblig,
@@ -596,8 +596,8 @@ export default {
             }
             //envío de params por formData
             let formData = new FormData();
-            formData.append('empleado', this.idUsrActual);
-            formData.append('curso', this.resultado_curso);
+            formData.append('id_user', this.idUsrActual);
+            formData.append('id_curso', this.resultado_curso);
             formData.append('cursoFin', this.miCurso.aprobado);
             formData.append('aprobado', this.miCurso.aprobado);
             formData.append('cursoOblig', this.miCurso.cursoOblig);
@@ -620,7 +620,7 @@ export default {
               //mostrar toaster
               this.$toaster.success('Curso creado con éxito!')
               //Limpiamos los campos
-              this.miCurso.curso = '',
+              this.miCurso.id_curso = '',
               this.resultado_curso = '',
               this.miCurso.aprobado = '',
               this.miCurso.cursoOblig = '',
@@ -648,8 +648,8 @@ export default {
     },
     cargarDatos(item){
       this.miCurso_.id_calificacion = item.id_calificacion,
-      this.miCurso_.empleado = item.empleado,
-      this.miCurso_.curso = item.curso,
+      this.miCurso_.id_user = item.id_user,
+      this.miCurso_.id_curso = item.id_curso,
       this.miCurso_.cursoFin = item.cursoFin,
       this.miCurso_.aprobado = item.aprobado,
       this.miCurso_.cursoOblig = item.cursoOblig,
@@ -748,5 +748,8 @@ color: #fff !important;
 .span{
   color:#B38E5D;
   font-size:14px;
+}
+.activo{
+  background-color: #D4C19C !important;
 }
 </style>

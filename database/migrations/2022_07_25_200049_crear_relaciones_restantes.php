@@ -26,8 +26,8 @@ class CrearRelacionesRestantes extends Migration
         });
 
         Schema::table('calificacion', function (Blueprint $table) {
-            $table->foreign('empleado')->references('id')->on('users'); 
-            $table->foreign('curso')->references('id_curso')->on('curso');
+            $table->foreign('id_user')->references('id')->on('users'); 
+            $table->foreign('id_curso')->references('id_curso')->on('curso');
             $table->foreign('id_institucion')->references('id_institucion')->on('institucion');           
         });
 
@@ -56,8 +56,8 @@ class CrearRelacionesRestantes extends Migration
         });
 
         Schema::table('calificacion', function (Blueprint $table) {
-            $table->dropColumn('empleado');
-            $table->dropColumn('curso');
+            $table->dropColumn('id_user');
+            $table->dropColumn('id_curso');
             $table->dropColumn('id_institucion');
         });
 

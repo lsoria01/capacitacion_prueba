@@ -12,11 +12,15 @@ class Calificacion extends Model
     protected $table = 'calificacion';
     protected $primaryKey = 'id_calificacion';
     protected $fillable = [
-        'empleado',
-        'curso',
+        'id_user',
+        'id_curso',
+        'cursoFin',
+        'aprobado',
         'calif',
-        'hrsCap',
         'fecha',
-        'anio'
+        'anio',
+        'id_institucion',
+        'urlConstancia',
+        'id_estatus'
     ];
 }

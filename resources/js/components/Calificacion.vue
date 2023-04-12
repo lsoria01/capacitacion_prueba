@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-navbar toggleable="lg" class="background-nav" type="dark">
-          <img v-bind:src="'img/logo-header.svg'" class="logo-gobmx">
+          <a href="/home"><img v-bind:src="'img/logo-header.svg'" class="logo-gobmx"></a>
           <!-- Right aligned nav items -->
                     <b-navbar-nav class="ml-auto">
                       <b-nav-item-dropdown v-if="rol == 1" text="Catálogos" class="mr-4" right>
@@ -13,13 +13,15 @@
                             <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                             <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                             <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
-                            <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
+                            <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
                             <b-dropdown-item v-if="rol == 1" href="/kardex">Kardex</b-dropdown-item>
+                            <b-dropdown-item class="activo active" v-if="rol == 1" href="/calificaciones">Validación de cursos externos</b-dropdown-item>
+                            
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
-                            <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Capturar cursos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Registrar cursos externos</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
@@ -109,7 +111,7 @@
                       <br> <hr> <br>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <!-- <b-button class="botones" type="submit">Guardar</b-button> -->
+                              <b-button class="botones" type="submit">Guardar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>
@@ -216,8 +218,24 @@
               <br>
             </b-modal>
 
-            <b-modal centered id="modal-editar" title="Editar Puesto" hide-footer>
-                    
+            <b-modal centered id="modal-rechazar" title="Rechazar curso registrado" hide-footer>
+                    <p style="color: #9d2449;">Está a punto de rechazar el curso seleccionado. <b-icon icon="exclamation-circle-fill" variant="danger"></b-icon></p>
+                    <b-form @submit.prevent="rechazar">
+                      <b-row>
+                        <b-col>
+                          <label>Antes de continuar, ingrese los motivos de rechazo:</label>
+                          <b-form-textarea
+                            rows="3"
+                            max-rows="6"
+                          ></b-form-textarea>
+                        </b-col>
+                      </b-row>
+                      <b-row class="mt-4 mb-4">
+                          <b-col cols="1">
+                              <b-button class="botones" type="submit">Rechazar</b-button>
+                          </b-col>
+                      </b-row>
+                    </b-form>
             </b-modal>
 
             <b-container fluid>
@@ -247,7 +265,7 @@
                 </b-row>
 
                 <!-- Main table element -->
-                <b-table
+                <b-table striped hover
                 class="table table-sm"
                 :items="calificaciones"
                 :fields="fields"
@@ -269,11 +287,14 @@
                 </template>
 
                 <template #cell(actions)="row">
-                    <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-detalles>
+                    <b-button size="sm" class="detalles" @click="cargarDatos(row.item)" v-b-modal.modal-detalles>
                         Detalles
                     </b-button>
                     <b-button size="sm" class="botones" @click="validar(row.item)" v-if="row.item.id_estatus == 'Registrado'">
                         Validar
+                    </b-button>
+                    <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-if="row.item.id_estatus == 'Registrado'" v-b-modal.modal-rechazar>
+                        Rechazar
                     </b-button>                    
                 </template>
 
@@ -335,8 +356,8 @@
       return {
         fields: [
           { key: 'id_calificacion', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'empleado', label: 'Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'curso', label: 'Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'id_user', label: 'Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'id_curso', label: 'Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'calif', label: 'Calificación', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'fecha', label: 'Fecha', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'id_estatus', label: 'Estatus', class: 'text-center small', sortable: true, sortDirection: 'desc' },
@@ -527,12 +548,12 @@
         this.calificacion_.nombreConstancia = item.nombreConstancia,
         this.calificacion_.id_estatus = item.id_estatus
       },
-      editar(item){
+      rechazar(item){
         this.msgResult='';
-        this.showMsgBoxEditar(item); //Modal confirmación
+        this.showMsgBoxRechazar(item); //Modal confirmación
       },
-      showMsgBoxEditar(item){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea editar el puesto actual ?`, {
+      showMsgBoxRechazar(item){
+        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea rechazar el curso seleccionado ? Esta acción no se puede revertir `, {
             title: 'Aviso',
             size: 'sm',
             buttonSize: 'sm',
@@ -646,5 +667,24 @@ height: 48px;
   background-color: #B38E5D !important;
   border-color: #B38E5D !important;
   color: #fff !important;
+}
+
+.detalles{
+  background-color: #13322B !important;
+  border-color: #13322B !important;
+  color: white !important;
+}
+.detalles:hover{
+  background-color: #B38E5D !important;
+  border-color: #B38E5D !important;
+  color: #fff !important;
+}
+.detalles:focus{
+  background-color: #13322B !important;
+  border: solid #a42145 !important;
+  color:  white !important;
+}
+.activo{
+  background-color: #D4C19C !important;
 }
 </style>

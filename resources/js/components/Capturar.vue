@@ -64,82 +64,75 @@
 
           <!-- Inicio modal crear -->
 
-          <b-modal centered id="modal-crear" size="xl" title="Nuevo Curso" hide-footer>
+          <b-modal centered id="modal-crear" size="xl" title="Nuevo Curso  Externo" hide-footer>
                   <b-form @submit.prevent="crear" enctype="multipart/form-data">
                     <b-row>
-                      <b-col cols="9">
-                          <label for="curso">Nombre del curso:</label>
-                          <b-form-input list="curso" v-model="miCurso.curso" autocomplete="off">
-                          </b-form-input>
-                          <span class="span">Seleccione un curso de la lista</span>
-                          <datalist id="curso">
-                            <option v-for="curso in cursos">{{ curso.nombre }}</option>  
-                          </datalist>                          
-                        </b-col>
-                        <b-col cols="3">
-                          <label for="">Acreditación</label>
-                          <b-form-checkbox v-model="miCurso.aprobado" name="check-button" switch>
-                            <b v-if="miCurso.aprobado"> Aprobado</b> <b v-else>No aprobado</b>
-                          </b-form-checkbox>
-                        </b-col>
-                    </b-row>
-                    <br>
-                    <b-row>
+                      <b-col cols="8">
+                        <label for="curso">Nombre del curso:</label>
+                        <b-form-input list="curso" v-model="miCurso.id_curso" autocomplete="off">
+                        </b-form-input>
+                        <span class="span">Seleccione un curso de la lista</span>
+                        <datalist id="curso">
+                          <option v-for="curso in cursos">{{ curso.nombre }}</option>  
+                        </datalist>                          
+                      </b-col>
+                      <b-col cols="1">
+                        <b-button size="sm" 
+                          class="botones" 
+                          style="margin-top: 35px; margin-left: -20px;" 
+                          v-b-tooltip.hover title="Haga click para buscar los detalles del curso seleccionado"
+                          @click="buscaDetalles()">
+                          <b-icon icon="search"></b-icon>
+                        </b-button>                        
+                      </b-col>
                       <b-col cols="2">
-                        <label for="">¿Curso Obligatorio?</label>
-                        <b-form-checkbox v-model="miCurso.cursoOblig" name="check-button" switch>
-                          <b v-if="miCurso.cursoOblig"> Si</b> <b v-else>No</b>
+                        <label for="">Acreditación</label>
+                        <b-form-checkbox v-model="miCurso.aprobado" name="check-button" switch>
+                          <b v-if="miCurso.aprobado"> Aprobado</b> <b v-else>No aprobado</b>
                         </b-form-checkbox>
                       </b-col>
+                    </b-row>
+                    <br>
+                    <b-row v-if="detalles">
+                      <b-col cols="11">
+                        <b-card sub-title="Detalles del curso">
+                          <b-card-text>
+                            <b> - Institución:</b>  <p style="color: #285C4D; display: inline;"> {{ detallesCurso.id_institucion }} </p><br>
+                            <b> - Horas de Capacitación:</b> <p style="color: #285C4D; display: inline;">{{ detallesCurso.hrsCap }} </p><br>
+                            <b> - Modalidad:</b> <p style="color: #285C4D; display: inline;">{{ detallesCurso.modalidad }} </p><br>
+                            <b> - Obligatorio u optativo:</b> <p v-if="detallesCurso.cursoOblig" style="color: #285C4D; display: inline;">Obligatorio</p> <p v-else style="color: #285C4D; display: inline;">Optativo</p> <br>
+                            <b> - Fecha de finalización del curso:</b> <p style="color: #285C4D; display: inline;"> {{ detallesCurso.fecha_fin }} </p><br>                           
+                          </b-card-text>
+                        </b-card>
+                      </b-col>
+                    </b-row>
+                    <!-- <b-row v-else>
+                      <b-col>
+                        <b>Sin resultados encontrados para ese curso</b>
+                      </b-col>
+                    </b-row> -->
+                    <br>
+                    <b-row>
                       <b-col cols="2">
                           <label>Calificación:</label>
                           <b-form-input v-model="miCurso.calif">
                           </b-form-input>
-                      </b-col>
-                      <b-col cols="2">
-                          <label>Hrs de Capacitación:</label>
-                          <b-form-input v-model="miCurso.hrsCap">
-                          </b-form-input>
-                      </b-col>
-                      <b-col cols="5">
-                          <label for="">Fecha de finalización</label>
-                          <b-form-datepicker v-model="miCurso.fecha" class="mb-2" placeholder="Seleccione una fecha"></b-form-datepicker>
-                        </b-col>
-                    </b-row>
-                    <br>
-                    <b-row>
-                        <b-col cols="2">
-                          <label for="">Curso Interno o Externo:</label>
-                            <b-form-checkbox v-model="miCurso.cursoIntExt" switch>
-                            <b v-if="miCurso.cursoIntExt"> Externo</b> <b v-else>Interno</b>
-                          </b-form-checkbox>
-                        </b-col>
-                        <b-col cols="9" v-if = "miCurso.cursoIntExt == 1">
-                          <label for="">Nombre de la Institución:</label>
-                          <b-form-input list="id_institucion" v-model="miCurso.id_institucion" autocomplete="off">
-                          </b-form-input>
-                          <span class="span">Seleccione una Institución de la lista</span>
-                          <datalist id="id_institucion">
-                            <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
-                          </datalist> 
-                        </b-col>
-                    </b-row>
-                    <br>
-                    <b-row>
-                      <b-col cols="2">
-                          <label for="">Difundido por la DP:</label>
-                          <b-form-select v-model="miCurso.difundidoDP" :options="difundidoDPs"></b-form-select>
-                      </b-col>
-                      <b-col cols="3">
-                        <label>Modalidad:</label>
-                        <b-form-input v-model="miCurso.modalidad"></b-form-input>
                       </b-col>
                       <b-col cols="6">
                         <b-form-group label="Constancia:" >
                           <b-form-file placeholder="Seleccione el archivo PDF a subir" @change="select_file"></b-form-file>
                         </b-form-group>
                       </b-col>
+                      <b-col cols="4">
+                        <b-button class="botones" style="margin-top: 31px;"
+                        v-b-modal.modal-crearCurso>
+                        El curso no aparece en el listado 
+                        <b-icon icon="exclamation-circle">
+                        </b-icon>
+                        </b-button>
+                      </b-col>
                     </b-row>
+                    <br>
                     <b-row class="mt-4 mb-4">
                         <b-col cols="1">
                             <b-button class="botones" type="submit">Guardar</b-button>
@@ -148,108 +141,147 @@
                   </b-form>
           </b-modal>
 
-          <!-- Inicio modal editar -->
-
-          <!-- <b-modal centered id="modal-editar" title="Editar Curso" hide-footer>
-                  <b-form @submit.prevent="editar(adscripcion_)">
-                    <b-row>
-                      <b-col cols="12">
-                        <label>Nombre:</label>
-                        <b-form-input id="descripcion" name="descripcion" v-model="adscripcion_.descripcion">
-                        </b-form-input>
-                      </b-col>
-                    </b-row>
-                    <b-row class="mt-4 mb-4">
-                        <b-col cols="1">
-                            <b-button class="botones" type="submit">Editar</b-button>
-                        </b-col>
-                    </b-row>
-                  </b-form>
-          </b-modal> -->
-
-          <!-- Inicio modal Detalles -->
+          <!-- Inicio modal detalles -->
 
           <b-modal centered id="modal-detalles" size="xl" title="Detalles del Curso" ok-only>
-                  <b-form>
-                    <b-row>
-                      <b-col cols="9">
-                          <label for="curso">Nombre del curso:</label>
-                          <b-form-input list="curso" v-model="miCurso_.id_curso" autocomplete="off" readonly>
+                <b-row>
+                  <b-col cols="8">
+                    <label for="curso">Nombre del curso:</label>
+                    <b-form-input list="curso" v-model="miCurso_.id_curso" autocomplete="off" readonly>
+                    </b-form-input>                        
+                  </b-col>
+                  <b-col cols="2">
+                    <label for="">Acreditación</label>
+                    <b-form-input v-if="miCurso_.aprobado" readonly value="Aprobado"></b-form-input>
+                    <b-form-input v-else readonly value="No aprobado"></b-form-input>
+                  </b-col>
+                </b-row>
+                <br>
+                <b-row>
+                  <b-col cols="11">
+                    <b-card sub-title="Detalles del curso">
+                      <b-card-text>
+                        <b> - Institución:</b>  <p style="color: #285C4D; display: inline;"> {{ miCurso_.id_institucion }} </p><br>
+                        <b> - Horas de Capacitación:</b> <p style="color: #285C4D; display: inline;">{{ miCurso_.hrsCap }} </p><br>
+                        <b> - Modalidad:</b> <p style="color: #285C4D; display: inline;">{{ miCurso_.modalidad }} </p><br>
+                        <b> - Obligatorio u optativo:</b> <p v-if="miCurso_.cursoOblig" style="color: #285C4D; display: inline;">Obligatorio</p> <p v-else style="color: #285C4D; display: inline;">Optativo</p> <br>
+                        <b> - Fecha de finalización del curso:</b> <p style="color: #285C4D; display: inline;"> {{ miCurso_.fecha_fin }} </p><br>                           
+                      </b-card-text>
+                    </b-card>
+                  </b-col>
+                </b-row>
+                <!-- <b-row v-else>
+                  <b-col>
+                    <b>Sin resultados encontrados para ese curso</b>
+                  </b-col>
+                </b-row> -->
+                <br>
+                <b-row>
+                  <b-col cols="2">
+                      <label>Calificación:</label>
+                      <b-form-input v-model="miCurso_.calif" readonly>
+                      </b-form-input>
+                  </b-col>
+                  <b-col cols="6">
+                    <label>Constancia:</label>
+                    <br> 
+                    <a v-if="miCurso_.urlConstancia" :href="miCurso_.urlConstancia" target="blank">Descargar constancia ({{ miCurso_.nombreConstancia }})</a>
+                    <p v-else>Sin constancia</p>
+                  </b-col>
+                </b-row>
+                <br>
+          </b-modal>
+
+          <!-- Inicio modal crear curso -->
+
+          <b-modal centered id="modal-crearCurso" size="xl" title="Nuevo Curso" hide-footer>
+                    <b-form @submit.prevent="crearCurso">
+                      <b-row>
+                        <b-col cols="10">
+                          <label>Nombre:</label>
+                          <b-form-input id="nombre" name="nombre" v-model="curso.nombre">
                           </b-form-input>
-                          <datalist id="curso">
-                            <option v-for="curso in cursos">{{ curso.nombre }}</option>  
-                          </datalist>                          
                         </b-col>
-                        <b-col cols="3">
-                          <label for="">Acreditación</label>
-                          <b-form-checkbox v-model="miCurso_.aprobado" name="check-button" switch>
-                            <b v-if="miCurso_.aprobado"> Aprobado</b> <b v-else>No aprobado</b>
-                          </b-form-checkbox>
-                        </b-col>
-                    </b-row>
-                    <br>
-                    <b-row>
-                      <b-col cols="2">
-                        <label for="">¿Curso Obligatorio?</label>
-                        <b-form-checkbox v-model="miCurso_.cursoOblig" name="check-button" switch>
-                          <b v-if="miCurso_.cursoOblig"> Si</b> <b v-else>No</b>
-                        </b-form-checkbox>
-                      </b-col>
-                      <b-col cols="2">
-                          <label>Calificación:</label>
-                          <b-form-input v-model="miCurso_.calif" readonly>
-                          </b-form-input>
-                      </b-col>
-                      <b-col cols="2">
-                          <label>Hrs de Capacitación:</label>
-                          <b-form-input v-model="miCurso_.hrsCap" readonly>
-                          </b-form-input>
-                      </b-col>
-                      <b-col cols="5">
-                          <label for="">Fecha de finalización</label>
-                          <b-form-datepicker v-model="miCurso_.fecha" class="mb-2" placeholder="Seleccione una fecha" readonly></b-form-datepicker>
-                        </b-col>
-                    </b-row>
-                    <br>
-                    <b-row>
                         <b-col cols="2">
-                          <label>Curso Interno o Externo:</label>
-                            <b-form-checkbox v-model="miCurso_.cursoIntExt" switch>
-                            <b v-if="miCurso_.cursoIntExt"> Externo</b> <b v-else>Interno</b>
+                          <label for="">¿Curso Obligatorio?</label>
+                          <b-form-checkbox v-model="curso.cursoOblig" name="check-button" switch>
+                            <b v-if="curso.cursoOblig"> Si</b> <b v-else>No</b>
                           </b-form-checkbox>
                         </b-col>
-                        <b-col cols="9">
-                          <label>Nombre de la Institución:</label>
-                          <b-form-input list="id_institucion" v-model="miCurso_.id_institucion" autocomplete="off" readonly>
+                      </b-row>
+                      <br>
+                      <b-row>
+                        <b-col cols="4">
+                          <label for="fecha_inicio">Fecha de inicio:</label>
+                          <b-form-datepicker id="fecha_inicio" v-model="curso.fecha_inicio" placeholder=""></b-form-datepicker>
+                        </b-col>
+                        <b-col cols="4">
+                          <label for="fecha_fin">Fecha de fin:</label>
+                          <b-form-datepicker id="fecha_fin" v-model="curso.fecha_fin" placeholder=""></b-form-datepicker>
+                        </b-col>
+                        <b-col cols="2">
+                          <label>Hrs de Capacitación:</label>
+                          <b-form-input v-model="curso.hrsCap">
                           </b-form-input>
+                        </b-col>
+                        <b-col cols="2">
+                          <label for="">Curso Interno o Externo:</label>
+                            <b-form-checkbox v-model="curso.cursoIntExt" switch>
+                            <b v-if="curso.cursoIntExt"> Externo</b> <b v-else>Interno</b>
+                          </b-form-checkbox>
+                        </b-col>
+                      </b-row>
+                      <br>
+                      <b-row>
+                        <b-col cols="2">
+                          <label for="">Difundido por la DP:</label>
+                          <b-form-select v-model="curso.difundidoDP" :options="difundidoDPs"></b-form-select>
+                        </b-col>
+                        <b-col cols="10">
+                          <label for="id_institucion">Institución:</label>
+                          <b-form-input list="id_institucion" v-model="curso.id_institucion" autocomplete="off">
+                          </b-form-input>
+                          <span class="span">Seleccione una institución de la lista</span>
                           <datalist id="id_institucion">
                             <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
-                          </datalist> 
+                          </datalist>                          
                         </b-col>
-                    </b-row>
-                    <br>
-                    <b-row>
-                      <b-col cols="2">
-                        <label for="difundidoDP">Difundido por la DP:</label>
-                        <p v-if="miCurso_.difundidoDP">
-                          <b-form-input readonly id="difundidoDP" value="Si"></b-form-input>
-                        </p>
-                        <p v-else>
-                          <b-form-input readonly id="difundidoDP" value="No"></b-form-input>
-                        </p>
-                      </b-col>
-                      <b-col cols="3">
-                        <label>Modalidad:</label>
-                        <b-form-input v-model="miCurso_.modalidad" readonly></b-form-input>
-                      </b-col>
-                      <b-col cols="6">
-                        <label>Constancia:</label> <br>
-                        <a v-if="miCurso_.urlConstancia" :href="miCurso_.urlConstancia" target="blank">Descargar constancia</a>
-                        <p v-else>Sin constancia</p>
-                      </b-col>
-                    </b-row>
-                  </b-form>
-          </b-modal>
+                      </b-row>
+                      <br>
+                      <b-row>
+                        <b-col cols="2">
+                          <label>Id Curso:</label>
+                          <b-form-input id="folio" name="folio" v-model="curso.folio">
+                          </b-form-input>
+                        </b-col>
+                        <b-col cols="3">
+                          <label>Modalidad:</label>
+                          <b-form-input v-model="curso.modalidad"></b-form-input>
+                        </b-col>
+                      </b-row>
+                      <b-row class="mt-4 mb-4">
+                          <b-col cols="1">
+                              <b-button class="botones" type="submit">Guardar</b-button>
+                          </b-col>
+                      </b-row>
+                    </b-form>
+            </b-modal>
+
+            <!-- Inicio modal rechazo  -->
+
+            <b-modal centered id="modal-rechazo" title="Detalles del rechazo" hide-footer>
+                <b-row>
+                  <b-col>
+                    <label>Motivos de rechazo:</label>
+                    <b-form-textarea
+                      rows="3"
+                      max-rows="6"
+                      v-model="miCurso_.rechazo"
+                      readonly
+                    ></b-form-textarea>
+                  </b-col>
+                </b-row>
+            </b-modal>
 
           <b-container fluid>
               <!-- User Interface controls -->
@@ -301,9 +333,23 @@
               </template>
 
               <template #cell(actions)="row">
-                  <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-detalles>
-                      Detalles
+                  <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-detalles
+                      v-b-tooltip.hover title="Haga click si desea ver los detalles del curso">
+                      <b-icon icon="eye"></b-icon>
                   </b-button>
+                  <b-button size="sm" class="botones" 
+                      @click="cargarDatos(row.item)"
+                      v-if="row.item.id_estatus == 'Rechazado'" 
+                      v-b-modal.modal-rechazo
+                      v-b-tooltip.hover title="Haga click para conocer los motivos de rechazo">
+                      <b-icon icon="exclamation-triangle"></b-icon>
+                  </b-button>
+              </template>
+
+              <template v-slot:cell(id_estatus)="row">
+                <p v-if="row.item.id_estatus === 'Registrado'"> <span>Registrado</span></p>
+                <p v-if="row.item.id_estatus === 'Rechazado'"> <span style="color: red;">Rechazado</span></p>                  
+                <p v-if="row.item.id_estatus === 'Validado'"> <span style="color: green;">Validado</span></p>
               </template>
 
               <template #row-details="row">
@@ -361,6 +407,15 @@
 <script>
 export default {
   data() {
+    /* Obtener la fecha de hoy */
+    /* const today = new Date().toISOString().slice(0, 10) */
+    /* const today = new Date().toLocaleDateString().split('T')[0].replaceAll("/", "-") */
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    today = yyyy + '-' + mm + '-' + dd;
+    const fecha = today;
     return {
       fields: [
           { key: 'id_calificacion', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
@@ -371,6 +426,8 @@ export default {
           { key: 'id_estatus', label: 'Estatus', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
       ],
+      fecha_hoy:fecha,
+      detalles: false,
       archivo:null,
       msgResult:'',
       rol:'',
@@ -382,51 +439,76 @@ export default {
         id_curso:'',
         cursoFin:'',
         aprobado:false,
-        cursoOblig:false,
         calif:'',
-        hrsCap:'',
         fecha:'',
         anio:'',
-        cursoIntExt:0,
-        id_institucion:'',
-        difundidoDP:'',
-        modalidad:'',
         urlConstancia:'',
         nombreConstancia:'',
         id_estatus:''
       },
       miCurso_:{
+        id_calificacion:'',
         id_user:'',
         id_curso:'',
         cursoFin:'',
         aprobado:false,
-        cursoOblig:false,
         calif:'',
-        hrsCap:'',
         fecha:'',
         anio:'',
-        cursoIntExt:false,
-        id_institucion:'',
-        difundidoDP:'',
-        modalidad:'',
+        rechazo:'',
         urlConstancia:'',
         nombreConstancia:'',
-        id_estatus:''
+        id_estatus:'',
+        //detalles del curso
+        id_institucion:'',
+        hrsCap:'',
+        modalidad:'',
+        cursoOblig:'',
+        fecha_fin:''
       },
       cursos:{
         id_curso:'',
         nombre:''
       },
       instituciones:{
-          id_institucion:'',
-          descripcion:''
+        id_institucion:'',
+        descripcion:''
       },
-      difundidoDPs: [
-        { value: '1', text: 'Si' },
-        { value: '0', text: 'No' }
-      ],
       resultado_curso:'',
       resultado_institucion:'',
+      //muestra los detalles del curso
+      detallesCurso:{
+        cursoIntExt:'',
+        cursoOblig:'',
+        difundidoDP:'',
+        fecha_fin:'',
+        fecha_inicio:'',
+        folio:'',
+        hrsCap:'',
+        id_curso:'',
+        id_estatus:'',
+        id_institucion:'',
+        modalidad:'',
+        nombre:''
+      },
+      //captura los datos del curso que no aparece en la lista
+      curso:{
+        nombre:'',
+        fecha_inicio:'',
+        fecha_fin:'',
+        cursoOblig: false,
+        hrsCap: '',
+        cursoIntExt:0,
+        difundidoDP:'',
+        modalidad:'',
+        id_estatus:1,
+        id_institucion:'',
+        folio:''
+      },
+      difundidoDPs: [
+        { value: true, text: 'Si' },
+        { value: false, text: 'No' }
+      ],
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
@@ -535,13 +617,26 @@ export default {
       this.totalRows = filteredItems.length
       this.currentPage = 1
     },
+    buscaDetalles(){
+      console.log();
+      this.detalles = 1;
+      //valor del id-curso
+      var curso = this.miCurso.id_curso
+      var curso_filter = this.cursos.filter(function(e){
+      return e.nombre === curso                
+      })
+      for( var resultadoCurso of curso_filter){
+        this.detallesCurso = resultadoCurso
+      }
+      console.log(this.detallesCurso);
+    },
     crear(){
       this.msgResult='',
       this.showMsgBoxCrear(); //Modal confirmación
 
     },
     showMsgBoxCrear(){
-      this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar el nuevo curso?`, {
+      this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar el nuevo curso externo?`, {
               title: 'Aviso',
               size: 'sm',
               buttonSize: 'sm',
@@ -563,52 +658,20 @@ export default {
                 this.resultado_curso = resultadoCurso.id_curso
               }
               console.log("El id del curso es ",this.resultado_curso);
-              //valor del id-institución
-              var institucion = this.miCurso.id_institucion
-              var institucion_filter = this.instituciones.filter(function(e){
-              return e.descripcion === institucion                
-              })
-              console.log(institucion_filter);
-              for( var resultadoInst of institucion_filter){
-                this.resultado_institucion = resultadoInst.id_institucion
-              }
-              console.log("El id de la institucion es ",this.resultado_institucion);
-              var fechaCompleta = this.miCurso.fecha;
+              var fechaCompleta = this.fecha_hoy;
               var fecha = fechaCompleta.split('-');
-              //console.log(fecha[0]);    
+              console.log(fecha[0]);    
               this.miCurso.anio = fecha[0];
               //console.log(this.miCurso.anio);   
-            const params={
-              id_user: this.idUsrActual,
-              id_curso: this.resultado_curso,
-              cursoFin: this.miCurso.aprobado,
-              aprobado: this.miCurso.aprobado,
-              cursoOblig: this.miCurso.cursoOblig,
-              calif: this.miCurso.calif,
-              hrsCap: this.miCurso.hrsCap,
-              fecha: this.miCurso.fecha,
-              anio: this.miCurso.anio,
-              cursoIntExt: this.miCurso.cursoIntExt,
-              id_institucion: this.resultado_institucion,
-              difundidoDP: this.miCurso.difundidoDP,
-              modalidad: this.miCurso.modalidad,
-              id_estatus: 1              
-            }
             //envío de params por formData
             let formData = new FormData();
             formData.append('id_user', this.idUsrActual);
             formData.append('id_curso', this.resultado_curso);
             formData.append('cursoFin', this.miCurso.aprobado);
             formData.append('aprobado', this.miCurso.aprobado);
-            formData.append('cursoOblig', this.miCurso.cursoOblig);
             formData.append('calif', this.miCurso.calif);
-            formData.append('hrsCap', this.miCurso.hrsCap);
-            formData.append('fecha', this.miCurso.fecha);
+            formData.append('fecha', this.fecha_hoy);
             formData.append('anio', this.miCurso.anio);
-            formData.append('cursoIntExt', this.miCurso.cursoIntExt);
-            formData.append('id_institucion', this.resultado_institucion);
-            formData.append('difundidoDP', this.miCurso.difundidoDP);
-            formData.append('modalidad', this.miCurso.modalidad);
             formData.append('id_estatus', 1);
             formData.append('file', this.archivo);
             //console.log(params);
@@ -625,14 +688,16 @@ export default {
               this.miCurso.aprobado = '',
               this.miCurso.cursoOblig = '',
               this.miCurso.calif = '',
-              this.miCurso.hrsCap = '',
               this.miCurso.fecha = '',
-              this.miCurso.anio = '',
-              this.miCurso.cursoIntExt = '',
-              this.miCurso.difundidoDP = '',
-              this.miCurso.modalidad = '',
+              //Volvemos a ocultar el apartado de detalles 
+              this.detalles= false;
+              this.detallesCurso.id_institucion = '';
+              this.detallesCurso.hrsCap = '';
+              this.detallesCurso.modalidad = '';
+              this.detallesCurso.cursoOblig = '';
+              this.detallesCurso.fecha_fin = '';
               //recargamos cambios
-              axios.get('/calificacion')
+              axios.get('/califAuth')
               .then(res=>{
                   this.misCursos = res.data;
               })
@@ -652,18 +717,19 @@ export default {
       this.miCurso_.id_curso = item.id_curso,
       this.miCurso_.cursoFin = item.cursoFin,
       this.miCurso_.aprobado = item.aprobado,
-      this.miCurso_.cursoOblig = item.cursoOblig,
       this.miCurso_.calif = item.calif,
-      this.miCurso_.hrsCap = item.hrsCap,
       this.miCurso_.fecha = item.fecha,
       this.miCurso_.anio = item.anio,
-      this.miCurso_.cursoIntExt = item.cursoIntExt,
-      this.miCurso_.id_institucion = item.id_institucion,
-      this.miCurso_.difundidoDP = item.difundidoDP,
-      this.miCurso_.modalidad = item.modalidad,
+      this.miCurso_.rechazo = item.rechazo,
       this.miCurso_.urlConstancia = item.urlConstancia,
       this.miCurso_.nombreConstancia = item.nombreConstancia,
-      this.miCurso_.id_estatus = item.id_estatus
+      this.miCurso_.id_estatus = item.id_estatus,
+      //detalles del curso 
+      this.miCurso_.id_institucion = item.id_institucion,
+      this.miCurso_.hrsCap = item.hrsCap,
+      this.miCurso_.modalidad = item.modalidad,
+      this.miCurso_.cursoOblig = item.cursoOblig,
+      this.miCurso_.fecha_fin = item.fecha_fin
     },
     editar(item){
       this.msgResult='';
@@ -712,8 +778,73 @@ export default {
       })
     },
     cancelar(){
-          this.$bvModal.hide('modal-editar');
-      },
+        this.$bvModal.hide('modal-editar');
+    },
+    crearCurso(){
+        this.msgResult='',
+        this.showMsgBoxCrearCurso(); //Modal confirmación
+
+    },
+    showMsgBoxCrearCurso(){
+      this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar el nuevo curso?`, {
+              title: 'Aviso',
+              size: 'sm',
+              buttonSize: 'sm',
+              okTitle: 'Aceptar',
+              okColor: '#285C4D',
+              cancelTitle: 'Cancelar',
+              hideHeaderClose: false,
+              centered: true
+          })
+          .then(value=>{
+            if(value){
+                var institucion = this.curso.id_institucion
+                var institucion_filter = this.instituciones.filter(function(e){
+                return e.descripcion === institucion                
+              })
+              console.log(institucion_filter);
+              for( var resultado of institucion_filter){
+                this.resultado_institucion = resultado.id_institucion
+              }
+              console.log(this.resultado_institucion);              
+              const params={
+              nombre: this.curso.nombre,
+              fecha_inicio:this.curso.fecha_inicio,
+              fecha_fin:this.curso.fecha_fin,
+              cursoOblig: this.curso.cursoOblig,
+              hrsCap: this.curso.hrsCap,
+              cursoIntExt: this.curso.cursoIntExt,
+              difundidoDP: this.curso.difundidoDP,
+              modalidad: this.curso.modalidad,
+              id_estatus: this.curso.id_estatus,
+              id_institucion:this.resultado_institucion,
+              folio:this.curso.folio
+            }
+            console.log(params);
+              axios.post('/curso', params)
+            .then(res=>{
+              //ocultar modal
+              this.$bvModal.hide('modal-crearCurso');
+              this.cursos.push(res.data)
+              //mostrar toaster
+              this.$toaster.success('Curso creado con éxito!')
+              //Limpiamos los campos
+              this.curso.nombre = '';
+              //recargamos cambios
+              axios.get('/curso')
+              .then(res=>{
+                  this.cursos = res.data;
+              })
+              .catch((error) => {
+                          if (error) {
+                              this.$toaster.error('Lo sentimos, el curso no se pudo crear ')
+                              console.log(error);
+                          }
+                  })
+              })
+            }
+          })
+    },
     logout() {
           axios.post('/logout')
           .then(res=>{

@@ -40,84 +40,8 @@
               <b-tab title="Disabled" disabled><p>I'm a disabled tab!</p></b-tab>
             </b-tabs>
           </div> -->
-            <b-row align-h="end">
-              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Curso</b-button>
-            </b-row>
 
-            <!-- Inicio modal crear -->
-
-            <b-modal centered id="modal-crear" scrollable size="xl" title="Nuevo Curso" hide-footer>
-                    <b-form @submit.prevent="crear">
-                      <b-row>
-                        <b-col cols="6">
-                          <label for="">Seleccione el nombre del usuario:</label>
-                          <b-form-select v-model="usuario" :options="usuarios"></b-form-select>
-                        </b-col>
-                      </b-row>
-                      <br> <hr>
-                      <b-row>
-                        <b-col cols="4">
-                          <label for="">Curso Interno o Externo:</label>
-                            <b-form-checkbox v-model="cursoIntExt" name="check-button" switch>
-                            <b v-if="cursoIntExt"> Interno</b> <b v-else>Externo</b>
-                          </b-form-checkbox>
-                        </b-col>
-                        <b-col cols="8" v-if = "cursoIntExt ==! 1">
-                          <label for="">Nombre de la Institución</label>
-                          <b-form-input id="curso" name="curso"></b-form-input>
-                        </b-col>
-                      </b-row>
-                      <br> <hr>
-                      <b-row>
-                        <b-col cols="12" >
-                          <label for="">Nombre del curso</label>
-                          <b-form-input id="curso" name="curso"></b-form-input>
-                        </b-col>
-                      </b-row>
-                      <b-row>
-                        <b-col cols="4">
-                          <label for="">Fecha de finalización</label>
-                          <b-form-datepicker id="example-datepicker" class="mb-2" placeholder="Seleccione una fecha"></b-form-datepicker>
-                        </b-col>
-                        <b-col cols="2">
-                          <label for="">Calificación</label>
-                          <b-form-input id="calif" name="calif"></b-form-input>
-                        </b-col>
-                        <b-col cols="2">
-                          <label for="">Acreditación</label>
-                          <b-form-checkbox v-model="checked" name="check-button" switch>
-                            <b v-if="checked"> Aprobado</b> <b v-else>No aprobado</b>
-                          </b-form-checkbox>
-                        </b-col>
-                        <b-col cols="4">
-                          <label for="">Horas de capacitación</label>
-                            <b-form-input id="hrsCap" name="hrsCap" type="number"></b-form-input>
-                        </b-col>
-                      </b-row>
-                      <b-row>
-                        <b-col cols="4">
-                          <label for="">Tipo de curso:</label>
-                          <b-form-select v-model="cursoOblig" :options="cursoObligs"></b-form-select>
-                        </b-col>
-                        <b-col cols="4">
-                          <label for="">Difundido por la DP:</label>
-                          <b-form-select v-model="difundidoDP" :options="difundidoDPs"></b-form-select>
-                        </b-col>
-                        <b-col cols="4">
-                          <label for="">Modalidad:</label>
-                          <b-form-input id="modalidad" name="modalidad"></b-form-input>
-                        </b-col>
-                      </b-row>
-                      <br> <hr> <br>
-                      <b-row class="mt-4 mb-4">
-                          <b-col cols="1">
-                              <b-button class="botones" type="submit">Guardar</b-button>
-                          </b-col>
-                      </b-row>
-                    </b-form>
-            </b-modal>
-
-            <!-- Inicio modal editar -->
+            <h3 class="my-4">Listado de cursos</h3>
 
             <!-- Inicio modal detalles -->
 
@@ -125,11 +49,11 @@
               <b-row>
                 <b-col>
                   <label for="empleado">Usuario:</label>  
-                  <b-form-input readonly id="empleado" v-model="calificacion_.empleado"></b-form-input>
+                  <b-form-input readonly id="empleado" v-model="calificacion_.id_user"></b-form-input>
                 </b-col>
                 <b-col>
                   <label for="empleado">Curso:</label>
-                  <b-form-input readonly id="empleado" v-model="calificacion_.curso"></b-form-input>
+                  <b-form-input readonly id="empleado" v-model="calificacion_.id_curso"></b-form-input>
                 </b-col>
               </b-row>
               <b-row>
@@ -218,15 +142,18 @@
               <br>
             </b-modal>
 
+            <!-- Inicio modal rechazo  -->
+
             <b-modal centered id="modal-rechazar" title="Rechazar curso registrado" hide-footer>
                     <p style="color: #9d2449;">Está a punto de rechazar el curso seleccionado. <b-icon icon="exclamation-circle-fill" variant="danger"></b-icon></p>
-                    <b-form @submit.prevent="rechazar">
+                    <b-form @submit.prevent="editar(calificacion_)">
                       <b-row>
                         <b-col>
                           <label>Antes de continuar, ingrese los motivos de rechazo:</label>
                           <b-form-textarea
                             rows="3"
                             max-rows="6"
+                            v-model="calificacion_.rechazo"
                           ></b-form-textarea>
                         </b-col>
                       </b-row>
@@ -287,15 +214,27 @@
                 </template>
 
                 <template #cell(actions)="row">
-                    <b-button size="sm" class="detalles" @click="cargarDatos(row.item)" v-b-modal.modal-detalles>
-                        Detalles
+                    <b-button size="sm" class="detalles" 
+                        @click="cargarDatos(row.item)" v-b-modal.modal-detalles
+                        v-b-tooltip.hover title="Haga click si desea ver los detalles del curso">
+                        <b-icon icon="eye"></b-icon>
                     </b-button>
-                    <b-button size="sm" class="botones" @click="validar(row.item)" v-if="row.item.id_estatus == 'Registrado'">
-                        Validar
+                    <b-button size="sm" class="botones" 
+                        @click="validar(row.item)" v-if="row.item.id_estatus == 'Registrado'"
+                        v-b-tooltip.hover title="Haga click para validar el curso">
+                        <b-icon icon="check-square"></b-icon>
                     </b-button>
-                    <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-if="row.item.id_estatus == 'Registrado'" v-b-modal.modal-rechazar>
-                        Rechazar
+                    <b-button size="sm" class="botones" 
+                        @click="cargarDatos(row.item)" v-if="row.item.id_estatus == 'Registrado'" v-b-modal.modal-rechazar
+                        v-b-tooltip.hover title="Haga click para rechazar el curso">
+                        <b-icon icon="x-circle"></b-icon>
                     </b-button>                    
+                </template>
+
+                <template v-slot:cell(id_estatus)="row">
+                  <p v-if="row.item.id_estatus === 'Registrado'"> <span>Registrado</span></p>
+                  <p v-if="row.item.id_estatus === 'Rechazado'"> <span style="color: red;">Rechazado</span></p>                  
+                  <p v-if="row.item.id_estatus === 'Validado'"> <span style="color: green;">Validado</span></p>
                 </template>
 
                 <template #row-details="row">
@@ -369,8 +308,8 @@
         usrActual:'',
         calificaciones:[],
         calificacion:{
-          empleado:'',
-          curso:'',
+          id_user:'',
+          id_curso:'',
           cursoFin:'',
           aprobado:'',
           cursoOblig:'',
@@ -388,8 +327,8 @@
         },
         calificacion_:{
           id_calificacion:'',
-          empleado:'',
-          curso:'',
+          id_user:'',
+          id_curso:'',
           cursoFin:'',
           aprobado:'',
           cursoOblig:'',
@@ -403,7 +342,8 @@
           modalidad:'',
           urlConstancia:'',
           nombreConstancia:'',
-          id_estatus:''
+          id_estatus:'',
+          rechazo:''
         },
         usuario: null,
         usuarios: [
@@ -530,9 +470,9 @@
             })
       },
       cargarDatos(item){
-        this.calificacion_.id_calificacion = item.id_calificacion ,
-        this.calificacion_.empleado = item.empleado,
-        this.calificacion_.curso = item.curso,
+        this.calificacion_.id_calificacion = item.id_calificacion
+        this.calificacion_.id_user = item.id_user,
+        this.calificacion_.id_curso = item.id_curso,
         this.calificacion_.cursoFin = item.cursoFin,
         this.calificacion_.aprobado = item.aprobado,
         this.calificacion_.cursoOblig = item.cursoOblig,
@@ -547,13 +487,15 @@
         this.calificacion_.urlConstancia = item.urlConstancia,
         this.calificacion_.nombreConstancia = item.nombreConstancia,
         this.calificacion_.id_estatus = item.id_estatus
+        //Rechazo
+        this.calificacion_.rechazo = item.rechazo;
       },
-      rechazar(item){
+      editar(item){
         this.msgResult='';
-        this.showMsgBoxRechazar(item); //Modal confirmación
+        this.showMsgBoxEditar(item); //Modal confirmación
       },
-      showMsgBoxRechazar(item){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea rechazar el curso seleccionado ? Esta acción no se puede revertir `, {
+      showMsgBoxEditar(item){
+        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea rechazar el curso ?`, {
             title: 'Aviso',
             size: 'sm',
             buttonSize: 'sm',
@@ -566,23 +508,24 @@
         .then(value=>{
           if(value){
             const params = {
-              id_puesto : item.id_puesto,
-              descripcion: item.descripcion
+              rechazo: item.rechazo,
             }
-            axios.put(`/puesto/${item.id_puesto}`, params)
+            console.log(params);
+            axios.put(`calificacion/${item.id_calificacion}`, params)
+            //axios.put(`calificacion/rechazar/${item.id_calificacion}`, params)
             .then(res =>{
               //ocultar modal
-              this.$bvModal.hide('modal-editar');
-              const index = this.puestos.findIndex(
-                puestoBuscar => puestoBuscar.id_puesto === item.id_puesto
+              this.$bvModal.hide('modal-rechazar');
+              const index = this.calificaciones.findIndex(
+                calificacionBuscar => calificacionBuscar.id_calificacion === item.id_calificacion
               )
-              this.puestos[index] = res.data
+              this.calificaciones[index] = res.data
               //mostrar toaster
-              this.$toaster.success('¡Puesto actualizado con éxito')
+              this.$toaster.success('Curso rechazado con éxito')
               //Recargamos los cambios
-              axios.get('/puesto')
+              axios.get('/calificacion')
                 .then(res=>{
-                    this.puestos = res.data
+                    this.calificaciones = res.data
                 })
               .catch((error) => {
                 if (error) {
@@ -594,6 +537,61 @@
           }
         })
       },
+      /* rechazar(item){
+        this.cargarDatos(item);
+        this.msgResult='';
+        this.showMsgBoxRechazar(item); //Modal confirmación
+      },
+      showMsgBoxRechazar(item){
+        this.$bvModal.msgBoxConfirm('¿Está seguro de rechazar el curso? esta acción no se puede revertir',
+          {
+            title: 'Confirmar autorización',
+            okTitle: 'Si',
+            cancelTitle: 'Cancelar',
+            centered: true,
+            footerClass: 'p-2',
+            hideHeaderClose: false,
+          })
+          .then(value => {
+                if (value){
+                    //iniciar spinner
+                    var loader =  this.$loading.show({
+                    container: null
+                    });
+                    console.log(item.id_calificacion);
+                    const params = {
+                      rechazo: this.rechazo,
+                    }
+                    console.log(params);
+                    console.log(this.calificacion_.id_calificacion);
+                    axios.put(`calificacion/rechazar/${item.id_calificacion}`, params)
+                    .then(res => {
+                        //ocultar modal
+                        this.$bvModal.hide('modal-rechazar');
+                        const index = this.calificaciones.findIndex(
+                          calificacionBuscar => calificacionBuscar.id_calificacion === item.id_calificacion
+                        )
+                        this.calificaciones[index] = res.data
+                        //mostrar toaster
+                        this.$toaster.success('¡Adscripción actualizada con éxito')
+                        //Refrescamos cambios
+                        axios.get('/calificacion')
+                        .then(res=>{
+                            this.calificaciones = res.data;
+                        })
+                                                    
+                        })
+                        .catch((error) => {
+                                  if (error) {
+                                      this.$toaster.error('Ha ocurrido un error :( ')
+                                      //Ocultar Overlay
+                                      loader.hide();
+                                      console.log(error);
+                                  }
+                        });                 
+                }               
+          })
+      }, */
       validar(item){
           this.$bvModal.msgBoxConfirm('¿Está seguro de validar el curso? esta acción no se puede revertir',
               {

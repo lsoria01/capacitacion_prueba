@@ -85,6 +85,7 @@
                           <label for="id_institucion">Institución:</label>
                           <b-form-input list="id_institucion" v-model="curso.id_institucion" autocomplete="off">
                           </b-form-input>
+                          <span class="span">Seleccione una institución de la lista</span>
                           <datalist id="id_institucion">
                             <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
                           </datalist>                          
@@ -119,6 +120,7 @@
                           <label>Nombre:</label>
                           <b-form-input id="nombre" name="nombre" v-model="curso_.nombre">
                           </b-form-input>
+                          <span class="span">Si desea cambiar el nombre, deberá borrar el existente y seleccionar uno nuevo</span>
                         </b-col>
                         <b-col cols="2">
                           <label for="">¿Curso Obligatorio?</label>
@@ -159,6 +161,7 @@
                           <label for="id_institucion">Institución:</label>
                           <b-form-input list="id_institucion" v-model="curso_.id_institucion" autocomplete="off">
                           </b-form-input>
+                          <span class="span">Si desea cambiar la Institución, deberá borrar la existente y seleccionar una nueva</span>
                           <datalist id="id_institucion">
                             <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
                           </datalist>                          
@@ -309,13 +312,19 @@
                     </b-button>
                     <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-detalles
                       v-b-tooltip.hover title="Haga click si desea ver los detalles del curso">
-                      <b-icon icon="eye-fill"></b-icon>
+                      <b-icon icon="eye"></b-icon>
                     </b-button>
                     <b-button size="sm" class="botones" @click="validar(row.item)" 
                     v-if="row.item.id_estatus == 'Registrado'"
                     v-b-tooltip.hover title="Haga click para validar el curso">
                       <b-icon icon="check-square"></b-icon>
                     </b-button>
+                </template>
+
+                <template v-slot:cell(id_estatus)="row">
+                  <p v-if="row.item.id_estatus === 'Registrado'"> <span>Registrado</span></p>
+                  <p v-if="row.item.id_estatus === 'Rechazado'"> <span style="color: red;">Rechazado</span></p>                  
+                  <p v-if="row.item.id_estatus === 'Validado'"> <span style="color: green;">Validado</span></p>
                 </template>
 
                 <template #row-details="row">
@@ -410,7 +419,7 @@
           cursoIntExt: false,
           difundidoDP:'',
           modalidad:'',
-          id_estatus:'',
+          id_estatus:2,
           id_institucion:'',
           folio:''
         },
@@ -594,7 +603,12 @@
             for( var resultado of institucion_filter_){
               this.resultado_institucion_ = resultado.id_institucion
             }
-            console.log(this.resultado_institucion_);  
+            console.log(this.resultado_institucion_);
+            if(item.id_estatus === 'Registrado'){
+                this.curso_.id_estatus = 1;
+            }else{
+                this.curso_.id_estatus = 2;
+            } 
             const params = {
               id_curso: item.id_curso,
               nombre: item.nombre,
@@ -606,6 +620,7 @@
               difundidoDP: item.difundidoDP,
               modalidad: item.modalidad,
               id_institucion:this.resultado_institucion_,
+              id_estatus: this.curso_.id_estatus,
               folio: item.folio
             }
             console.log(params);
@@ -712,6 +727,10 @@ height: 48px;
   color: #fff !important;
 }.activo{
   background-color: #D4C19C !important;
+}
+.span{
+  color:#B38E5D;
+  font-size:14px;
 }
 
 </style>

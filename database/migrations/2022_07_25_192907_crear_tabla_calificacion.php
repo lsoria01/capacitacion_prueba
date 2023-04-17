@@ -22,7 +22,7 @@ class CrearTablaCalificacion extends Migration
             $table->string('calif')->nullable();
             $table->date('fecha')->nullable();
             $table->integer('anio')->nullable();
-            $table->unsignedBigInteger('id_institucion')->nullable();
+            $table->string('rechazo')->nullable();
             $table->string('urlConstancia')->nullable();
             $table->string('nombreConstancia')->nullable();
             $table->unsignedBigInteger('id_estatus')->nullable();

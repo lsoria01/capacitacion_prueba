@@ -118,6 +118,13 @@ class CursoController extends Controller
         $cursos->nombre = $request->nombre;
         $cursos->fecha_inicio = $request->fecha_inicio;
         $cursos->fecha_fin = $request->fecha_fin;
+        $cursos->cursoOblig = $request->cursoOblig;
+        $cursos->hrsCap = $request->hrsCap;
+        $cursos->cursoIntExt = $request->cursoIntExt;
+        $cursos->difundidoDP = $request->difundidoDP;
+        $cursos->modalidad = $request->modalidad;
+        $cursos->id_estatus = $request->id_estatus;
+        $cursos->folio = $request->folio;
         $cursos->id_institucion = $request->id_institucion;
         $cursos->save();
 

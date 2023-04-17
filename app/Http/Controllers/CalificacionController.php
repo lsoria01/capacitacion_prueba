@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Calificacion;
+use App\Models\Curso;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CalificacionController extends Controller
 {
@@ -15,9 +17,8 @@ class CalificacionController extends Controller
      */
     public function index()
     {
-        $calificaciones = Calificacion::leftJoin('curso', 'calificacion.id_curso', '=', 'curso.id_curso')
+        /* $calificaciones = Calificacion::leftJoin('curso', 'calificacion.id_curso', '=', 'curso.id_curso')
         ->leftJoin('users', 'calificacion.id_user', '=', 'users.id')
-        ->leftJoin('institucion', 'calificacion.id_institucion', '=', 'institucion.id_institucion')
         ->leftJoin('estatus', 'calificacion.id_estatus', '=', 'estatus.id_estatus')
         ->select([
             'calificacion.id_calificacion',
@@ -25,15 +26,43 @@ class CalificacionController extends Controller
             'curso.nombre as id_curso',
             'curso.cursoOblig as cursoOblig',
             'curso.hrsCap as hrsCap',
+            'curso.modalidad as modalidad',
             'calificacion.cursoFin',
             'calificacion.aprobado',
             'calificacion.calif',
             'calificacion.fecha',
             'calificacion.anio',
-            'institucion.siglas as id_institucion',
+            'calificacion.rechazo',
             'calificacion.urlConstancia',
             'estatus.nombre as id_estatus'          
         ])
+        ->orderBy("id_calificacion")
+        ->get();
+        return $calificaciones; */
+
+        $calificaciones = DB::table ('calificacion')
+        ->join('users', 'calificacion.id_user', "=" , "users.id")
+        ->join('curso', 'calificacion.id_curso', "=", "curso.id_curso")
+        ->join('estatus', 'calificacion.id_estatus', '=', 'estatus.id_estatus')
+        ->join('institucion', 'curso.id_institucion', "=", "institucion.id_institucion" )
+        ->select(
+            'calificacion.id_calificacion',
+            'users.name as id_user',
+            'curso.nombre as id_curso',
+            'curso.cursoOblig as cursoOblig',
+            'curso.hrsCap as hrsCap',
+            'curso.modalidad as modalidad',
+            'calificacion.cursoFin',
+            'calificacion.aprobado',
+            'calificacion.calif',
+            'calificacion.fecha',
+            'calificacion.anio',
+            'calificacion.rechazo',
+            'calificacion.urlConstancia',
+            'estatus.nombre as id_estatus',   
+            //datos de la tabla curso
+            'institucion.descripcion as id_institucion',
+        )
         ->orderBy("id_calificacion")
         ->get();
         return $calificaciones;
@@ -65,15 +94,12 @@ class CalificacionController extends Controller
         $calificaciones-> calif = $request->calif;
         $calificaciones-> fecha = $request->fecha;
         $calificaciones-> anio = $request->anio;   
-        $calificaciones-> cursoIntExt = $request->cursoIntExt;
-        if($request->cursoIntExt == 0){
+        /* if($request->cursoIntExt == 0){
             $calificaciones-> id_institucion = 1;
         }
         else{
             $calificaciones-> id_institucion = $request->id_institucion;
-        }        
-        $calificaciones-> difundidoDP = $request->difundidoDP;
-        $calificaciones-> modalidad = $request->modalidad;
+        }    */     
         try{
             if($request->hasFile('file')){
                 $file = $request->file('file');
@@ -162,9 +188,14 @@ class CalificacionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_calificacion)
     {
-        //
+        $calificaciones = Calificacion::find($id_calificacion);
+        $calificaciones-> rechazo = $request->rechazo;
+        $calificaciones-> id_estatus = 3;
+        $calificaciones->save();
+
+        return $calificaciones;
     }
 
     /**
@@ -190,10 +221,52 @@ class CalificacionController extends Controller
         }
     }
 
+    public function rechazar(Request $request, $id_calificacion)
+    {
+        $calificaciones = Calificacion::find($id_calificacion);
+        $calificaciones-> rechazo = $request->rechazo;
+        $calificaciones-> id_estatus = 3;
+        $calificaciones->save();
+
+        return $calificaciones;
+    }
+        
+
     public function califAuth(){
-        $calificaciones = Calificacion::leftJoin('curso', 'calificacion.id_curso', '=', 'curso.id_curso')
+
+        $calificaciones = DB::table ('calificacion')
+        ->join('users', 'calificacion.id_user', "=" , "users.id")
+        ->join('curso', 'calificacion.id_curso', "=", "curso.id_curso")
+        ->join('estatus', 'calificacion.id_estatus', '=', 'estatus.id_estatus')
+        ->join('institucion', 'curso.id_institucion', "=", "institucion.id_institucion" )
+        ->select(
+            'calificacion.id_calificacion',
+            'users.name as id_user',
+            'curso.nombre as id_curso',
+            'calificacion.cursoFin',
+            'calificacion.aprobado',
+            'calificacion.calif',
+            'calificacion.fecha',
+            'calificacion.anio',
+            'calificacion.rechazo',
+            'calificacion.urlConstancia',
+            'calificacion.nombreConstancia',
+            'estatus.nombre as id_estatus',
+            //datos de la tabla curso
+            'institucion.descripcion as id_institucion',
+            'curso.hrsCap as hrsCap',
+            'curso.modalidad as modalidad',
+            'curso.cursoOblig as cursoOblig',
+            'curso.fecha_fin as fecha_fin'
+        )
+        ->where('users.id', Auth::user()->id)
+        ->orderBy("id_calificacion")
+        ->get();
+        return $calificaciones;
+
+
+        /* $calificaciones = Calificacion::leftJoin('curso', 'calificacion.id_curso', '=', 'curso.id_curso')
         ->leftJoin('users', 'calificacion.id_user', '=', 'users.id')
-        ->leftJoin('institucion', 'calificacion.id_institucion', '=', 'institucion.id_institucion')
         ->leftJoin('estatus', 'calificacion.id_estatus', '=', 'estatus.id_estatus')
         ->select([
             'calificacion.id_calificacion',
@@ -204,16 +277,27 @@ class CalificacionController extends Controller
             'calificacion.calif',
             'calificacion.fecha',
             'calificacion.anio',
-            'institucion.siglas as id_institucion',
+            'calificacion.rechazo',
             'calificacion.urlConstancia',
+            'calificacion.nombreConstancia',
             'estatus.nombre as id_estatus',
-            'curso.hrsCap as hrsCap',    
-            'curso.modalidad as modalidad'
-
+            //datos de la tabla curso
+            'curso.hrsCap as hrsCap',
+            'curso.cursoOblig as cursoOblig',  
+            'curso.id_institucion as id_institucion',
+            'curso.modalidad as modalidad',
+            'curso.fecha_fin as fecha_fin'
         ])
         ->where('users.id', Auth::user()->id)
         ->orderBy("id_calificacion")
+        ->get(); */
+
+        /* $calificaciones = Curso::leftJoin('institucion', 'curso.id_institucion', '=', 'institucion.id_institucion')
+        ->select([
+            'institucion.descripcion as id_institucion'
+        ])
+        ->orderBy("id_curso")
         ->get();
-        return $calificaciones;
+        return $calificaciones; */
     }
 }

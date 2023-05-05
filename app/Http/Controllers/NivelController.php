@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Nivel;
 use App\Models\Bitacora;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class NivelController extends Controller
 {
@@ -46,7 +47,7 @@ class NivelController extends Controller
     {
         $niveles = new Nivel();
         $niveles->nomenclatura = $request->nomenclatura;
-        $niveles->nombre = $request->nombre;
+        $niveles->nombre = Str::upper($request->nombre);
         $niveles->save();
 
         $bitacora = new Bitacora();
@@ -90,7 +91,7 @@ class NivelController extends Controller
     {
         $niveles = Nivel::find($id_nivel);
         $niveles->nomenclatura = $request->nomenclatura;
-        $niveles->nombre = $request->nombre;
+        $niveles->nombre = Str::upper($request->nombre);
         $niveles->save();
 
         $bitacora = new Bitacora();

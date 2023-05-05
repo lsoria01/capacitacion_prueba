@@ -41,14 +41,14 @@
             <b-modal centered id="modal-crear" title="Nuevo Nivel" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
-                        <b-col cols="6">
+                        <b-col cols="4">
                           <label>Nomenclatura:</label>
                           <b-form-input id="nomenclatura" name="nomenclatura" v-model="nivel.nomenclatura">
                           </b-form-input>
                         </b-col>
-                        <b-col cols="6">
+                        <b-col cols="8">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="nivel.nombre">
+                          <b-form-input id="nombre" name="nombre" v-model="nivel.nombre" style="text-transform:uppercase">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -65,14 +65,14 @@
             <b-modal centered id="modal-editar" title="Editar Nivel" hide-footer>
                     <b-form @submit.prevent="editar(nivel_)">
                       <b-row>
-                        <b-col cols="6">
+                        <b-col cols="4">
                           <label>Nomenclatura:</label>
                           <b-form-input id="nomenclatura" name="nomenclatura" v-model="nivel_.nomenclatura">
                           </b-form-input>
                         </b-col>
-                        <b-col cols="6">
+                        <b-col cols="8">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="nivel_.nombre">
+                          <b-form-input id="nombre" name="nombre" v-model="nivel_.nombre" style="text-transform:uppercase">
                           </b-form-input>
                         </b-col>
                       </b-row>

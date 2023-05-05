@@ -43,7 +43,7 @@
                       <b-row>
                         <b-col cols="10">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="curso.nombre">
+                          <b-form-input id="nombre" name="nombre" v-model="curso.nombre" style="text-transform:uppercase" autocomplete="off">
                           </b-form-input>
                         </b-col>
                         <b-col cols="2">
@@ -65,7 +65,7 @@
                         </b-col>
                         <b-col cols="2">
                           <label>Hrs de Capacitación:</label>
-                          <b-form-input v-model="curso.hrsCap">
+                          <b-form-input type="number" v-model="curso.hrsCap">
                           </b-form-input>
                         </b-col>
                         <b-col cols="2">
@@ -95,12 +95,12 @@
                       <b-row>
                         <b-col cols="2">
                           <label>Id Curso:</label>
-                          <b-form-input id="folio" name="folio" v-model="curso.folio">
+                          <b-form-input id="folio" name="folio" v-model="curso.folio" autocomplete="off">
                           </b-form-input>
                         </b-col>
                         <b-col cols="3">
                           <label>Modalidad:</label>
-                          <b-form-input v-model="curso.modalidad"></b-form-input>
+                          <b-form-input v-model="curso.modalidad" autocomplete="off"></b-form-input>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
@@ -118,7 +118,7 @@
                       <b-row>
                         <b-col cols="10">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="curso_.nombre">
+                          <b-form-input id="nombre" name="nombre" v-model="curso_.nombre" style="text-transform:uppercase">
                           </b-form-input>
                           <span class="span">Si desea cambiar el nombre, deberá borrar el existente y seleccionar uno nuevo</span>
                         </b-col>
@@ -141,7 +141,7 @@
                         </b-col>
                         <b-col cols="2">
                           <label>Hrs de Capacitación:</label>
-                          <b-form-input v-model="curso_.hrsCap">
+                          <b-form-input type="number" v-model="curso_.hrsCap">
                           </b-form-input>
                         </b-col>
                         <b-col cols="2">

@@ -8,6 +8,7 @@ use App\Models\Institucion;
 use App\Models\Bitacora;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CursoController extends Controller
 {
@@ -58,7 +59,7 @@ class CursoController extends Controller
     public function store(Request $request)
     {
         $cursos = new Curso();
-        $cursos->nombre = $request->nombre;
+        $cursos->nombre = Str::upper($request->nombre);
         $cursos->fecha_inicio = $request->fecha_inicio;
         $cursos->fecha_fin = $request->fecha_fin;
         $cursos->cursoOblig = $request->cursoOblig;
@@ -115,7 +116,7 @@ class CursoController extends Controller
     public function update(Request $request, $id_curso)
     {
         $cursos = Curso::find($id_curso);
-        $cursos->nombre = $request->nombre;
+        $cursos->nombre = Str::upper($request->nombre);
         $cursos->fecha_inicio = $request->fecha_inicio;
         $cursos->fecha_fin = $request->fecha_fin;
         $cursos->cursoOblig = $request->cursoOblig;

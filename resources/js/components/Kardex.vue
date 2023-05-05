@@ -62,9 +62,9 @@
                             <th colspan="2" class="renglonUno">Adscripción</th>
                         </tr>
                         <tr>
-                            <td colspan="2">{{autentic.puesto}}</td>
-                            <td colspan="2">{{autentic.nivel}}</td>
-                            <td colspan="2">{{autentic.adscripcion}}</td>
+                            <td colspan="2">{{autentic.id_puesto}}</td>
+                            <td colspan="2">{{autentic.id_nivel}}</td>
+                            <td colspan="2">{{autentic.id_adscripcion}}</td>
                         </tr>
                         <tr>
                             <th colspan="3" class="renglonUno">Fecha de ingreso al CFCRL</th>
@@ -266,9 +266,9 @@
                                             <th colspan="2" class="renglonUno">Adscripción</th>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">{{autentic.puesto}}</td>
-                                            <td colspan="2">{{autentic.nivel}}</td>
-                                            <td colspan="2">{{autentic.adscripcion}}</td>
+                                            <td colspan="2">{{autentic.id_puesto}}</td>
+                                            <td colspan="2">{{autentic.id_nivel}}</td>
+                                            <td colspan="2">{{autentic.id_adscripcion}}</td>
                                         </tr>
                                         <tr>
                                             <th colspan="3" class="renglonUno">Fecha de ingreso al CFCRL</th>
@@ -451,6 +451,17 @@ export default{
             })
             this.resultado = resultado
             console.log(this.resultado);
+            /* let total = 0;
+            resultado.forEach(item => {
+                total = total + item.hrsCap;
+            })
+            console.log("el total es", total); */
+            // https://www.youtube.com/watch?v=Xw7G2b80dDg
+            let total = 0;
+            let totalPrice = resultado.reduce((total, item) => {
+                return total + item.price;
+            }, 0);
+            console.log("El total con reduce es: ", totalPrice);
             this.historial = 1;
             this.anio = '';
             //iniciar spinner

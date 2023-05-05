@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Institucion;
 use App\Models\Bitacora;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 
 class InstitucionController extends Controller
@@ -47,7 +48,7 @@ class InstitucionController extends Controller
     public function store(Request $request)
     {
         $instituciones = new Institucion();
-        $instituciones->descripcion = $request->descripcion;
+        $instituciones->descripcion = Str::upper($request->descripcion);
         $instituciones->tipo = $request->tipo;
         $instituciones->siglas = $request->siglas;
         $instituciones->save();
@@ -94,7 +95,7 @@ class InstitucionController extends Controller
     public function update(Request $request, $id_institucion)
     {
         $instituciones = Institucion::find($id_institucion);
-        $instituciones->descripcion = $request->descripcion;
+        $instituciones->descripcion = Str::upper($request->descripcion);
         $instituciones->tipo = $request->tipo;
         $instituciones->siglas = $request->siglas;
         $instituciones->save();

@@ -61,31 +61,31 @@
                         </b-col> -->
                         <b-col cols="12">
                           <label>Empleado</label>
-                          <b-form-input list="empleado" size="sm" v-model="nombramiento.empleado" autocomplete="off">
+                          <b-form-input list="empleado" v-model="nombramiento.empleado" autocomplete="off">
                           </b-form-input>
                           <datalist id="empleado">
                             <option v-for="usuario in usuarios">{{ usuario.nombre }}</option>  
                           </datalist>
                         </b-col>
                         <b-col cols="12" class="mb-4">
-                          <label size="sm">Tipo</label>
-                          <b-form-input id="tipo" size="sm" name="tipo" v-model="nombramiento.tipo">
+                          <label>Tipo</label>
+                          <b-form-input id="tipo"  name="tipo" v-model="nombramiento.tipo" autocomplete="off" style="text-transform:uppercase">
                           </b-form-input>
                         </b-col>
                         <b-col cols="6">
-                          <label size="sm">Fecha de Emisión</label>
-                          <b-form-input id="fecEmis" size="sm" name="fecEmis" type="date" v-model="nombramiento.fecEmis">
+                          <label>Fecha de Emisión</label>
+                          <b-form-input id="fecEmis" name="fecEmis" type="date" v-model="nombramiento.fecEmis">
                           </b-form-input>
                         </b-col>
                         <b-col cols="6">
-                          <label size="sm">Fecha de Ratificación</label>
-                          <b-form-input id="fecRatif" size="sm" name="fecRatif" type="date" v-model="nombramiento.fecRatif">
+                          <label>Fecha de Ratificación</label>
+                          <b-form-input id="fecRatif"  name="fecRatif" type="date" v-model="nombramiento.fecRatif">
                           </b-form-input>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <b-button class="botones" size="sm" type="submit">Guardar</b-button>
+                              <b-button class="botones" type="submit">Guardar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>
@@ -121,32 +121,32 @@
                         </b-col> -->
                         <b-col cols="12">
                           <label>Empleado</label>
-                          <b-form-input list="empleado" size="sm" v-model="nombramiento_.empleado" autocomplete="off">
+                          <b-form-input list="empleado" v-model="nombramiento_.empleado" autocomplete="off">
                           </b-form-input>
                           <datalist id="empleado">
                             <option v-for="usuario in usuarios">{{ usuario.nombre }}</option>  
                           </datalist>
                         </b-col>
                         <b-col cols="12" class="mb-4">
-                          <label size="sm">Tipo</label>
-                          <b-form-input id="tipo" size="sm" name="tipo" v-model="nombramiento_.tipo">
+                          <label>Tipo</label>
+                          <b-form-input id="tipo" name="tipo" v-model="nombramiento_.tipo" style="text-transform:uppercase">
                           </b-form-input>
                         </b-col>
                         <b-col cols="6">
-                          <label size="sm">Fecha de Emisión</label>
-                          <b-form-input id="fecEmis" size="sm" name="fecEmis" type="date" v-model="nombramiento_.fecEmis">
+                          <label>Fecha de Emisión</label>
+                          <b-form-input id="fecEmis" name="fecEmis" type="date" v-model="nombramiento_.fecEmis">
                           </b-form-input>
                         </b-col>
                         <b-col cols="6">
-                          <label size="sm">Fecha de Ratificación</label>
-                          <b-form-input id="fecRatif" size="sm" name="fecRatif" type="date" v-model="nombramiento_.fecRatif">
+                          <label>Fecha de Ratificación</label>
+                          <b-form-input id="fecRatif" name="fecRatif" type="date" v-model="nombramiento_.fecRatif">
                           </b-form-input>
                         </b-col>
                       </b-row>
                       <b-row align-h="end" class="mt-4 mb-4">
                           <b-col>
-                              <b-button class="botones mr-2" size="sm" type="submit">Editar</b-button>
-                              <b-button class="botones" size="sm" @click="cancelar()">Cancelar</b-button>
+                              <b-button class="botones mr-2" type="submit">Editar</b-button>
+                              <b-button class="botones" @click="cancelar()">Cancelar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>

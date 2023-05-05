@@ -43,7 +43,7 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="descripcion" name="descripcion" v-model="institucion.descripcion">
+                          <b-form-input id="descripcion" name="descripcion" v-model="institucion.descripcion" style="text-transform:uppercase">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -74,7 +74,7 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="descripcion" name="descripcion" v-model="institucion_.descripcion">
+                          <b-form-input id="descripcion" name="descripcion" v-model="institucion_.descripcion" style="text-transform:uppercase">
                           </b-form-input>
                         </b-col>
                       </b-row>

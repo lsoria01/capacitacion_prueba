@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Nombramiento;
+use Illuminate\Support\Str;
 
 class NombramientoController extends Controller
 {
@@ -47,7 +48,7 @@ class NombramientoController extends Controller
     {
         $nombramientos = new Nombramiento();
         $nombramientos->empleado = $request->empleado;
-        $nombramientos->tipo = $request->tipo;
+        $nombramientos->tipo = Str::upper($request->tipo);
         $nombramientos->fecEmis = $request->fecEmis;
         $nombramientos->fecRatif = $request->fecRatif;
         $nombramientos->save();
@@ -87,7 +88,7 @@ class NombramientoController extends Controller
     {
         $nombramientos = Nombramiento::find($id_nombramiento);
         $nombramientos->empleado = $request->empleado;
-        $nombramientos->tipo = $request->tipo;
+        $nombramientos->tipo = Str::upper($request->tipo);
         $nombramientos->fecEmis = $request->fecEmis;
         $nombramientos->fecRatif = $request->fecRatif;
         $nombramientos->save();

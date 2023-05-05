@@ -115,7 +115,7 @@
                     <b-row>
                       <b-col cols="2">
                           <label>Calificación:</label>
-                          <b-form-input v-model="miCurso.calif">
+                          <b-form-input v-model="miCurso.calif" autocomplete="off">
                           </b-form-input>
                       </b-col>
                       <b-col cols="6">
@@ -124,7 +124,7 @@
                         </b-form-group>
                       </b-col>
                       <b-col cols="4">
-                        <b-button class="botones" style="margin-top: 31px;"
+                        <b-button class="botones" style="margin-top: 31px;" @click="showAlert()"
                         v-b-modal.modal-crearCurso>
                         El curso no aparece en el listado 
                         <b-icon icon="exclamation-circle">
@@ -197,9 +197,31 @@
           <b-modal centered id="modal-crearCurso" size="xl" title="Nuevo Curso" hide-footer>
                     <b-form @submit.prevent="crearCurso">
                       <b-row>
+                        <b-col cols="12">
+                          <b-alert
+                          :show="dismissCountDown"
+                          dismissible
+                          fade
+                          variant="danger"
+                          @dismiss-count-down="countDownChanged"
+                        >
+                          <center>
+                          <b> ¿Estás seguro que tu curso no está en el listado? <br> Si anotas uno existente, la solicitud no será validada y deberás iniciar el registro del curso. </b><br> <br>
+                          Este aviso desaparecerá en:  {{ dismissCountDown }} segundos... <br>
+                          <b-progress
+                            variant="danger"
+                            :max="dismissSecs"
+                            :value="dismissCountDown"
+                            height="4px"
+                          ></b-progress>
+                          </center>
+                        </b-alert>
+                        </b-col>
+                      </b-row>
+                      <b-row>
                         <b-col cols="10">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="curso.nombre">
+                          <b-form-input id="nombre" name="nombre" v-model="curso.nombre" style="text-transform:uppercase" autocomplete="off">
                           </b-form-input>
                         </b-col>
                         <b-col cols="2">
@@ -251,12 +273,12 @@
                       <b-row>
                         <b-col cols="2">
                           <label>Id Curso:</label>
-                          <b-form-input id="folio" name="folio" v-model="curso.folio">
+                          <b-form-input id="folio" name="folio" v-model="curso.folio" autocomplete="off">
                           </b-form-input>
                         </b-col>
                         <b-col cols="3">
                           <label>Modalidad:</label>
-                          <b-form-input v-model="curso.modalidad"></b-form-input>
+                          <b-form-input v-model="curso.modalidad" autocomplete="off"></b-form-input>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
@@ -281,6 +303,14 @@
                     ></b-form-textarea>
                   </b-col>
                 </b-row>
+            </b-modal>
+
+            <!-- Inicio modal información -->
+
+            <b-modal centered id="modal-info" title="Importante" ok-only>
+              <b-row>
+                <p>"Al registrar un curso existente en el listado, tendrá que volver hacer su registro"</p>
+              </b-row>
             </b-modal>
 
           <b-container fluid>
@@ -426,6 +456,9 @@ export default {
           { key: 'id_estatus', label: 'Estatus', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
       ],
+      dismissSecs: 10,
+      dismissCountDown: 0,
+      showDismissibleAlert: false,
       fecha_hoy:fecha,
       detalles: false,
       archivo:null,
@@ -779,6 +812,12 @@ export default {
     },
     cancelar(){
         this.$bvModal.hide('modal-editar');
+    },
+    countDownChanged(dismissCountDown) {
+        this.dismissCountDown = dismissCountDown
+    },
+    showAlert() {
+      this.dismissCountDown = this.dismissSecs
     },
     crearCurso(){
         this.msgResult='',

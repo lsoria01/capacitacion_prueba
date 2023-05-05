@@ -6,6 +6,7 @@ use App\Models\Puesto;
 use Illuminate\Http\Request;
 use App\Models\Bitacora;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class PuestoController extends Controller
 {
@@ -44,7 +45,7 @@ class PuestoController extends Controller
     public function store(Request $request)
     {
         $puestos = new Puesto();
-        $puestos->descripcion = $request->descripcion;
+        $puestos->descripcion = Str::upper($request->descripcion);
         $puestos->save();
 
         $bitacora = new Bitacora();
@@ -87,7 +88,7 @@ class PuestoController extends Controller
     public function update(Request $request, $id_puesto)
     {
         $puestos = Puesto::find($id_puesto);
-        $puestos->descripcion = $request->descripcion;
+        $puestos->descripcion = Str::upper($request->descripcion);
         $puestos->save();
 
         $bitacora = new Bitacora();

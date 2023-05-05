@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Estado;
 use App\Models\Bitacora;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class EstadoController extends Controller
 {
@@ -44,7 +45,7 @@ class EstadoController extends Controller
     public function store(Request $request)
     {
         $estados = new Estado();
-        $estados->nombre = $request->nombre;
+        $estados->nombre = Str::upper($request->nombre);
         $estados->save();
 
         $bitacora = new Bitacora();
@@ -87,7 +88,7 @@ class EstadoController extends Controller
     public function update(Request $request, $id_estado)
     {
         $estados = Estado::find($id_estado);
-        $estados->nombre = $request->nombre;
+        $estados->nombre = Str::upper($request->nombre);
         $estados->save();
 
         $bitacora = new Bitacora();

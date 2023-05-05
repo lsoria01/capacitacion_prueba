@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\GradoEstudio;
 use App\Models\Bitacora;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class GradoEstudioController extends Controller
 {
@@ -44,7 +45,7 @@ class GradoEstudioController extends Controller
     public function store(Request $request)
     {
         $grados = new GradoEstudio();
-        $grados->nombre = $request->nombre;
+        $grados->nombre = Str::upper($request->nombre);
         $grados->save();
 
         $bitacora = new Bitacora();
@@ -87,7 +88,7 @@ class GradoEstudioController extends Controller
     public function update(Request $request, $id_gradoEst)
     {
         $grados = GradoEstudio::find($id_gradoEst);
-        $grados->nombre = $request->nombre;
+        $grados->nombre = Str::upper($request->nombre);
         $grados->save();
 
         $bitacora = new Bitacora();

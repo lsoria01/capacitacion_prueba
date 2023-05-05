@@ -11,14 +11,14 @@ class GradoEstudioSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('gradoEst')->insert(['nombre'=>'Preescolar' ]);
-        DB::table('gradoEst')->insert(['nombre'=>'Primaria' ]);
-        DB::table('gradoEst')->insert(['nombre'=>'Secundaria' ]);
-        DB::table('gradoEst')->insert(['nombre'=>'Bachillerato General' ]);
-        DB::table('gradoEst')->insert(['nombre'=>'Bachillerato Tecnológico' ]);
-        DB::table('gradoEst')->insert(['nombre'=>'Licenciatura' ]);
-        DB::table('gradoEst')->insert(['nombre'=>'Especialización' ]);
-        DB::table('gradoEst')->insert(['nombre'=>'Maestría' ]);
-        DB::table('gradoEst')->insert(['nombre'=>'Doctorado' ]);
+        DB::table('gradoEst')->insert(['nombre'=>'PREESCOLAR' ]);
+        DB::table('gradoEst')->insert(['nombre'=>'PRIMARIA' ]);
+        DB::table('gradoEst')->insert(['nombre'=>'SECUNDARIA' ]);
+        DB::table('gradoEst')->insert(['nombre'=>'BACHILLERATO GENERAL' ]);
+        DB::table('gradoEst')->insert(['nombre'=>'BACHILLERATO TECNOLÓGICO' ]);
+        DB::table('gradoEst')->insert(['nombre'=>'LICENCIATURA' ]);
+        DB::table('gradoEst')->insert(['nombre'=>'ESPECIALIZACIÓN' ]);
+        DB::table('gradoEst')->insert(['nombre'=>'MAESTRÍA' ]);
+        DB::table('gradoEst')->insert(['nombre'=>'DOCTORADO' ]);
     }
 }

@@ -4,24 +4,18 @@
           <a href="/home"><img v-bind:src="'img/logo-header.svg'" class="logo-gobmx"></a>
           <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
-                  <b-nav-item-dropdown v-if="rol == 1" text="Catálogos" class="mr-4" right>
-                        <b-dropdown-item class="activo active" v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
+                    <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
+                        <b-dropdown-item v-if="rol == 1" href="/home">Home</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
                         <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
-                </b-nav-item-dropdown>
-                <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
-                        <b-dropdown-item v-if="rol == 1" href="/kardex">Kardex</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/calificaciones">Validación de cursos externos</b-dropdown-item>
-                </b-nav-item-dropdown>
-                <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
-                        <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Registrar cursos externos</b-dropdown-item>
-                </b-nav-item-dropdown>
+                    </b-nav-item-dropdown>
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
                         <template #button-content>
@@ -32,49 +26,6 @@
                 </b-navbar-nav>
         </b-navbar>
         <div class="container my-4">
-            <b-row align-h="end">
-              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Adscripción</b-button>
-            </b-row>
-
-            <!-- Inicio modal crear -->
-
-            <b-modal centered id="modal-crear" title="Nueva Adscripción" hide-footer>
-                    <b-form @submit.prevent="crear">
-                      <b-row>
-                        <b-col cols="12">
-                          <label>Nombre:</label>
-                          <b-form-input id="descripcion" name="descripcion" v-model="adscripcion.descripcion" style="text-transform:uppercase" required>
-                          </b-form-input>
-                        </b-col>
-                      </b-row>
-                      <b-row class="mt-4 mb-4">
-                          <b-col cols="1">
-                              <b-button class="botones" type="submit">Guardar</b-button>
-                          </b-col>
-                      </b-row>
-                    </b-form>
-            </b-modal>
-
-            <!-- Inicio modal editar -->
-
-            <b-modal centered id="modal-editar" title="Editar Adscripción" hide-footer>
-                    <b-form @submit.prevent="editar(adscripcion_)">
-                      <b-row>
-                        <b-col cols="12">
-                          <label>Nombre:</label>
-                          <b-form-input id="descripcion" name="descripcion" v-model="adscripcion_.descripcion" style="text-transform:uppercase">
-                          </b-form-input>
-                        </b-col>
-                      </b-row>
-                      <b-row class="mt-4 mb-4">
-                          <b-col cols="1">
-                              <b-button class="botones" type="submit">Editar</b-button>
-                          </b-col>
-                      </b-row>
-                    </b-form>
-            </b-modal>
-
-
 
             <b-container fluid>
                 <!-- User Interface controls -->
@@ -105,9 +56,8 @@
 
                 <!-- Main table element -->
                 <b-table striped hover
-                id="table-transition-example"
                 class="table table-sm"
-                :items="adscripciones"
+                :items="bitacoras"
                 :fields="fields"
                 :current-page="currentPage"
                 :per-page="perPage"
@@ -116,8 +66,6 @@
                 :sort-by.sync="sortBy"
                 :sort-desc.sync="sortDesc"
                 :sort-direction="sortDirection"
-                :tbody-transition-props="transProps"
-                primary-key="id_adscripcion"
                 empty-text="Sin registros por mostrar"
                 stacked="md"
                 show-empty
@@ -130,7 +78,7 @@
 
                 <template #cell(actions)="row">
                     <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-editar>
-                      Editar
+                        Editar
                     </b-button>
                 </template>
 
@@ -190,24 +138,21 @@
   export default {
     data() {
       return {
-        transProps: {
-          // Transition name
-          name: 'flip-list'
-        },
         fields: [
-          { key: 'descripcion', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'actions', class: 'text-center small', label: 'Acciones' }
+          { key: 'id_user', label: 'Usuario', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'descripcion', label: 'Detalle', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'created_at', label: 'Fecha', class: 'text-center small', sortable: true, sortDirection: 'desc' },
         ],
         msgResult:'',
         rol:'',
         usrActual:'',
-        adscripciones:[],
-        adscripcion:{
-          descripcion:''
+        estados:[],
+        estado:{
+          nombre:''
         },
-        adscripcion_:{
-          id_adscripcion:'',
-          descripcion:''
+        estado_:{
+          id_estado:'',
+          nombre:''
         },
         totalRows: 1,
         currentPage: 1,
@@ -226,9 +171,9 @@
       }
     },
     created(){
-        axios.get('/adscripcion')
+        axios.get('/bitacora')
         .then(res=>{
-            this.adscripciones = res.data;
+            this.bitacoras = res.data;
         })
         axios.get('/rol')
         .then(res=>{
@@ -249,12 +194,12 @@
           })
       },
       totalregistros(){
-          return this.adscripciones.length;
+          return this.bitacoras.length;
         },
     },
     mounted() {
       // Set the initial number of items
-      this.totalRows = this.adscripciones.length
+      this.totalRows = this.bitacoras.length
     },
     methods: {
       info(item, index, button) {
@@ -271,104 +216,6 @@
         this.totalRows = filteredItems.length
         this.currentPage = 1
       },
-      crear(){
-        this.msgResult='',
-        this.showMsgBoxCrear(); //Modal confirmación
-
-      },
-      showMsgBoxCrear(){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar la nueva adscripción?`, {
-                title: 'Aviso',
-                size: 'sm',
-                buttonSize: 'sm',
-                okTitle: 'Aceptar',
-                okColor: '#285C4D',
-                cancelTitle: 'Cancelar',
-                hideHeaderClose: false,
-                centered: true
-            })
-            .then(value=>{
-              if(value){
-              const params={
-                descripcion: this.adscripcion.descripcion
-              }
-              axios.post('/adscripcion', params)
-              .then(res=>{
-                //ocultar modal
-                this.$bvModal.hide('modal-crear');
-                this.adscripciones.push(res.data)
-                //mostrar toaster
-                this.$toaster.success('¡Adscripción creada con éxito!')
-                //Limpiamos los campos
-                this.adscripcion.descripcion = '';
-                //recargamos cambios
-                axios.get('/adscripcion')
-                .then(res=>{
-                    this.adscripciones = res.data;
-                })
-                .catch((error) => {
-                            if (error) {
-                                this.$toaster.error('Lo sentimos, la adscripción no se pudo crear ')
-                                console.log(error);
-                            }
-                    })
-                })
-              }
-            })
-      },
-      cargarDatos(item){
-        this.adscripcion_.id_adscripcion = item.id_adscripcion,
-        this.adscripcion_.descripcion = item.descripcion
-      },
-      editar(item){
-        this.msgResult='';
-        this.showMsgBoxEditar(item); //Modal confirmación
-      },
-      showMsgBoxEditar(item){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea editar la adscripción actual ?`, {
-            title: 'Aviso',
-            size: 'sm',
-            buttonSize: 'sm',
-            okTitle: 'Aceptar',
-            okColor: '#285C4D',
-            cancelTitle: 'Cancelar',
-            hideHeaderClose: false,
-            centered: true
-        })
-        .then(value=>{
-          if(value){
-            const params = {
-              id_adscripcion : item.id_adscripcion,
-              descripcion: item.descripcion
-            }
-            axios.put(`/adscripcion/${item.id_adscripcion}`, params)
-            .then(res =>{
-              //ocultar modal
-              this.$bvModal.hide('modal-editar');
-              const index = this.adscripciones.findIndex(
-                adscripcionBuscar => adscripcionBuscar.id_adscripcion === item.id_adscripcion
-              )
-              this.adscripciones[index] = res.data
-              //mostrar toaster
-              this.$toaster.success('¡Adscripción actualizada con éxito')
-              //Recargamos los cambios
-              axios.get('/adscripcion')
-                .then(res=>{
-                    this.adscripciones = res.data
-                })
-              .catch((error) => {
-                if (error) {
-                  this.$toaster.error('Ha ocuurido un error')
-                  console.log(error);
-                }
-              })
-            })
-          }
-        })
-      },
-      cancelar(){
-            this.$bvModal.hide('modal-editar');
-        },
       logout() {
             axios.post('/logout')
             .then(res=>{
@@ -396,12 +243,5 @@ height: 48px;
   background-color: #B38E5D !important;
   border-color: #B38E5D !important;
   color: #fff !important;
-}
-.activo{
-  background-color: #D4C19C !important;
-}
-
-#table-transition-example .flip-list-move {
-  transition: transform 1s;
 }
 </style>

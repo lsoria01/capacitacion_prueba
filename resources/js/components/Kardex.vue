@@ -1,12 +1,11 @@
 <template>
     <div>
         <b-navbar toggleable="lg" class="background-nav" type="dark">
-            <img v-bind:src="'img/logo-header.svg'" class="logo-gobmx">
+            <a href="/home"><img v-bind:src="'img/logo-header.svg'" class="logo-gobmx"></a>
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
-                <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
+                <b-nav-item-dropdown v-if="rol == 1" text="Catálogos" class="mr-4" right>
                         <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
@@ -14,10 +13,14 @@
                         <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
+                        <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
+                </b-nav-item-dropdown>
+                <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
+                        <b-dropdown-item class="activo active" v-if="rol == 1" href="/kardex">Kardex</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/calificaciones">Validación de cursos externos</b-dropdown-item>
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
-                        <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Capturar cursos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Registrar cursos externos</b-dropdown-item>
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown right>
                     <!-- Using 'button-content' slot -->
@@ -50,8 +53,8 @@
                             <th colspan="3" class="renglonUno">Nombre</th>
                         </tr>
                         <tr>
-                            <td colspan="3" class="renglonDos">{{autentic.id}}</td>
-                            <td colspan="3" class="renglonDos">{{autentic.name}}</td>
+                            <td colspan="3" class="renglonDos">{{autentic.numEmpl}}</td>
+                            <td colspan="3" class="renglonDos">{{autentic.nombreCompleto}}</td>
                         </tr>
                         <tr>
                             <th colspan="2" class="renglonUno">Puesto</th>
@@ -59,9 +62,9 @@
                             <th colspan="2" class="renglonUno">Adscripción</th>
                         </tr>
                         <tr>
-                            <td colspan="2">{{autentic.puesto}}</td>
-                            <td colspan="2">{{autentic.nivel}}</td>
-                            <td colspan="2">{{autentic.adscripcion}}</td>
+                            <td colspan="2">{{autentic.id_puesto}}</td>
+                            <td colspan="2">{{autentic.id_nivel}}</td>
+                            <td colspan="2">{{autentic.id_adscripcion}}</td>
                         </tr>
                         <tr>
                             <th colspan="3" class="renglonUno">Fecha de ingreso al CFCRL</th>
@@ -69,7 +72,7 @@
                         </tr>
                         <tr>
                             <td colspan="3">{{autentic.fechaIngr}}</td>
-                            <td colspan="3"><p v-if="autentic.superior == 22">DIRECCIÓN DE INNOVACIÓN Y PROCESOS</p> </td>
+                            <td colspan="3">{{autentic.id_superior}}</td>
                         </tr>
                         <tr>
                             <th colspan="2" class="renglonUno">CURP</th>
@@ -107,39 +110,34 @@
             </div>
             <br> <br> -->
             <!-- Sección de búsqueda -->
-            <p class="my-4 row justify-content-center"><b>Seleccione el año del ejercicio o el periodo de consulta</b></p>
-            <b-row>
-                <b-col cols="4">
-                    <label for="anio">Año</label>
-                    <b-form-input id="anio" v-model="anio">año</b-form-input>
+            <p class="my-4 row justify-content-center"><b>Seleccione el año del ejercicio:</b></p>
+            <b-row class="my-4 row justify-content-center" style="margin-left: 120px;">
+                <b-col cols="3">
+                    <label for="anio">Año:</label>
+                    <b-form-input id="anio" type="number" v-model="anio">año</b-form-input>
                 </b-col>
-                <b-col cols="2">
+                <b-col cols="3">
+                    <b-button class="renglonDos" @click="buscarAnio()" style="margin-top: 32px;">Consultar</b-button>
                 </b-col>
 
-                <b-col cols="3">
+                <!-- <b-col cols="3">
                     <label for="anioIni">Año Inicial</label>
                     <b-form-input id="anioIni"></b-form-input>
                 </b-col>
                 <b-col cols="3">
                     <label for="anioFin">Año Final</label>
                     <b-form-input id="anioFin"></b-form-input>
-                </b-col>
+                </b-col> -->
             </b-row>
-            <br> <br>
-            <b-row>
-                <b-col cols="3">
-                    <b-button class="renglonDos" @click="buscarAnio()">Consultar</b-button>
-                </b-col>
-                <b-col cols="3">
-                    
-                </b-col>
-                <b-col cols="6">
+            <b-row class="my-4 row justify-content-center">
+                
+                <!-- <b-col cols="6">
                     <b-button class="renglonDos" @click="buscarIniFin()">Consultar</b-button>
-                </b-col>
+                </b-col> -->
             </b-row>
             <br> <br>
             <!-- Historial de horas de capacitación -->
-            <div v-if="historial">
+            <div v-if="historial == 1">
                 <p class="my-4"><b>A continuación se detalla el historial de las horas de capacitación tomadas en el año 2022:</b></p>
                     <table class="table table-striped" style="text-align: center;">
                         <thead>
@@ -163,7 +161,7 @@
                                 <td>{{calif.anio}}</td>
                                 <td><p v-if="calif.cursoOblig">Obligatorio</p> <p v-else>Optativo</p> </td>                                
                                 <td>{{calif.id_institucion}}</td>
-                                <td>{{calif.curso}}</td>
+                                <td>{{calif.id_curso}}</td>
                                 <td>{{calif.hrsCap}}</td> 
                                 <td>{{calif.calif}}</td>
                             </tr>
@@ -184,8 +182,8 @@
                                 <tr>
                                     <td>1</td>
                                     <td>{{ anio }}</td>
-                                    <td>42</td>
-                                    <td>Cumple</td>
+                                    <td>{{ totalhrs }}</td>
+                                    <td> <p v-if="totalhrs >=40">Cumple</p> <p v-else>No cumple</p> </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -205,6 +203,8 @@
                             </b-col>
                         </b-row>                    
                     </div> -->
+            </div>
+            <div v-if="historial == 2">
             </div>
         </div>
 
@@ -254,8 +254,8 @@
                                             <th colspan="3" class="renglonUno">Nombre</th>
                                         </tr>
                                         <tr>
-                                            <td colspan="3" class="renglonDos">{{autentic.id}}</td>
-                                            <td colspan="3" class="renglonDos">{{autentic.name}}</td>
+                                            <td colspan="3" class="renglonDos">{{autentic.numEmpl}}</td>
+                                            <td colspan="3" class="renglonDos">{{autentic.nombreCompleto}}</td>
                                         </tr>
                                         <tr>
                                             <th colspan="2" class="renglonUno">Puesto</th>
@@ -263,9 +263,9 @@
                                             <th colspan="2" class="renglonUno">Adscripción</th>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">{{autentic.puesto}}</td>
-                                            <td colspan="2">{{autentic.nivel}}</td>
-                                            <td colspan="2">{{autentic.adscripcion}}</td>
+                                            <td colspan="2">{{autentic.id_puesto}}</td>
+                                            <td colspan="2">{{autentic.id_nivel}}</td>
+                                            <td colspan="2">{{autentic.id_adscripcion}}</td>
                                         </tr>
                                         <tr>
                                             <th colspan="3" class="renglonUno">Fecha de ingreso al CFCRL</th>
@@ -273,7 +273,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="3">{{autentic.fechaIngr}}</td>
-                                            <td colspan="3"><p v-if="autentic.superior == 22">DIRECCIÓN DE INNOVACIÓN Y PROCESOS</p> </td>
+                                            <td colspan="3">{{autentic.id_superior}}</td>
                                         </tr>
                                         <tr>
                                             <th colspan="2" class="renglonUno">CURP</th>
@@ -290,7 +290,7 @@
                             </div>
                             <br> <br>
                             <!-- Historial de horas de capacitación -->
-                            <div v-if="historial" style="padding-left: 40px;">
+                            <div v-if="historial == 1" style="padding-left: 40px;">
                                     <table class="table table-sm striped hover" style="text-align: center; font-size: 10px">
                                         <thead style="display:none">
                                             <tr>
@@ -321,7 +321,7 @@
                                                 <td colspan="1">{{calif.anio}}</td>
                                                 <td colspan="1"><p v-if="calif.cursoOblig">Obligatorio</p> <p v-else>Optativo</p> </td>                                
                                                 <td colspan="1">{{calif.id_institucion}}</td>
-                                                <td colspan="1">{{calif.curso}}</td>
+                                                <td colspan="1">{{calif.id_curso}}</td>
                                                 <td colspan="1">{{calif.hrsCap}}</td>
                                                 <td colspan="1">{{calif.calif}}</td>
                                             </tr>
@@ -341,9 +341,9 @@
                                             <tbody>
                                                 <tr>
                                                     <td>1</td>
-                                                    <td>2022</td>
-                                                    <td>42</td>
-                                                    <td>Cumple</td>
+                                                    <td>{{ anio }}</td>
+                                                    <td>{{ totalhrs }}</td>
+                                                    <td> <p v-if="totalhrs >=40">Cumple</p> <p v-else>No cumple</p> </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -387,8 +387,9 @@ export default{
             usrActual:'',
             calificacion:[],
             anio:'',
-            historial:false,
+            historial:0,
             rol:'',
+            totalhrs:'',
             //PDF
             htmlToPdfOptions: {
                 margin: [0.5, 1, 0.5, 1], //top, left, bottom, right
@@ -423,7 +424,7 @@ export default{
         .then(res=>{
             this.usrActual = res.data;
         })
-        axios.get('/calificacion')
+        axios.get('/califKardex')
         .then(res=>{
             this.calificacion = res.data;
         })
@@ -447,9 +448,22 @@ export default{
                 return e.anio == anio
             })
             this.resultado = resultado
-            console.log(this.resultado);
-            this.historial = 1;
-            this.anio = '';
+            let totalhrs = 0;
+            resultado.forEach(item => {
+                totalhrs = totalhrs + item.hrsCap;
+            })
+            this.totalhrs = totalhrs;
+            // https://www.youtube.com/watch?v=Xw7G2b80dDg
+            if(this.totalhrs != ''){
+                this.historial = 1;  
+                this.$toaster.success('¡Resultados encontrados satisfactoriamente!')  
+            }
+            else{
+                this.historial = 2;
+                this.$toaster.error('¡Sin resultados encontrados!. Intente nuevamente')
+            }
+            
+            //this.anio = '';
             //iniciar spinner
             var loader =  this.$loading.show({
                 container: null
@@ -458,10 +472,6 @@ export default{
             loader.hide();
 
         },
-        buscarIniFin(){
-            console.log('buscarIniFin');
-        },
-
         reportePDF(){
             this.generateReport();
         },
@@ -514,5 +524,8 @@ height: 48px;
 }
 .fuente{
     font-size: 10px;
+}
+.activo{
+  background-color: #D4C19C !important;
 }
 </style>

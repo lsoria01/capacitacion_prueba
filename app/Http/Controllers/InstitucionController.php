@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Institucion;
+use App\Models\Bitacora;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+
 
 class InstitucionController extends Controller
 {
@@ -44,10 +48,16 @@ class InstitucionController extends Controller
     public function store(Request $request)
     {
         $instituciones = new Institucion();
-        $instituciones->descripcion = $request->descripcion;
+        $instituciones->descripcion = Str::upper($request->descripcion);
         $instituciones->tipo = $request->tipo;
         $instituciones->siglas = $request->siglas;
         $instituciones->save();
+
+        $bitacora = new Bitacora();
+        $bitacora->id_user = Auth::id();
+        $bitacora->descripcion = "Creó un nueva Institución, con nombre: ". $request->descripcion . ", de tipo: " . $request->tipo. ", con siglas: ".$request->siglas ;
+        $bitacora->save();
+
         return $instituciones;
     }
 
@@ -85,10 +95,16 @@ class InstitucionController extends Controller
     public function update(Request $request, $id_institucion)
     {
         $instituciones = Institucion::find($id_institucion);
-        $instituciones->descripcion = $request->descripcion;
+        $instituciones->descripcion = Str::upper($request->descripcion);
         $instituciones->tipo = $request->tipo;
         $instituciones->siglas = $request->siglas;
         $instituciones->save();
+
+        $bitacora = new Bitacora();
+        $bitacora->id_user = Auth::id();
+        $bitacora->descripcion = "Actualizó la Institución con id: " .$id_institucion. ", por el nuevo nombre: ". $request->descripcion . ", por el tipo: " . $request->tipo. ", y por las siglas: ".$request->siglas ;
+        $bitacora->save();
+
         return $instituciones;
     }
 

@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('/bitacoras', function () {
+    return view('bitacora');
+});
+
 Route::get('/capturar', function () {
     return view('capturar');
 });
@@ -69,6 +73,13 @@ Route::get('/grados', function () {
     return view('gradoEst');
 });
 
+Route::get('/bienvenida', function () {
+    return view('bienvenida');
+});
+
+Route::get('/kardex', function () {
+    return view('kardex');
+});
 /*
 ********** Comentado la ruta  Auth::routes();
 */
@@ -103,7 +114,13 @@ Route::get('/nombramientoAuth', 'UserController@nombramientoAuth')->name('nombra
 Route::get('/usrActual', 'UserController@usrActual')->name('usrActual'); //Nombre del usuario autenticado
 Route::get('/rol', 'UserController@rol')->name('rol'); //Rol del usuario atenticado
 Route::get('/nombreInstituciones', 'CursoController@nombreInstituciones')->name('nombreInstituciones'); //Nombre de las instituciones existentes
-
+Route::post('calificacion/validar/{id_calificacion}', 'CalificacionController@validar')->name('validar'); //Valida el curso-calificación
+Route::put('calificacion/{rechazar}/{id_calificacion}', 'CalificacionController@rechazar'); //Rechaza el curso-calificación
+Route::post('curso/validar/{id_curso}', 'CursoController@validar')->name('validar'); //Valida el curso
+Route::get('/idUsrActual', 'UserController@idUsrActual')->name('idUsrActual'); //Id del usuario autenticado
+Route::get('/califAuth', 'CalificacionController@califAuth')->name('califAuth'); //Calificaciones del usuario atenticado califAuth
+Route::get('/califKardex', 'CalificacionController@califKardex')->name('califKardex'); //Calificaciones del usuario atenticado para Kardex
+Route::post('usuario/cambiaEstatus/{id}', 'UserController@cambiaEstatus')->name('cambiaEstatus'); //Cambia el estatus del usuario
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -117,3 +134,4 @@ Route::resource('institucion', 'InstitucionController');
 Route::resource('nivel', 'NivelController');
 Route::resource('estado', 'EstadoController');
 Route::resource('grado', 'GradoEstudioController');
+Route::resource('bitacora', 'BitacoraController');

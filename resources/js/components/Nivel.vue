@@ -1,20 +1,26 @@
 <template>
     <div>
         <b-navbar toggleable="lg" class="background-nav" type="dark">
-          <img v-bind:src="'img/logo-header.svg'" class="logo-gobmx">
+          <a href="/home"><img v-bind:src="'img/logo-header.svg'" class="logo-gobmx"></a>
           <!-- Right aligned nav items -->
-                <b-navbar-nav class="ml-auto">
+                    <b-navbar-nav class="ml-auto">
+                      <b-nav-item-dropdown v-if="rol == 1" text="Catálogos" class="mr-4" right>
+                            <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
+                            <b-dropdown-item class="activo active" v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                            <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
+                    </b-nav-item-dropdown>
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
-                        <b-dropdown-item v-if="rol == 1" href="/home">Home</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/calificaciones">Calificaciones</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/kardex">Kardex</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/calificaciones">Validación de cursos externos</b-dropdown-item>
+                    </b-nav-item-dropdown>
+                    <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
+                            <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Registrar cursos externos</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
@@ -35,14 +41,14 @@
             <b-modal centered id="modal-crear" title="Nuevo Nivel" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
-                        <b-col cols="6">
+                        <b-col cols="4">
                           <label>Nomenclatura:</label>
-                          <b-form-input id="nomenclatura" name="nomenclatura" v-model="nivel.nomenclatura">
+                          <b-form-input id="nomenclatura" name="nomenclatura" v-model="nivel.nomenclatura" required>
                           </b-form-input>
                         </b-col>
-                        <b-col cols="6">
+                        <b-col cols="8">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="nivel.nombre">
+                          <b-form-input id="nombre" name="nombre" v-model="nivel.nombre" style="text-transform:uppercase" required>
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -59,14 +65,14 @@
             <b-modal centered id="modal-editar" title="Editar Nivel" hide-footer>
                     <b-form @submit.prevent="editar(nivel_)">
                       <b-row>
-                        <b-col cols="6">
+                        <b-col cols="4">
                           <label>Nomenclatura:</label>
                           <b-form-input id="nomenclatura" name="nomenclatura" v-model="nivel_.nomenclatura">
                           </b-form-input>
                         </b-col>
-                        <b-col cols="6">
+                        <b-col cols="8">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="nivel_.nombre">
+                          <b-form-input id="nombre" name="nombre" v-model="nivel_.nombre" style="text-transform:uppercase">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -108,7 +114,7 @@
                 </b-row>
 
                 <!-- Main table element -->
-                <b-table
+                <b-table striped hover
                 class="table table-sm"
                 :items="niveles"
                 :fields="fields"
@@ -192,7 +198,6 @@
     data() {
       return {
         fields: [
-          { key: 'id_nivel', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'nomenclatura', label: 'Nomenclatura', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'nombre', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
@@ -401,5 +406,8 @@ height: 48px;
   background-color: #B38E5D !important;
   border-color: #B38E5D !important;
   color: #fff !important;
+}
+.activo{
+  background-color: #D4C19C !important;
 }
 </style>

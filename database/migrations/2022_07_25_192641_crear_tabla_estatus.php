@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CrearTablaNombramiento extends Migration
+class CrearTablaEstatus extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CrearTablaNombramiento extends Migration
      */
     public function up()
     {
-        Schema::create('nombramiento', function (Blueprint $table) {
-            $table->id('id_nombramiento');
-            $table->unsignedBigInteger('id_user')->nullable();
-            $table->string('tipo')->nullable();
-            $table->date('fecEmis')->nullable();
-            $table->date('fecRatif')->nullable();
+        Schema::create('estatus', function (Blueprint $table) {
+            $table->id('id_estatus');
+            $table->string('nombre')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->charset = 'utf8mb4';
@@ -33,6 +30,6 @@ class CrearTablaNombramiento extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nombramiento');
+        Schema::dropIfExists('estatus');
     }
 }

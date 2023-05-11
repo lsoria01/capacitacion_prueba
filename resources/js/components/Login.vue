@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-navbar toggleable="lg" class="background-nav" type="dark">
-        <img v-bind:src="'img/logo-header.svg'" class="logo-gobmx">
+            <a href="/home"><img v-bind:src="'img/logo-header.svg'" class="logo-gobmx"></a>
         </b-navbar>
         <!-- Alas de fondo -->
         <b-img left v-bind:src="'img/alas5.png'" alt="Escudo" class="alas-login"></b-img>
@@ -17,11 +17,11 @@
                 >
                 <b-card-text>
                     <b-form @submit.prevent="ingresar">
-                        <label for="curp" class="mt-4">CURP</label>
-                        <b-form-input id="curp" type="text" name="curp" v-model="curp"></b-form-input>
-                        <label for="password">Password</label>
+                        <label for="curp" class="mt-4">CURP:</label>
+                        <b-form-input id="curp" type="text" name="curp" v-model="curp" maxlength="18"></b-form-input>
+                        <label for="password">Password:</label>
                         <b-form-input id="password" type="password" name="password" v-model="password"></b-form-input>
-                        <b-button type="submit" pill class="mt-4 float-right boton">Ingresar</b-button>
+                        <b-button type="submit" class="mt-4 float-right boton">Ingresar</b-button>
                     </b-form>
                 </b-card-text>
                 </b-card>

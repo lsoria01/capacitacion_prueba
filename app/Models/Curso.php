@@ -12,6 +12,16 @@ class Curso extends Model
     protected $table = 'curso';
     protected $primaryKey = 'id_curso';
     protected $fillable = [
-        'nombre'
+        'nombre',
+        'fecha_inicio',
+        'fecha_fin',
+        'cursoOblig',
+        'hrsCap',
+        'cursoIntExt',
+        'difundidoDP',
+        'modalidad',
+        'id_estatus',
+        'id_institucion',
+        'folio'
     ];
 }

@@ -119,6 +119,7 @@ Route::put('calificacion/{rechazar}/{id_calificacion}', 'CalificacionController@
 Route::post('curso/validar/{id_curso}', 'CursoController@validar')->name('validar'); //Valida el curso
 Route::get('/idUsrActual', 'UserController@idUsrActual')->name('idUsrActual'); //Id del usuario autenticado
 Route::get('/califAuth', 'CalificacionController@califAuth')->name('califAuth'); //Calificaciones del usuario atenticado califAuth
+Route::get('/califKardex', 'CalificacionController@califKardex')->name('califKardex'); //Calificaciones del usuario atenticado para Kardex
 Route::post('usuario/cambiaEstatus/{id}', 'UserController@cambiaEstatus')->name('cambiaEstatus'); //Cambia el estatus del usuario
 
 Route::get('/home', 'HomeController@index')->name('home');

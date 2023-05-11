@@ -188,7 +188,6 @@
     data() {
       return {
         fields: [
-          { key: 'id_puesto', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'descripcion', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],

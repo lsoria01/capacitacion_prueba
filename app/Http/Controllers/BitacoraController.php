@@ -17,7 +17,7 @@ class BitacoraController extends Controller
         $bitacoras = Bitacora::leftJoin('users', 'bitacora.id_user', '=', 'users.id')
         ->select([
             'bitacora.id_bitacora',
-            'users.name as id_user',
+            'users.nombreCompleto as id_user',
             'bitacora.descripcion',
             'bitacora.created_at'          
         ])

@@ -15,10 +15,10 @@ class NombramientoController extends Controller
      */
     public function index()
     {
-        $nombramientos = Nombramiento::leftJoin('users', 'nombramiento.empleado', '=', 'users.id')
+        $nombramientos = Nombramiento::leftJoin('users', 'nombramiento.id_user', '=', 'users.id')
         ->select([
             'nombramiento.id_nombramiento',
-            'users.name as empleado',
+            'users.nombreCompleto as id_user',
             'nombramiento.tipo',
             'nombramiento.fecEmis',
             'nombramiento.fecRatif'
@@ -47,7 +47,7 @@ class NombramientoController extends Controller
     public function store(Request $request)
     {
         $nombramientos = new Nombramiento();
-        $nombramientos->empleado = $request->empleado;
+        $nombramientos->id_user = $request->id_user;
         $nombramientos->tipo = Str::upper($request->tipo);
         $nombramientos->fecEmis = $request->fecEmis;
         $nombramientos->fecRatif = $request->fecRatif;
@@ -87,7 +87,7 @@ class NombramientoController extends Controller
     public function update(Request $request, $id_nombramiento)
     {
         $nombramientos = Nombramiento::find($id_nombramiento);
-        $nombramientos->empleado = $request->empleado;
+        $nombramientos->id_user = $request->id_user;
         $nombramientos->tipo = Str::upper($request->tipo);
         $nombramientos->fecEmis = $request->fecEmis;
         $nombramientos->fecRatif = $request->fecRatif;

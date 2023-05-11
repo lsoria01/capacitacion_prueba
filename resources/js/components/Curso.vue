@@ -43,12 +43,12 @@
                       <b-row>
                         <b-col cols="10">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="curso.nombre" style="text-transform:uppercase" autocomplete="off">
+                          <b-form-input id="nombre" name="nombre" v-model="curso.nombre" style="text-transform:uppercase" autocomplete="off" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="2">
                           <label for="">¿Curso Obligatorio?</label>
-                          <b-form-checkbox v-model="curso.cursoOblig" name="check-button" switch>
+                          <b-form-checkbox v-model="curso.cursoOblig" name="check-button" switch required>
                             <b v-if="curso.cursoOblig"> Si</b> <b v-else>No</b>
                           </b-form-checkbox>
                         </b-col>
@@ -57,20 +57,20 @@
                       <b-row>
                         <b-col cols="4">
                           <label for="fecha_inicio">Fecha de inicio:</label>
-                          <b-form-datepicker id="fecha_inicio" v-model="curso.fecha_inicio" placeholder=""></b-form-datepicker>
+                          <b-form-datepicker id="fecha_inicio" v-model="curso.fecha_inicio" placeholder="" required></b-form-datepicker>
                         </b-col>
                         <b-col cols="4">
                           <label for="fecha_fin">Fecha de fin:</label>
-                          <b-form-datepicker id="fecha_fin" v-model="curso.fecha_fin" placeholder=""></b-form-datepicker>
+                          <b-form-datepicker id="fecha_fin" v-model="curso.fecha_fin" placeholder="" required></b-form-datepicker>
                         </b-col>
                         <b-col cols="2">
                           <label>Hrs de Capacitación:</label>
-                          <b-form-input type="number" v-model="curso.hrsCap">
+                          <b-form-input type="number" v-model="curso.hrsCap" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="2">
                           <label for="">Curso Interno o Externo:</label>
-                            <b-form-checkbox v-model="curso.cursoIntExt" switch>
+                            <b-form-checkbox v-model="curso.cursoIntExt" switch required>
                             <b v-if="curso.cursoIntExt"> Externo</b> <b v-else>Interno</b>
                           </b-form-checkbox>
                         </b-col>
@@ -79,11 +79,11 @@
                       <b-row>
                         <b-col cols="2">
                           <label for="">Difundido por la DP:</label>
-                          <b-form-select v-model="curso.difundidoDP" :options="difundidoDPs"></b-form-select>
+                          <b-form-select v-model="curso.difundidoDP" :options="difundidoDPs" required></b-form-select>
                         </b-col>
                         <b-col cols="10">
                           <label for="id_institucion">Institución:</label>
-                          <b-form-input list="id_institucion" v-model="curso.id_institucion" autocomplete="off">
+                          <b-form-input list="id_institucion" v-model="curso.id_institucion" autocomplete="off" required>
                           </b-form-input>
                           <span class="span">Seleccione una institución de la lista</span>
                           <datalist id="id_institucion">
@@ -95,12 +95,12 @@
                       <b-row>
                         <b-col cols="2">
                           <label>Id Curso:</label>
-                          <b-form-input id="folio" name="folio" v-model="curso.folio" autocomplete="off">
+                          <b-form-input id="folio" name="folio" v-model="curso.folio" autocomplete="off" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="3">
                           <label>Modalidad:</label>
-                          <b-form-input v-model="curso.modalidad" autocomplete="off"></b-form-input>
+                          <b-form-select v-model="curso.modalidad" :options="modalidads" required></b-form-select>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
@@ -176,7 +176,7 @@
                         </b-col>
                         <b-col cols="3">
                           <label>Modalidad:</label>
-                          <b-form-input v-model="curso_.modalidad"></b-form-input>
+                          <b-form-select v-model="curso_.modalidad" :options="modalidads" required></b-form-select>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
@@ -200,7 +200,8 @@
                           <label for="">¿Curso Obligatorio?</label> 
                           <br>
                           <b-form-input v-if="curso_.cursoOblig" readonly value="Si"></b-form-input>
-                          <b-form-input v-else readonly value="No"></b-form-input>
+                          <b-form-input v-if="curso_.cursoOblig === false" readonly value="No"></b-form-input>
+                          <b-form-input v-if="curso_.cursoOblig === null " readonly value="Sin información"></b-form-input>
                         </b-col>
                       </b-row>
                       <br>
@@ -229,7 +230,8 @@
                         <b-col cols="2">
                           <label for="">Difundido por la DP:</label>
                           <b-form-input v-if="curso_.difundidoDP" readonly value="Si"></b-form-input>
-                          <b-form-input v-else readonly value="No"></b-form-input>
+                          <b-form-input v-if="curso_.difundidoDP === false" readonly value="No"></b-form-input>
+                          <b-form-input v-if="curso_.difundidoDP === null " readonly value="Sin información"></b-form-input>
                         </b-col>
                         <b-col cols="10">
                           <label for="id_institucion">Institución:</label>
@@ -244,8 +246,8 @@
                       <b-row>
                         <b-col cols="2">
                           <label>Id Curso:</label>
-                          <b-form-input id="folio" name="folio" v-model="curso_.folio" readonly>
-                          </b-form-input>
+                          <b-form-input v-if="curso_.folio === null " readonly value="Sin información"></b-form-input>
+                          <b-form-input v-if="curso_.folio" readonly v-model="curso_.folio"></b-form-input>
                         </b-col>
                         <b-col cols="3">
                           <label>Modalidad:</label>
@@ -384,7 +386,6 @@
     data() {
       return {
         fields: [
-          { key: 'id_curso', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'nombre', label: 'Nombre', class: 'text-center small',  sortable: true, sortDirection: 'desc', thStyle: { width: "25%" } },
           { key: 'fecha_fin', label: 'fecha de fin', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'id_institucion', label: 'Institución', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "25%" } },
@@ -430,6 +431,11 @@
         difundidoDPs: [
           { value: true, text: 'Si' },
           { value: false, text: 'No' }
+        ],
+        modalidads: [
+        { value: 'EN LÍNEA', text: 'EN LÍNEA' },
+        { value: 'MIXTO', text: 'MIXTO' },
+        { value: 'PRESENCIAL', text: 'PRESENCIAL' }
         ],        
         resultado_institucion:'',
         resultado_institucion_:'',

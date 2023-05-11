@@ -15,7 +15,7 @@ class CrearTablaNombramiento extends Migration
     {
         Schema::create('nombramiento', function (Blueprint $table) {
             $table->id('id_nombramiento');
-            $table->unsignedBigInteger('empleado')->nullable();
+            $table->unsignedBigInteger('id_user')->nullable();
             $table->string('tipo')->nullable();
             $table->date('fecEmis')->nullable();
             $table->date('fecRatif')->nullable();

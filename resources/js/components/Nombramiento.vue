@@ -61,25 +61,25 @@
                         </b-col> -->
                         <b-col cols="12">
                           <label>Empleado</label>
-                          <b-form-input list="empleado" v-model="nombramiento.empleado" autocomplete="off">
+                          <b-form-input list="empleado" v-model="nombramiento.id_user" autocomplete="off" required>
                           </b-form-input>
                           <datalist id="empleado">
-                            <option v-for="usuario in usuarios">{{ usuario.nombre }}</option>  
+                            <option v-for="usuario in usuarios">{{ usuario.nombreCompleto }}</option>  
                           </datalist>
                         </b-col>
                         <b-col cols="12" class="mb-4">
                           <label>Tipo</label>
-                          <b-form-input id="tipo"  name="tipo" v-model="nombramiento.tipo" autocomplete="off" style="text-transform:uppercase">
+                          <b-form-input id="tipo"  name="tipo" v-model="nombramiento.tipo" autocomplete="off" style="text-transform:uppercase" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="6">
                           <label>Fecha de Emisión</label>
-                          <b-form-input id="fecEmis" name="fecEmis" type="date" v-model="nombramiento.fecEmis">
+                          <b-form-input type="date" v-model="nombramiento.fecEmis" placeholder="Seleccione una fecha" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="6">
                           <label>Fecha de Ratificación</label>
-                          <b-form-input id="fecRatif"  name="fecRatif" type="date" v-model="nombramiento.fecRatif">
+                          <b-form-input type="date" v-model="nombramiento.fecRatif" required>
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -121,10 +121,10 @@
                         </b-col> -->
                         <b-col cols="12">
                           <label>Empleado</label>
-                          <b-form-input list="empleado" v-model="nombramiento_.empleado" autocomplete="off">
+                          <b-form-input list="empleado" v-model="nombramiento_.id_user" autocomplete="off">
                           </b-form-input>
                           <datalist id="empleado">
-                            <option v-for="usuario in usuarios">{{ usuario.nombre }}</option>  
+                            <option v-for="usuario in usuarios">{{ usuario.nombreCompleto }}</option>  
                           </datalist>
                         </b-col>
                         <b-col cols="12" class="mb-4">
@@ -264,8 +264,7 @@
     data() {
       return {
         fields: [
-          { key: 'id_nombramiento', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'empleado', label: 'Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'id_user', label: 'Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'tipo', label: 'Tipo', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'fecEmis', label: 'Fecha de Emisión', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'fecRatif', label: 'Fecha de Ratificación', class: 'text-center small', sortable: true, sortDirection: 'desc' },
@@ -280,13 +279,13 @@
         noEditado:'',
         nombramientos:[],
         nombramiento:{
-          empleado:'',
+          id_user:'',
           tipo:'',
           fecEmis:'',
           fecRatif:''
         },
         nombramiento_:{
-          empleado:'',
+          id_user:'',
           tipo:'',
           fecEmis:'',
           fecRatif:''

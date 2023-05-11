@@ -43,19 +43,19 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="descripcion" name="descripcion" v-model="institucion.descripcion" style="text-transform:uppercase">
+                          <b-form-input id="descripcion" name="descripcion" v-model="institucion.descripcion" style="text-transform:uppercase" required>
                           </b-form-input>
                         </b-col>
                       </b-row>
                       <b-row>
                         <b-col cols="6">
                           <label>Tipo:</label>
-                          <b-form-input id="tipo" name="tipo" v-model="institucion.tipo">
+                          <b-form-input id="tipo" name="tipo" v-model="institucion.tipo" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="6">
                           <label>Siglas:</label>
-                          <b-form-input id="siglas" name="siglas" v-model="institucion.siglas">
+                          <b-form-input id="siglas" name="siglas" v-model="institucion.siglas" required>
                           </b-form-input>                          
                         </b-col>
                       </b-row>
@@ -212,7 +212,6 @@
     data() {
       return {
         fields: [
-          { key: 'id_institucion', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'descripcion', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'tipo', label: 'Tipo', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'siglas', label: 'Siglas', class: 'text-center small', sortable: true, sortDirection: 'desc' },

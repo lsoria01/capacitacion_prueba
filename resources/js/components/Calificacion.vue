@@ -294,7 +294,6 @@
     data() {
       return {
         fields: [
-          { key: 'id_calificacion', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'id_user', label: 'Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'id_curso', label: 'Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'calif', label: 'Calificación', class: 'text-center small', sortable: true, sortDirection: 'desc' },

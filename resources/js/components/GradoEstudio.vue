@@ -43,7 +43,7 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="grado.nombre" style="text-transform:uppercase">
+                          <b-form-input id="nombre" name="nombre" v-model="grado.nombre" style="text-transform:uppercase" required>
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -188,7 +188,6 @@
     data() {
       return {
         fields: [
-          { key: 'id_gradoEst', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'nombre', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],

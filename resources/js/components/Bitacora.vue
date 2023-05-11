@@ -139,7 +139,6 @@
     data() {
       return {
         fields: [
-          { key: 'id_bitacora', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'id_user', label: 'Usuario', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'descripcion', label: 'Detalle', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'created_at', label: 'Fecha', class: 'text-center small', sortable: true, sortDirection: 'desc' },

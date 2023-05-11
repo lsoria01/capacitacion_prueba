@@ -94,7 +94,7 @@
                 </b-col>
                 <b-col cols="2">
                   <label>No Empleado:</label>
-                  <b-form-input v-model="usuario.id" autocomplete="off">
+                  <b-form-input v-model="usuario.numEmpl" autocomplete="off">
                   </b-form-input>
                 </b-col>
                 <b-col cols="6">
@@ -118,9 +118,6 @@
                   <b-form-input type="password" :type="passwordFieldType" v-model="password" autocomplete="off">
                   </b-form-input>                  
                 </b-col>
-                <!-- <b-col cols="1">
-                  <b-button type="password" class="botones" @click="switchVisibility" style="margin-left: -25px; margin-top: 33px;"><b-icon icon="eye"></b-icon></b-button>
-                </b-col> -->
                 <b-col cols="2">
                   <label>Confirmar password:</label>
                   <b-form-input type="password" :type="passwordFieldType" v-model="indicio" autocomplete="off">
@@ -238,7 +235,7 @@
               <b-row>
                 <b-col cols="6">
                   <label>Nombre completo:</label>
-                  <b-form-input type="text" v-model="usuario_.nombre" readonly>
+                  <b-form-input type="text" v-model="usuario_.nombreCompleto" readonly>
                   </b-form-input>
                 </b-col>
               </b-row>
@@ -256,7 +253,7 @@
                 </b-col>
                 <b-col cols="2">
                   <label>No Empleado:</label>
-                  <b-form-input v-model="usuario_.id" readonly>
+                  <b-form-input v-model="usuario_.numEmpl" readonly>
                   </b-form-input>
                 </b-col>
                 <b-col cols="6">
@@ -277,36 +274,6 @@
                   <b-form-input v-if="usuario_.rol === 1" value="Administrador" readonly></b-form-input>
                   <b-form-input v-if="usuario_.rol === 2" value="Usuario" readonly></b-form-input>
                 </b-col>
-                <!-- <b-col cols="2">
-                  <label>Password:</label>
-                  <b-form-input type="password" :type="passwordFieldType" v-model="password" readonly>
-                  </b-form-input>                  
-                </b-col> -->
-                <!-- <b-col cols="1">
-                  <b-button type="password" class="botones" @click="switchVisibility" style="margin-left: -25px; margin-top: 33px;"><b-icon icon="eye"></b-icon></b-button>
-                </b-col> -->
-                <!-- <b-col cols="2">
-                  <label>Confirmar password:</label>
-                  <b-form-input type="password" :type="passwordFieldType" v-model="indicio" readonly>
-                  </b-form-input>
-                </b-col> -->
-                <!-- Mensaje de password correcto -->
-                <!-- <b-col cols="2" v-if="password === indicio && password != '' ">
-                  <span class="badge badge-success" style="margin-top: 40px;">Password correcto  <b-icon icon="check-square"></b-icon></span>
-                  <p class="success"></p>
-                </b-col>
-                <b-col cols="1" v-if="password === indicio && password != '' ">
-                  <b-button variant="success" size="sm"
-                            @click="switchVisibility" style="margin-left: -35px; margin-top: 33px;"
-                            v-b-tooltip.hover title=" Haga click para ver/ocultar la contraseña ">
-                            <b-icon icon="eye"></b-icon>
-                  </b-button>
-                </b-col> -->
-                <!-- Mensaje de password incorrecto -->
-                <!-- <b-col cols="2" v-if="password != indicio && indicio != '' ">
-                  <span class="badge badge-danger" style="margin-top: 40px;">Password incorrecto  <b-icon icon="check-square"></b-icon></span>
-                  <p class="success"></p>
-                </b-col> -->
               </b-row>
               <br><hr><br>
               <b-row>
@@ -377,7 +344,7 @@
                 <b-row>
                   <b-col cols="6">
                     <label>Nombre completo:</label>
-                    <b-form-input type="text" v-model="usuario_.nombre" readonly>
+                    <b-form-input type="text" v-model="usuario_.nombreCompleto" readonly>
                     </b-form-input>
                   </b-col>
                 </b-row>
@@ -653,8 +620,8 @@
     data() {
       return {
         fields: [
-          { key: 'id', label: 'Número de Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "15%" } },
-          { key: 'nombre', label: 'Nombre completo', class: 'text-center small', sortable: true, sortDirection: 'desc', thStyle: { width: "15%" } },
+          { key: 'numEmpl', label: 'Número de Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "15%" } },
+          { key: 'nombreCompleto', label: 'Nombre completo', class: 'text-center small', sortable: true, sortDirection: 'desc', thStyle: { width: "15%" } },
           { key: 'id_adscripcion', label: 'Adscripcion', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "15%" } },
           { key: 'email', label: 'Correo electrónico', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "15%" } },
           { key: 'estatus', label: 'Estatus', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "15%" } },
@@ -677,8 +644,9 @@
         },
         usuario:{
           id:'',
+          numEmpl:'',
           curp:'',
-          nombre:'',
+          nombreCompleto:'',
           rfc:'',
           id:'',
           email:'',
@@ -695,7 +663,9 @@
         },
         usuario_:{
           id:'',
+          numEmpl:'',
           curp:'',
+          nombreCompleto:'',
           nombre:'',
           rfc:'',
           id:'',
@@ -901,7 +871,7 @@
                 }
                 console.log(this.resultado_grado);
                 //concatenar apellidos y nombres
-                this.usuario.nombre =  this.datos.nombres + ' ' + this.datos.apellido1 + ' ' + this.datos.apellido2;
+                this.usuario.nombreCompleto =  this.datos.nombres + ' ' + this.datos.apellido1 + ' ' + this.datos.apellido2;
                 if(this.datos.sexo == 'H'){
                   this.datos.sexo = 1;
                 }
@@ -909,9 +879,9 @@
                   this.datos.sexo = 0;
                 }
               const params={
-                id: this.usuario.id,
+                numEmpl: this.usuario.numEmpl,
                 curp: this.usuario.curp,
-                nombre: this.usuario.nombre,
+                nombreCompleto: this.usuario.nombreCompleto,
                 rfc: this.usuario.rfc,
                 sexo: this.datos.sexo,
                 email: this.usuario.email,
@@ -943,7 +913,7 @@
                 this.datos.nombres = '',
                 this.datos.sexo = '',
                 this.usuario.rfc = '',
-                this.usuario.id = '',
+                this.usuario.numEmpl = '',
                 this.usuario.email = '',
                 this.usuario.estatus = '',
                 this.usuario.rol = '',
@@ -979,8 +949,9 @@
       },
       cargarDatos(item){
         this.usuario_.id = item.id,
+        this.usuario_.numEmpl = item.numEmpl,
         this.usuario_.curp  = item.curp,
-        this.usuario_.nombre  = item.nombre,
+        this.usuario_.nombreCompleto  = item.nombreCompleto,
         this.usuario_.rfc  = item.rfc,
         this.usuario_.email  = item.email,
         this.usuario_.indicio  = item.indicio,
@@ -996,7 +967,10 @@
         this.usuario_.ciudadAdscr  = item.ciudadAdscr,
         this.usuario_.id_estado  = item.id_estado,
         this.usuario_.id_gradoEst  = item.id_gradoEst,
-        this.usuario_.descripEstud  = item.descripEstud
+        this.usuario_.descripEstud  = item.descripEstud,
+        this.password = '',
+        this.indicio = '',
+        this.cambiapwd = 0
       },
       editar(item){
         this.msgResult='';
@@ -1073,7 +1047,7 @@
             }
             const params = {
               rfc: item.rfc,
-              id: item.id,
+              numEmpl: item.numEmpl,
               email: item.email,
               estatus: item.estatus,
               rol: item.rol,
@@ -1099,6 +1073,10 @@
               this.usuarios[index] = res.data
               //mostrar toaster
               this.$toaster.success('Usuario actualizado con éxito')
+              //limpiamos campos password e indicio
+              this.password = '',
+              this.indicio = '',
+              this.cambiapwd = 0
               //Recargamos los cambios
               axios.get('/usuario')
                 .then(res=>{

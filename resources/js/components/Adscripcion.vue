@@ -43,7 +43,7 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="descripcion" name="descripcion" v-model="adscripcion.descripcion" style="text-transform:uppercase">
+                          <b-form-input id="descripcion" name="descripcion" v-model="adscripcion.descripcion" style="text-transform:uppercase" required>
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -105,6 +105,7 @@
 
                 <!-- Main table element -->
                 <b-table striped hover
+                id="table-transition-example"
                 class="table table-sm"
                 :items="adscripciones"
                 :fields="fields"
@@ -115,6 +116,8 @@
                 :sort-by.sync="sortBy"
                 :sort-desc.sync="sortDesc"
                 :sort-direction="sortDirection"
+                :tbody-transition-props="transProps"
+                primary-key="id_adscripcion"
                 empty-text="Sin registros por mostrar"
                 stacked="md"
                 show-empty
@@ -187,8 +190,11 @@
   export default {
     data() {
       return {
+        transProps: {
+          // Transition name
+          name: 'flip-list'
+        },
         fields: [
-          { key: 'id_adscripcion', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'descripcion', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
@@ -393,5 +399,9 @@ height: 48px;
 }
 .activo{
   background-color: #D4C19C !important;
+}
+
+#table-transition-example .flip-list-move {
+  transition: transform 1s;
 }
 </style>

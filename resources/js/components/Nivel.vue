@@ -43,12 +43,12 @@
                       <b-row>
                         <b-col cols="4">
                           <label>Nomenclatura:</label>
-                          <b-form-input id="nomenclatura" name="nomenclatura" v-model="nivel.nomenclatura">
+                          <b-form-input id="nomenclatura" name="nomenclatura" v-model="nivel.nomenclatura" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="8">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="nivel.nombre" style="text-transform:uppercase">
+                          <b-form-input id="nombre" name="nombre" v-model="nivel.nombre" style="text-transform:uppercase" required>
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -198,7 +198,6 @@
     data() {
       return {
         fields: [
-          { key: 'id_nivel', label: 'Número', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'nomenclatura', label: 'Nomenclatura', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'nombre', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }

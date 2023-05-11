@@ -8,6 +8,7 @@ use App\Models\Nombramiento;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 
 class UserController extends Controller
@@ -26,7 +27,8 @@ class UserController extends Controller
         ->leftJoin('gradoEst', 'users.id_gradoEst', '=', 'gradoEst.id_gradoEst')
         ->select([
             'users.id',
-            'users.name as nombre',
+            'users.numEmpl',
+            'users.nombreCompleto as nombreCompleto',
             'puesto.descripcion as id_puesto',
             'adscripcion.descripcion as id_adscripcion',
             'nivel.nomenclatura as id_nivel',
@@ -67,9 +69,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $usuarios = new User();
-        $usuarios->id = $request->id;
+        $usuarios->numEmpl = $request->numEmpl;
         $usuarios->curp = $request->curp;
-        $usuarios->name = $request->nombre;
+        $usuarios->nombreCompleto = $request->nombreCompleto;
         $usuarios->sexo = $request->sexo;
         $usuarios->rfc = Str::upper($request->rfc);
         $usuarios->email = $request->email;
@@ -122,8 +124,9 @@ class UserController extends Controller
         $usuarios = User::find($id);
         //$usuarios->id = $request->id;
         //$usuarios->curp = $request->curp;
-        //$usuarios->name = $request->name;
+        //$usuarios->nombreCompleto = $request->nombreCompleto;
         //$usuarios->sexo = $request->sexo;
+        $usuarios->numEmpl = $request->numEmpl;
         $usuarios->rfc = $request->rfc;
         $usuarios->email = $request->email;
         $usuarios->estatus = $request->estatus;
@@ -154,16 +157,19 @@ class UserController extends Controller
 
     public function autenticado(){
         
-        $autenticado = User::leftJoin('puesto', 'users.id_puesto', '=', 'puesto.id_puesto')
-        ->leftJoin('adscripcion', 'users.id_adscripcion', '=', 'adscripcion.id_adscripcion')
-        ->leftJoin('nivel', 'users.id_nivel', '=', 'nivel.id_nivel')
+        $autenticado = DB::table('users')
+        ->join('puesto', 'users.id_puesto', '=' , 'puesto.id_puesto')
+        ->join('adscripcion', 'users.id_adscripcion', '=' , 'adscripcion.id_adscripcion')
+        ->join('nivel' , 'users.id_nivel', '=' , 'nivel.id_nivel')
+        ->join('users as superior', 'users.id_superior' , '=' , 'superior.id' )
+        ->join('puesto as puesto_superior', 'superior.id_puesto', '=' , 'puesto_superior.id_puesto')
         ->select([
-            'users.id',
-            'users.name',
+            'users.numEmpl',
+            'users.nombreCompleto',
             'puesto.descripcion as id_puesto',
-            'puesto.superior as superior',
             'adscripcion.descripcion as id_adscripcion',
             'nivel.nomenclatura as id_nivel',
+            'puesto_superior.descripcion as id_superior',
             'users.email',
             'users.curp',
             'users.fechaIngr'
@@ -174,10 +180,10 @@ class UserController extends Controller
     }
 
     public function nombramientoAuth(){
-        $nombramiento = Nombramiento::leftJoin('users', 'nombramiento.empleado', '=' , 'users.id')
+        $nombramiento = Nombramiento::leftJoin('users', 'nombramiento.id_user', '=' , 'users.id')
         ->select([
             'nombramiento.id_nombramiento',
-            'users.name as empleado',
+            'users.nombreCompleto as id_user',
             'nombramiento.tipo',
             'nombramiento.fecEmis',
             'nombramiento.fecRatif'
@@ -188,7 +194,7 @@ class UserController extends Controller
     }
 
     public function usrActual(){
-        $usrActual = Auth::user()->name;
+        $usrActual = Auth::user()->nombreCompleto;
         return $usrActual;
     }
 
@@ -215,13 +221,5 @@ class UserController extends Controller
         $usuario->save();
         return $usuario;
     }
-        /* $calificaciones = Calificacion::find($id_calificacion);
-
-        $calificaciones-> rechazo = $request->rechazo;
-        $calificaciones-> id_estatus = 3;
-        $calificaciones->save(); 
-
-        return $calificaciones; */
-
         
 }

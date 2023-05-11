@@ -17,29 +17,6 @@ class CalificacionController extends Controller
      */
     public function index()
     {
-        /* $calificaciones = Calificacion::leftJoin('curso', 'calificacion.id_curso', '=', 'curso.id_curso')
-        ->leftJoin('users', 'calificacion.id_user', '=', 'users.id')
-        ->leftJoin('estatus', 'calificacion.id_estatus', '=', 'estatus.id_estatus')
-        ->select([
-            'calificacion.id_calificacion',
-            'users.name as id_user',
-            'curso.nombre as id_curso',
-            'curso.cursoOblig as cursoOblig',
-            'curso.hrsCap as hrsCap',
-            'curso.modalidad as modalidad',
-            'calificacion.cursoFin',
-            'calificacion.aprobado',
-            'calificacion.calif',
-            'calificacion.fecha',
-            'calificacion.anio',
-            'calificacion.rechazo',
-            'calificacion.urlConstancia',
-            'estatus.nombre as id_estatus'          
-        ])
-        ->orderBy("id_calificacion")
-        ->get();
-        return $calificaciones; */
-
         $calificaciones = DB::table ('calificacion')
         ->join('users', 'calificacion.id_user', "=" , "users.id")
         ->join('curso', 'calificacion.id_curso', "=", "curso.id_curso")
@@ -47,7 +24,7 @@ class CalificacionController extends Controller
         ->join('institucion', 'curso.id_institucion', "=", "institucion.id_institucion" )
         ->select(
             'calificacion.id_calificacion',
-            'users.name as id_user',
+            'users.nombreCompleto as id_user',
             'curso.nombre as id_curso',
             'curso.cursoOblig as cursoOblig',
             'curso.hrsCap as hrsCap',
@@ -241,7 +218,7 @@ class CalificacionController extends Controller
         ->join('institucion', 'curso.id_institucion', "=", "institucion.id_institucion" )
         ->select(
             'calificacion.id_calificacion',
-            'users.name as id_user',
+            'users.nombreCompleto as id_user',
             'curso.nombre as id_curso',
             'calificacion.cursoFin',
             'calificacion.aprobado',
@@ -263,14 +240,18 @@ class CalificacionController extends Controller
         ->orderBy("id_calificacion")
         ->get();
         return $calificaciones;
+    }
 
+    public function califKardex(){
 
-        /* $calificaciones = Calificacion::leftJoin('curso', 'calificacion.id_curso', '=', 'curso.id_curso')
-        ->leftJoin('users', 'calificacion.id_user', '=', 'users.id')
-        ->leftJoin('estatus', 'calificacion.id_estatus', '=', 'estatus.id_estatus')
-        ->select([
+        $calificaciones = DB::table ('calificacion')
+        ->join('users', 'calificacion.id_user', "=" , "users.id")
+        ->join('curso', 'calificacion.id_curso', "=", "curso.id_curso")
+        ->join('estatus', 'calificacion.id_estatus', '=', 'estatus.id_estatus')
+        ->join('institucion', 'curso.id_institucion', "=", "institucion.id_institucion" )
+        ->select(
             'calificacion.id_calificacion',
-            'users.name as id_user',
+            'users.nombreCompleto as id_user',
             'curso.nombre as id_curso',
             'calificacion.cursoFin',
             'calificacion.aprobado',
@@ -282,22 +263,18 @@ class CalificacionController extends Controller
             'calificacion.nombreConstancia',
             'estatus.nombre as id_estatus',
             //datos de la tabla curso
+            'institucion.descripcion as id_institucion',
             'curso.hrsCap as hrsCap',
-            'curso.cursoOblig as cursoOblig',  
-            'curso.id_institucion as id_institucion',
             'curso.modalidad as modalidad',
+            'curso.cursoOblig as cursoOblig',
             'curso.fecha_fin as fecha_fin'
+        )
+        ->where([
+            ['users.id', Auth::user()->id],
+            ['calificacion.id_estatus' , '=', 2]
         ])
-        ->where('users.id', Auth::user()->id)
         ->orderBy("id_calificacion")
-        ->get(); */
-
-        /* $calificaciones = Curso::leftJoin('institucion', 'curso.id_institucion', '=', 'institucion.id_institucion')
-        ->select([
-            'institucion.descripcion as id_institucion'
-        ])
-        ->orderBy("id_curso")
         ->get();
-        return $calificaciones; */
+        return $calificaciones;
     }
 }

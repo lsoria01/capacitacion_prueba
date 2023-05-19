@@ -20,7 +20,7 @@
                           <b-dropdown-item v-if="rol == 1" href="/calificaciones">Validación de cursos externos</b-dropdown-item>
                   </b-nav-item-dropdown>
                   <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
-                          <b-dropdown-item class="activo active" v-if="rol == 1 || rol == 2" href="/adscripciones">Registrar cursos externos</b-dropdown-item>
+                          <b-dropdown-item class="activo active" v-if="rol == 1 || rol == 2" href="/capturar">Registrar cursos externos</b-dropdown-item>
                   </b-nav-item-dropdown>
                   <b-nav-item-dropdown right>
                       <!-- Using 'button-content' slot -->
@@ -43,25 +43,6 @@
           <hr>
           <br> <br>
 
-          <!-- Modal de archivos -->
-
-          <b-modal centered id="modal-archivos" size="xl" title="Nuevo Curso" hide-footer>
-            <b-form @submit.prevent="save">
-              <b-row>
-                <b-col cols="12">
-                  <b-form-group label="Constancia:">
-                    <b-form-file placeholder="Seleccione el archivo PDF a subir" @change="select_file"></b-form-file>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col cols="12">
-                  <b-button class="botones mb-4" type="submit">Guardar</b-button>
-                </b-col>
-              </b-row>
-            </b-form>
-          </b-modal>
-
           <!-- Inicio modal crear -->
 
           <b-modal centered id="modal-crear" size="xl" title="Nuevo Curso  Externo" hide-footer>
@@ -72,11 +53,10 @@
                         <span class="span">Selecciona o busca el curso a registrar del listado:</span>
                         <b-form-input list="curso" v-model="miCurso.id_curso" autocomplete="off" required>
                         </b-form-input>
-                        <!-- <span class="span">Selecciona o busca el curso a registrar del listado</span> -->
-                        <span class="span"> <u>Si tu curso no se encuentra en el listado. Debes ir al botón <strong>"el curso no aparece en el listado"</strong></u></span>
                         <datalist id="curso">
                           <option v-for="curso in cursos">{{ curso.nombre }}</option>  
-                        </datalist>                          
+                        </datalist>
+                        <span class="span"> <u>Si tu curso no se encuentra en el listado. Debes ir al botón <strong>"el curso no aparece en el listado"</strong></u></span>                          
                       </b-col>
                       <b-col cols="1">
                         <b-button size="sm" 
@@ -108,16 +88,11 @@
                         </b-card>
                       </b-col>
                     </b-row>
-                    <!-- <b-row v-else>
-                      <b-col>
-                        <b>Sin resultados encontrados para ese curso</b>
-                      </b-col>
-                    </b-row> -->
                     <br>
                     <b-row>
                       <b-col cols="2">
                           <label>Calificación:</label>
-                          <b-form-input v-model="miCurso.calif" autocomplete="off" required>
+                          <b-form-input type="number" v-model="miCurso.calif" autocomplete="off" required>
                           </b-form-input>
                       </b-col>
                       <b-col cols="6">
@@ -173,11 +148,6 @@
                     </b-card>
                   </b-col>
                 </b-row>
-                <!-- <b-row v-else>
-                  <b-col>
-                    <b>Sin resultados encontrados para ese curso</b>
-                  </b-col>
-                </b-row> -->
                 <br>
                 <b-row>
                   <b-col cols="2">
@@ -224,7 +194,7 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="curso.nombre" style="text-transform:uppercase" autocomplete="off">
+                          <b-form-input id="nombre" name="nombre" v-model="curso.nombre" style="text-transform:uppercase" autocomplete="off" required>
                           </b-form-input>
                         </b-col>
                         <!-- No se muestra del lado del usuario -->
@@ -239,26 +209,27 @@
                       <b-row>
                         <b-col cols="4">
                           <label for="fecha_inicio">Fecha de inicio:</label>
-                          <b-form-datepicker id="fecha_inicio" v-model="curso.fecha_inicio" placeholder=""></b-form-datepicker>
+                          <b-form-datepicker id="fecha_inicio" v-model="curso.fecha_inicio" placeholder="" required></b-form-datepicker>
                         </b-col>
                         <b-col cols="4">
                           <label for="fecha_fin">Fecha de fin:</label>
-                          <b-form-datepicker id="fecha_fin" v-model="curso.fecha_fin" placeholder=""></b-form-datepicker>
+                          <b-form-datepicker id="fecha_fin" v-model="curso.fecha_fin" placeholder="" required></b-form-datepicker>
                         </b-col>
                         <b-col cols="2">
                           <label>Hrs de Capacitación:</label>
-                          <b-form-input v-model="curso.hrsCap">
+                          <b-form-input type="number" v-model="curso.hrsCap" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="2">
                           <label for="">Curso Interno o Externo:</label>
-                            <b-form-checkbox v-model="curso.cursoIntExt" switch>
+                            <b-form-checkbox v-model="curso.cursoIntExt" name="cursoIntExt" switch required>
                             <b v-if="curso.cursoIntExt"> Externo</b> <b v-else>Interno</b>
                           </b-form-checkbox>
                         </b-col>
                       </b-row>
                       <br>
                       <b-row>
+                        <!-- No se muestra del lado del usuario -->
                         <!-- <b-col cols="2">
                           <label for="">Difundido por la DP:</label>
                           <b-form-select v-model="curso.difundidoDP" :options="difundidoDPs"></b-form-select>
@@ -275,6 +246,7 @@
                       </b-row>
                       <br>
                       <b-row>
+                        <!-- No se muestra del lado del usuario -->
                         <!-- <b-col cols="2">
                           <label>Id Curso:</label>
                           <b-form-input id="folio" name="folio" v-model="curso.folio" autocomplete="off">
@@ -282,7 +254,7 @@
                         </b-col> -->
                         <b-col cols="3">
                           <label>Modalidad:</label>
-                          <b-form-select v-model="curso.modalidad" :options="modalidads"></b-form-select>
+                          <b-form-select v-model="curso.modalidad" :options="modalidads" required></b-form-select>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
@@ -307,14 +279,6 @@
                     ></b-form-textarea>
                   </b-col>
                 </b-row>
-            </b-modal>
-
-            <!-- Inicio modal información -->
-
-            <b-modal centered id="modal-info" title="Importante" ok-only>
-              <b-row>
-                <p>"Al registrar un curso existente en el listado, tendrá que volver hacer su registro"</p>
-              </b-row>
             </b-modal>
 
           <b-container fluid>
@@ -613,37 +577,6 @@ export default {
     select_file(event){
       this.archivo = event.target.files[0];
     },
-    /* save(){
-      let pdf = new FormData();
-      for (let key in this.archivo){
-        pdf.append(key, this.archivo[key])
-      }
-      console.log(this.archivo);
-      axios.post('/calificacion', this.archivo)
-      .then(res=>{
-        this.misCursos.push(res.data)
-        console.log(res.data);
-      })     
-
-    }, */
-    save(){
-      let fd = new FormData();
-      fd.append('file', this.archivo);
-      axios.post('/calificacion', fd)
-      .then(res=>{
-        console.log("response", res.data)
-      })
-    },
-    final(){
-      let formData = new FormData();
-      formData.append('id_user', this.idUsrActual);
-      formData.append('file', this.archivo);
-      axios.post('/calificacion', formData)
-        .then(response =>{
-          console.log(response.data);
-        })
-
-    },
     info(item, index, button) {
       this.infoModal.title = `Row index: ${index}`
       this.infoModal.content = JSON.stringify(item, null, 2)
@@ -783,52 +716,6 @@ export default {
       this.miCurso_.modalidad = item.modalidad,
       this.miCurso_.cursoOblig = item.cursoOblig,
       this.miCurso_.fecha_fin = item.fecha_fin
-    },
-    editar(item){
-      this.msgResult='';
-      this.showMsgBoxEditar(item); //Modal confirmación
-    },
-    showMsgBoxEditar(item){
-      this.$bvModal.msgBoxConfirm(`¿ Confirma que desea editar la adscripción actual ?`, {
-          title: 'Aviso',
-          size: 'sm',
-          buttonSize: 'sm',
-          okTitle: 'Aceptar',
-          okColor: '#285C4D',
-          cancelTitle: 'Cancelar',
-          hideHeaderClose: false,
-          centered: true
-      })
-      .then(value=>{
-        if(value){
-          const params = {
-            id_adscripcion : item.id_adscripcion,
-            descripcion: item.descripcion
-          }
-          axios.put(`/adscripcion/${item.id_adscripcion}`, params)
-          .then(res =>{
-            //ocultar modal
-            this.$bvModal.hide('modal-editar');
-            const index = this.adscripciones.findIndex(
-              adscripcionBuscar => adscripcionBuscar.id_adscripcion === item.id_adscripcion
-            )
-            this.adscripciones[index] = res.data
-            //mostrar toaster
-            this.$toaster.success('¡Adscripción actualizada con éxito')
-            //Recargamos los cambios
-            axios.get('/adscripcion')
-              .then(res=>{
-                  this.adscripciones = res.data
-              })
-            .catch((error) => {
-              if (error) {
-                this.$toaster.error('Ha ocuurido un error')
-                console.log(error);
-              }
-            })
-          })
-        }
-      })
     },
     cancelar(){
         this.$bvModal.hide('modal-editar');

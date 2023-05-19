@@ -19,67 +19,71 @@ Route::get('/', function () {
 
 Route::get('/bitacoras', function () {
     return view('bitacora');
-});
+})->middleware('auth');
 
 Route::get('/capturar', function () {
     return view('capturar');
-});
+})->middleware('auth');
 
 Route::get('/calificaciones', function () {
     return view('calificacion');
-});
+})->middleware('auth');
 
 Route::get('/consulta', function () {
     return view('consulta');
-});
+})->middleware('auth');
 
 Route::get('/informe', function () {
     return view('informe');
-});
+})->middleware('auth');
 
 Route::get('/adscripciones', function () {
     return view('adscripcion');
-});
+})->middleware('auth');
 
 Route::get('/puestos', function () {
     return view('puesto');
-});
+})->middleware('auth');
 
 Route::get('/cursos', function () {
     return view('curso');
-});
+})->middleware('auth');
 
 Route::get('/nombramientos', function () {
     return view('nombramiento');
-});
+})->middleware('auth');
 
 Route::get('/usuarios', function () {
     return view('usuario');
-});
+})->middleware('auth');
 
 Route::get('/instituciones', function () {
     return view('institucion');
-});
+})->middleware('auth');
 
 Route::get('/niveles', function () {
     return view('nivel');
-});
+})->middleware('auth');
 
 Route::get('/estados', function () {
     return view('estado');
-});
+})->middleware('auth');
 
 Route::get('/grados', function () {
     return view('gradoEst');
-});
+})->middleware('auth');
 
 Route::get('/bienvenida', function () {
     return view('bienvenida');
-});
+})->middleware('auth');
 
 Route::get('/kardex', function () {
     return view('kardex');
-});
+})->middleware('auth');
+
+Route::get('/mi-cuenta', function () {
+    return view('miCuenta');
+})->middleware('auth');
 /*
 ********** Comentado la ruta  Auth::routes();
 */
@@ -121,6 +125,7 @@ Route::get('/idUsrActual', 'UserController@idUsrActual')->name('idUsrActual'); /
 Route::get('/califAuth', 'CalificacionController@califAuth')->name('califAuth'); //Calificaciones del usuario atenticado califAuth
 Route::get('/califKardex', 'CalificacionController@califKardex')->name('califKardex'); //Calificaciones del usuario atenticado para Kardex
 Route::post('usuario/cambiaEstatus/{id}', 'UserController@cambiaEstatus')->name('cambiaEstatus'); //Cambia el estatus del usuario
+Route::put('usuario/actualizaPassword/{id}', 'UserController@actualizaPassword')->name('actualizaPassword'); //Cambia el password del usuario
 
 Route::get('/home', 'HomeController@index')->name('home');
 

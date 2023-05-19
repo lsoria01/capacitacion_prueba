@@ -48,7 +48,7 @@
                         </b-col>
                         <b-col cols="2">
                           <label for="">¿Curso Obligatorio?</label>
-                          <b-form-checkbox v-model="curso.cursoOblig" name="check-button" switch required>
+                          <b-form-checkbox v-model="curso.cursoOblig" name="cursoOblig" switch required>
                             <b v-if="curso.cursoOblig"> Si</b> <b v-else>No</b>
                           </b-form-checkbox>
                         </b-col>
@@ -70,7 +70,7 @@
                         </b-col>
                         <b-col cols="2">
                           <label for="">Curso Interno o Externo:</label>
-                            <b-form-checkbox v-model="curso.cursoIntExt" switch required>
+                            <b-form-checkbox v-model="curso.cursoIntExt" name="cursoIntExt" switch required>
                             <b v-if="curso.cursoIntExt"> Externo</b> <b v-else>Interno</b>
                           </b-form-checkbox>
                         </b-col>
@@ -647,7 +647,7 @@
                 })
               .catch((error) => {
                 if (error) {
-                  this.$toaster.error('Ha ocuurido un error')
+                  this.$toaster.error('Ha ocurrido un error')
                   console.log(error);
                 }
               })

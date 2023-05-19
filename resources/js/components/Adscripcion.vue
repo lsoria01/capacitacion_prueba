@@ -27,6 +27,7 @@
                         <template #button-content>
                             <em>{{usrActual}}</em>
                         </template>
+                        <!-- <b-dropdown-item href="/mi-cuenta">Mi cuenta</b-dropdown-item> -->
                         <b-dropdown-item href="#" @click.prevent="logout">Cerrar Sesión</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
@@ -105,7 +106,6 @@
 
                 <!-- Main table element -->
                 <b-table striped hover
-                id="table-transition-example"
                 class="table table-sm"
                 :items="adscripciones"
                 :fields="fields"
@@ -116,8 +116,6 @@
                 :sort-by.sync="sortBy"
                 :sort-desc.sync="sortDesc"
                 :sort-direction="sortDirection"
-                :tbody-transition-props="transProps"
-                primary-key="id_adscripcion"
                 empty-text="Sin registros por mostrar"
                 stacked="md"
                 show-empty
@@ -129,9 +127,10 @@
                 </template>
 
                 <template #cell(actions)="row">
-                    <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-editar>
-                      Editar
-                    </b-button>
+                  <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-editar 
+                    v-b-tooltip.hover title="Haga click si desea editar la adscripción">
+                    <b-icon icon="pencil-square"></b-icon>
+                  </b-button>
                 </template>
 
                 <template #row-details="row">
@@ -190,10 +189,6 @@
   export default {
     data() {
       return {
-        transProps: {
-          // Transition name
-          name: 'flip-list'
-        },
         fields: [
           { key: 'descripcion', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
@@ -358,7 +353,7 @@
                 })
               .catch((error) => {
                 if (error) {
-                  this.$toaster.error('Ha ocuurido un error')
+                  this.$toaster.error('Ha ocurrido un error')
                   console.log(error);
                 }
               })
@@ -399,9 +394,5 @@ height: 48px;
 }
 .activo{
   background-color: #D4C19C !important;
-}
-
-#table-transition-example .flip-list-move {
-  transition: transform 1s;
 }
 </style>

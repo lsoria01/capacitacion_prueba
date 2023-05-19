@@ -19,6 +19,7 @@ Vue.component('institucion', require('./components/Institucion.vue').default);
 Vue.component('nivel', require('./components/Nivel.vue').default);
 Vue.component('estado', require('./components/Estado.vue').default);
 Vue.component('grado', require('./components/GradoEstudio.vue').default);
+Vue.component('mi-cuenta', require('./components/MiCuenta.vue').default);
 Vue.component('bienvenida', require('./components/Bienvenida.vue').default);
 
 import VueQr from 'vue-qr'

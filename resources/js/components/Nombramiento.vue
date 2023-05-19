@@ -60,25 +60,26 @@
                           </div>                         
                         </b-col> -->
                         <b-col cols="12">
-                          <label>Empleado</label>
+                          <label>Empleado:</label>
                           <b-form-input list="empleado" v-model="nombramiento.id_user" autocomplete="off" required>
                           </b-form-input>
                           <datalist id="empleado">
                             <option v-for="usuario in usuarios">{{ usuario.nombreCompleto }}</option>  
                           </datalist>
+                          <span class="span">Seleccione un usuario de la lista</span>
                         </b-col>
                         <b-col cols="12" class="mb-4">
-                          <label>Tipo</label>
+                          <label>Tipo:</label>
                           <b-form-input id="tipo"  name="tipo" v-model="nombramiento.tipo" autocomplete="off" style="text-transform:uppercase" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="6">
-                          <label>Fecha de Emisión</label>
+                          <label>Fecha de Emisión:</label>
                           <b-form-input type="date" v-model="nombramiento.fecEmis" placeholder="Seleccione una fecha" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="6">
-                          <label>Fecha de Ratificación</label>
+                          <label>Fecha de Ratificación:</label>
                           <b-form-input type="date" v-model="nombramiento.fecRatif" required>
                           </b-form-input>
                         </b-col>
@@ -202,9 +203,10 @@
                 </template>
 
                 <template #cell(actions)="row">
-                    <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-editar>
-                        Editar
-                    </b-button>
+                  <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-editar 
+                    v-b-tooltip.hover title="Haga click si desea editar el nombramiento">
+                    <b-icon icon="pencil-square"></b-icon>
+                  </b-button>
                 </template>
 
                 <template #row-details="row">
@@ -389,21 +391,22 @@
             })
             .then(value=>{
               if(value){
-                  var empleado = this.nombramiento.empleado
-                  var empleado_filter = this.usuarios.filter(function(e){
-                  return e.nombre === empleado                
+                  var id_user = this.nombramiento.id_user
+                  var id_user_filter = this.usuarios.filter(function(e){
+                  return e.nombreCompleto === id_user                
                 })
-                console.log(empleado_filter);
-                for( var resultado of empleado_filter){
+                console.log(id_user_filter);
+                for( var resultado of id_user_filter){
                   this.resultado_empleado = resultado.id
                 }
                 console.log(this.resultado_empleado); 
               const params={
-                empleado: this.resultado_empleado,
+                id_user: this.resultado_empleado,
                 tipo: this.nombramiento.tipo,
                 fecEmis: this.nombramiento.fecEmis,
                 fecRatif: this.nombramiento.fecRatif
               }
+              console.log(params);
               axios.post('/nombramiento', params)
               .then(res=>{
                 //ocultar modal
@@ -412,7 +415,7 @@
                 //mostrar toaster
                 this.$toaster.success('Nombramiento creado con éxito!')
                 //Limpiamos los campos
-                this.nombramiento.empleado = '';
+                this.nombramiento.id_user = '';
                 this.nombramiento.tipo = '';
                 this.nombramiento.fecEmis = '';
                 this.nombramiento.fecRatif = '';
@@ -433,7 +436,7 @@
       },
       cargarDatos(item){
         this.nombramiento_.id_nombramiento = item.id_nombramiento,
-        this.nombramiento_.empleado = item.empleado,
+        this.nombramiento_.id_user = item.id_user,
         this.nombramiento_.tipo = item.tipo,
         this.nombramiento_.fecEmis = item.fecEmis,
         this.nombramiento_.fecRatif = item.fecRatif
@@ -455,18 +458,18 @@
         })
         .then(value=>{
           if(value){
-              var empleado_ = item.empleado
-              var empleado_filter_ = this.usuarios.filter(function(e){
-              return e.nombre === empleado_                
+              var id_user_ = item.id_user
+              var id_user_filter_ = this.usuarios.filter(function(e){
+              return e.nombreCompleto === id_user_                
             })
-            console.log(empleado_filter_);
-            for( var resultado_ of empleado_filter_){
+            console.log(id_user_filter_);
+            for( var resultado_ of id_user_filter_){
               this.resultado_empleado_ = resultado_.id
             }
             console.log(this.resultado_empleado_);   
             const params = {
               id_nombramiento : item.id_nombramiento,
-              empleado: this.resultado_empleado_,
+              id_user: this.resultado_empleado_,
               tipo: item.tipo,
               fecEmis: item.fecEmis,
               fecRatif: item.fecRatif
@@ -482,7 +485,7 @@
                 //mostrar toaster
                 this.$toaster.success('Nombramiento actualizado con éxito')
                 //Limpiamos los campos
-                this.nombramiento_.empleado = '';
+                this.nombramiento_.id_user = '';
                 this.nombramiento_.tipo = '';
                 this.nombramiento_.fecEmis = '',
                 this.nombramiento_.fecRatif = '',
@@ -496,7 +499,7 @@
                 })
                 .catch((error) => {
                   if (error) {
-                    this.$toaster.error('Ha ocuurido un error')
+                    this.$toaster.error('Ha ocurrido un error')
                     console.log(error);
                   }
                 })
@@ -637,5 +640,9 @@ height: 48px;
 }
 .activo{
   background-color: #D4C19C !important;
+}
+.span{
+  color:#B38E5D;
+  font-size:14px;
 }
 </style>

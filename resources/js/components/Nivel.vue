@@ -136,9 +136,10 @@
                 </template>
 
                 <template #cell(actions)="row">
-                    <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-editar>
-                        Editar
-                    </b-button>
+                  <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-editar 
+                    v-b-tooltip.hover title="Haga click si desea editar el nivel">
+                    <b-icon icon="pencil-square"></b-icon>
+                  </b-button>
                 </template>
 
                 <template #row-details="row">
@@ -368,7 +369,7 @@
                 })
               .catch((error) => {
                 if (error) {
-                  this.$toaster.error('Ha ocuurido un error')
+                  this.$toaster.error('Ha ocurrido un error')
                   console.log(error);
                 }
               })

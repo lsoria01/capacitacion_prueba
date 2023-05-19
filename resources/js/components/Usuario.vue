@@ -82,10 +82,6 @@
                   <label>Sexo:</label>
                   <b-form-input v-model="datos.sexo" autocomplete="off" readonly>
                   </b-form-input>
-                  <!-- <b-form-input v-if="datos.sexo == 'H'" value="HOMBRE" autocomplete="off" readonly>
-                  </b-form-input>
-                  <b-form-input v-if="datos.sexo == 'M'" value="MUJER" autocomplete="off" readonly>
-                  </b-form-input> -->
                 </b-col>
                 <b-col cols="3">
                   <label>RFC:</label>
@@ -362,7 +358,7 @@
                   </b-col>
                   <b-col cols="2">
                     <label>No Empleado:</label>
-                    <b-form-input v-model="usuario_.id" >
+                    <b-form-input v-model="usuario_.numEmpl" >
                     </b-form-input>
                   </b-col>
                   <b-col cols="6">
@@ -808,7 +804,7 @@
 
       },
       showMsgBoxCrear(){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar el password?`, {
+        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar el nuevo usuario?`, {
                 title: 'Aviso',
                 size: 'sm',
                 buttonSize: 'sm',

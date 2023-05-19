@@ -423,51 +423,6 @@
         this.totalRows = filteredItems.length
         this.currentPage = 1
       },
-      crear(){
-        this.msgResult='',
-        this.showMsgBoxCrear(); //Modal confirmación
-
-      },
-      showMsgBoxCrear(){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar el nuevo puesto?`, {
-                title: 'Aviso',
-                size: 'sm',
-                buttonSize: 'sm',
-                okTitle: 'Aceptar',
-                okColor: '#285C4D',
-                cancelTitle: 'Cancelar',
-                hideHeaderClose: false,
-                centered: true
-            })
-            .then(value=>{
-              if(value){
-              const params={
-                descripcion: this.puesto.descripcion
-              }
-              axios.post('/puesto', params)
-              .then(res=>{
-                //ocultar modal
-                this.$bvModal.hide('modal-crear');
-                this.puestos.push(res.data)
-                //mostrar toaster
-                this.$toaster.success('Puesto creado con éxito!')
-                //Limpiamos los campos
-                this.puesto.descripcion = '';
-                //recargamos cambios
-                axios.get('/puesto')
-                .then(res=>{
-                    this.puestos = res.data;
-                })
-                .catch((error) => {
-                            if (error) {
-                                this.$toaster.error('Lo sentimos, el puesto no se pudo crear ')
-                                console.log(error);
-                            }
-                    })
-                })
-              }
-            })
-      },
       cargarDatos(item){
         this.calificacion_.id_calificacion = item.id_calificacion
         this.calificacion_.id_user = item.id_user,
@@ -528,7 +483,7 @@
                 })
               .catch((error) => {
                 if (error) {
-                  this.$toaster.error('Ha ocuurido un error')
+                  this.$toaster.error('Ha ocurrido un error')
                   console.log(error);
                 }
               })
@@ -536,61 +491,6 @@
           }
         })
       },
-      /* rechazar(item){
-        this.cargarDatos(item);
-        this.msgResult='';
-        this.showMsgBoxRechazar(item); //Modal confirmación
-      },
-      showMsgBoxRechazar(item){
-        this.$bvModal.msgBoxConfirm('¿Está seguro de rechazar el curso? esta acción no se puede revertir',
-          {
-            title: 'Confirmar autorización',
-            okTitle: 'Si',
-            cancelTitle: 'Cancelar',
-            centered: true,
-            footerClass: 'p-2',
-            hideHeaderClose: false,
-          })
-          .then(value => {
-                if (value){
-                    //iniciar spinner
-                    var loader =  this.$loading.show({
-                    container: null
-                    });
-                    console.log(item.id_calificacion);
-                    const params = {
-                      rechazo: this.rechazo,
-                    }
-                    console.log(params);
-                    console.log(this.calificacion_.id_calificacion);
-                    axios.put(`calificacion/rechazar/${item.id_calificacion}`, params)
-                    .then(res => {
-                        //ocultar modal
-                        this.$bvModal.hide('modal-rechazar');
-                        const index = this.calificaciones.findIndex(
-                          calificacionBuscar => calificacionBuscar.id_calificacion === item.id_calificacion
-                        )
-                        this.calificaciones[index] = res.data
-                        //mostrar toaster
-                        this.$toaster.success('¡Adscripción actualizada con éxito')
-                        //Refrescamos cambios
-                        axios.get('/calificacion')
-                        .then(res=>{
-                            this.calificaciones = res.data;
-                        })
-                                                    
-                        })
-                        .catch((error) => {
-                                  if (error) {
-                                      this.$toaster.error('Ha ocurrido un error :( ')
-                                      //Ocultar Overlay
-                                      loader.hide();
-                                      console.log(error);
-                                  }
-                        });                 
-                }               
-          })
-      }, */
       validar(item){
           this.$bvModal.msgBoxConfirm('¿Está seguro de validar el curso? esta acción no se puede revertir',
               {

@@ -164,6 +164,7 @@ class UserController extends Controller
         ->join('users as superior', 'users.id_superior' , '=' , 'superior.id' )
         ->join('puesto as puesto_superior', 'superior.id_puesto', '=' , 'puesto_superior.id_puesto')
         ->select([
+            'users.id',
             'users.numEmpl',
             'users.nombreCompleto',
             'puesto.descripcion as id_puesto',
@@ -218,6 +219,16 @@ class UserController extends Controller
         else{
             $usuario->estatus = true;
         }
+        $usuario->save();
+        return $usuario;
+    }
+
+    public function actualizaPassword(Request $request, $id)
+    {
+        $usuario = User::find($id);
+        //$usuario->indicio = 'actualizado';
+        $usuario->password = Hash::make($request->password);
+        //$usuario->rfc = $request->rfc;
         $usuario->save();
         return $usuario;
     }

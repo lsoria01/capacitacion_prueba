@@ -17,18 +17,52 @@
                 >
                 <b-card-text>
                     <b-form @submit.prevent="ingresar">
-                        <label for="curp" class="mt-4">CURP:</label>
-                        <b-form-input id="curp" type="text" name="curp" v-model="curp" maxlength="18"></b-form-input>
-                        <label for="password">Password:</label>
-                        <b-form-input id="password" type="password" name="password" v-model="password"></b-form-input>
-                        <b-button type="submit" class="mt-4 float-right boton">Ingresar</b-button>
+                        <b-row>
+                            <b-col cols="12">
+                                <label for="curp" class="mt-4">CURP:</label>
+                                <b-form-input id="curp" type="text" name="curp" v-model="curp" maxlength="18"></b-form-input>
+                            </b-col>
+                            <b-col cols="12">
+                                <label for="password">Password:</label>
+                                <b-form-input id="password" type="password" name="password" v-model="password"></b-form-input>
+                            </b-col>
+                            <b-col cols="12">
+                                <b-button block type="submit" class="mt-4 float-right botones">Ingresar</b-button>
+                            </b-col>
+                            <!-- Sección de recuperar contraseña -->
+                            <!-- <b-col cols="12">
+                                <b-button variant="link" class="mt-4 float-right" v-b-modal.modal-reseteo style="font-size:13px;">Recuperar contraseña</b-button>
+                            </b-col>     -->                        
+                        </b-row>
                     </b-form>
                 </b-card-text>
                 </b-card>
             </b-card-group>
-        
+            <br>            
         </div>
         <!-- Fin formulario -->
+        <!-- Modal de confirmación -->
+        <b-modal centered id="modal-reseteo" title="Recuperación de contraseña" hide-footer>
+            <div class="container">
+                <b-form @submit.prevent="validar">
+                    <div>
+                        <b-row class="my-1">
+                            <p class="text-justify">Por favor, introduzca su correo <strong>electrónico institucional</strong></p> <br>
+                            <b-col sm="12">
+                            <b-form-group
+                            label = Email:
+                            label-for="email"
+                            >
+                            <b-form-input type="email" id="email" required v-model="email" autocomplete="off"></b-form-input>
+                            </b-form-group>
+                            </b-col>
+                        </b-row>
+                            <b-button type="submit" class="botones mt-4 mb-4" >Enviar</b-button>
+                    </div>
+                </b-form>
+            </div>
+        </b-modal>
+        
     </div>
 </template>
 
@@ -100,4 +134,14 @@ background-repeat: no-repeat;
 .boton{
     background-color:#13322B ;
 }
-</style>
+.botones{
+  background-color: #13322B !important;
+  border-color: #13322B !important;
+  color: white !important;
+}
+.botones:hover{
+  background-color: #B38E5D !important;
+  border-color: #B38E5D !important;
+  color: #fff !important;
+}
+</style>		

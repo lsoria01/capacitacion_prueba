@@ -212,7 +212,7 @@
           nombre:''
         },
         nivel_:{
-          id_nivel:'',
+          id:'',
           nomenclatura:'',
           nombre:''
         },
@@ -326,7 +326,7 @@
             })
       },
       cargarDatos(item){
-        this.nivel_.id_nivel = item.id_nivel,
+        this.nivel_.id = item.id,
         this.nivel_.nomenclatura = item.nomenclatura,
         this.nivel_.nombre = item.nombre
       },
@@ -348,16 +348,16 @@
         .then(value=>{
           if(value){
             const params = {
-              id_nivel : item.id_nivel,
+              id : item.id,
               nomenclatura: item.nomenclatura,
               nombre: item.nombre
             }
-            axios.put(`/nivel/${item.id_nivel}`, params)
+            axios.put(`/nivel/${item.id}`, params)
             .then(res =>{
               //ocultar modal
               this.$bvModal.hide('modal-editar');
               const index = this.niveles.findIndex(
-                nivelBuscar => nivelBuscar.id_nivel === item.id_nivel
+                nivelBuscar => nivelBuscar.id === item.id
               )
               this.niveles[index] = res.data
               //mostrar toaster

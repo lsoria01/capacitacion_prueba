@@ -24,23 +24,23 @@ class CursoController extends Controller
      */
     public function index()
     {
-        $cursos = Curso::leftJoin('institucion', 'curso.id_institucion', '=', 'institucion.id_institucion')
-        ->leftJoin('estatus', 'curso.id_estatus', '=', 'estatus.id_estatus')
+        $cursos = Curso::leftJoin('instituciones', 'cursos.institucion_id', '=', 'instituciones.id')
+        ->leftJoin('estatus', 'cursos.estatus_id', '=', 'estatus.id')
         ->select([
-            'curso.id_curso',
-            'curso.nombre',
-            'curso.fecha_inicio',
-            'curso.fecha_fin',
-            'curso.cursoOblig',
-            'curso.hrsCap',
-            'curso.cursoIntExt',
-            'curso.difundidoDP',
-            'curso.modalidad',
-            'estatus.nombre as id_estatus',
-            'institucion.descripcion as id_institucion',
-            'curso.folio'
+            'cursos.id',
+            'cursos.nombre',
+            'cursos.fecha_inicio',
+            'cursos.fecha_fin',
+            'cursos.curso_oblig',
+            'cursos.hrs_cap',
+            'cursos.curso_int_ext',
+            'cursos.difundido_DP',
+            'cursos.modalidad',
+            'estatus.nombre as estatus_id',
+            'instituciones.nombre as institucion_id',
+            'cursos.identificador_curso'
         ])
-        ->orderBy("id_curso")
+        ->orderBy("id")
         ->get();
         return $cursos;
     }
@@ -67,23 +67,23 @@ class CursoController extends Controller
         $cursos->nombre = Str::upper($request->nombre);
         $cursos->fecha_inicio = $request->fecha_inicio;
         $cursos->fecha_fin = $request->fecha_fin;
-        $cursos->cursoOblig = $request->cursoOblig;
-        $cursos->hrsCap = $request->hrsCap;
-        $cursos->cursoIntExt = $request->cursoIntExt;
-        $cursos->difundidoDP = $request->difundidoDP;
+        $cursos->curso_oblig = $request->curso_oblig;
+        $cursos->hrs_cap = $request->hrs_cap;
+        $cursos->curso_int_ext = $request->curso_int_ext;
+        $cursos->difundido_DP = $request->difundido_DP;
         $cursos->modalidad = $request->modalidad;
-        $cursos->id_estatus = $request->id_estatus;
-        $cursos->id_institucion = $request->id_institucion;
-        $cursos->folio = $request->folio;
+        $cursos->estatus_id = $request->estatus_id;
+        $cursos->institucion_id = $request->institucion_id;
+        $cursos->identificador_curso = $request->identificador_curso;
         $cursos->save();
 
-        $institucion = DB::table('institucion')
-                ->where('id_institucion', $request->id_institucion)
-                ->value('descripcion');
+        $institucion = DB::table('instituciones')
+                ->where('id', $request->id)
+                ->value('nombre');
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Creó un nuevo curso, con nombre: ". $request->nombre . ", con fecha de inicio: " . $request->fecha_inicio. ", con fecha de fin: ".$request->fecha_fin. ", de la Institución: ".$institucion. " y con folio: " . $request->folio;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Creó un nuevo curso, con nombre: ". $cursos->nombre . ", con fecha de inicio: " . $request->fecha_inicio. ", con fecha de fin: ".$request->fecha_fin. ", de la Institución: ".$institucion. " y con curso ID: " . $request->identificador_curso;
         $bitacora->save();
 
         return $cursos;
@@ -118,19 +118,19 @@ class CursoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_curso)
+    public function update(Request $request, $id)
     {
-        $cursos = Curso::find($id_curso);
+        $cursos = Curso::find($id);
         $cursos->nombre = Str::upper($request->nombre);
         $cursos->fecha_inicio = $request->fecha_inicio;
         $cursos->fecha_fin = $request->fecha_fin;
-        $cursos->cursoOblig = $request->cursoOblig;
-        $cursos->hrsCap = $request->hrsCap;
+        $cursos->curso_oblig = $request->curso_oblig;
+        $cursos->hrs_cap = $request->hrs_cap;
         $cursos->cursoIntExt = $request->cursoIntExt;
         $cursos->difundidoDP = $request->difundidoDP;
         $cursos->modalidad = $request->modalidad;
         $cursos->id_estatus = $request->id_estatus;
-        $cursos->folio = $request->folio;
+        $cursos->identificador_curso = $request->identificador_curso;
         $cursos->id_institucion = $request->id_institucion;
         $cursos->save();
 
@@ -139,8 +139,8 @@ class CursoController extends Controller
                 ->value('descripcion');
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Actualizó el curso con id: " .$id_curso. ", por el nuevo nombre: ". $request->nombre . ", por la nueva fecha de inicio: " . $request->fecha_inicio. ", por la nueva fecha de fin: ".$request->fecha_fin. ", por la nueva Institución: ".$institucion. " y por el nuevo folio: " . $request->folio;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Actualizó el curso con id: " .$id. ", por el nuevo nombre: ". $request->nombre . ", por la nueva fecha de inicio: " . $request->fecha_inicio. ", por la nueva fecha de fin: ".$request->fecha_fin. ", por la nueva Institución: ".$institucion. " y por el nuevo curso ID: " . $request->identificador_curso;
         $bitacora->save();
         
         return $cursos;

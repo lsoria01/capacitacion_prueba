@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Usuario;
 use Illuminate\Http\Request;
-use App\User;
 use App\Models\Nombramiento;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
-
-class UserController extends Controller
+class UsuarioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,32 +19,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        $usuario = User::leftJoin('puesto', 'users.id_puesto', '=', 'puesto.id_puesto')
-        ->leftJoin('adscripcion', 'users.id_adscripcion', '=', 'adscripcion.id_adscripcion')
-        ->leftJoin('nivel', 'users.id_nivel', '=', 'nivel.id_nivel')
-        ->leftJoin('estado', 'users.id_estado', '=', 'estado.id_estado')
-        ->leftJoin('gradoEst', 'users.id_gradoEst', '=', 'gradoEst.id_gradoEst')
-        ->select([
-            'users.id',
-            'users.numEmpl',
-            'users.nombreCompleto as nombreCompleto',
-            'puesto.descripcion as id_puesto',
-            'adscripcion.descripcion as id_adscripcion',
-            'nivel.nomenclatura as id_nivel',
-            'estado.nombre as id_estado',
-            'users.email',
-            'users.curp',
-            'users.fechaIngr',
-            'users.estatus',
-            'users.sexo',
-            'users.rfc',
-            'users.email',
-            'users.rol',
-            'users.ciudadAdscr',
-            'users.descripEstud',
-            'gradoEst.nombre as id_gradoEst',
-            'users.indicio'
-        ])
+        $usuario = DB::table('usuarios')
+        ->join('personas' , 'usuarios.persona_id' , '=' , 'personas.id')
+        ->select(
+            'usuarios.id',
+            DB::raw("CONCAT(personas.nombres,' ',personas.apellido_pat,' ',personas.apellido_mat) AS persona_id"),
+            'usuarios.correo',
+            'usuarios.usuario',
+            'usuarios.rol',
+            'usuarios.estatus'
+            )
+        ->orderBy("id")
         ->get();
         return $usuario;
     }
@@ -152,7 +136,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 
     public function autenticado(){
@@ -232,5 +216,4 @@ class UserController extends Controller
         $usuario->save();
         return $usuario;
     }
-        
 }

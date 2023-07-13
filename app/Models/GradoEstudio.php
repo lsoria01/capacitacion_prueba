@@ -9,8 +9,7 @@ class GradoEstudio extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $table = 'gradoEst';
-    protected $primaryKey = 'id_gradoEst';
+    protected $table = 'grado_estudios';
     protected $fillable = [
         'nombre'
     ];

@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Estado extends Model
+class Persona extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $table = 'estados';
+    protected $table = 'personas';
     protected $fillable = [
-        'nombre'
+        'nombres'
     ];
 }

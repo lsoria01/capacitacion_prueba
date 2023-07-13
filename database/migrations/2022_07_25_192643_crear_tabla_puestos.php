@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CrearTablaAdscripcion extends Migration
+class CrearTablaPuestos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CrearTablaAdscripcion extends Migration
      */
     public function up()
     {
-        Schema::create('adscripcion', function (Blueprint $table) {
-            $table->id('id_adscripcion');
-            $table->string('descripcion')->nullable();            
+        Schema::create('puestos', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->charset = 'utf8mb4';
@@ -30,6 +30,6 @@ class CrearTablaAdscripcion extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('adscripcion');
+        Schema::dropIfExists('puestos');
     }
 }

@@ -23,12 +23,12 @@ class InstitucionController extends Controller
     public function index()
     {
         $instituciones = Institucion::select(
-            'institucion.id_institucion',
-            'institucion.descripcion',
-            'institucion.tipo',
-            'institucion.siglas'
+            'instituciones.id',
+            'instituciones.nombre',
+            'instituciones.tipo',
+            'instituciones.siglas'
         )
-        ->orderBy("id_institucion")
+        ->orderBy("id")
         ->get();
         return $instituciones; 
     }
@@ -52,14 +52,14 @@ class InstitucionController extends Controller
     public function store(Request $request)
     {
         $instituciones = new Institucion();
-        $instituciones->descripcion = Str::upper($request->descripcion);
+        $instituciones->nombre = Str::upper($request->nombre);
         $instituciones->tipo = $request->tipo;
         $instituciones->siglas = $request->siglas;
         $instituciones->save();
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Creó un nueva Institución, con nombre: ". $request->descripcion . ", de tipo: " . $request->tipo. ", con siglas: ".$request->siglas ;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Creó un nueva Institución, con nombre: ". $instituciones->nombre . ", de tipo: " . $request->tipo. ", con siglas: ".$request->siglas ;
         $bitacora->save();
 
         return $instituciones;
@@ -96,17 +96,17 @@ class InstitucionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_institucion)
+    public function update(Request $request, $id)
     {
-        $instituciones = Institucion::find($id_institucion);
-        $instituciones->descripcion = Str::upper($request->descripcion);
+        $instituciones = Institucion::find($id);
+        $instituciones->nombre = Str::upper($request->nombre);
         $instituciones->tipo = $request->tipo;
         $instituciones->siglas = $request->siglas;
         $instituciones->save();
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Actualizó la Institución con id: " .$id_institucion. ", por el nuevo nombre: ". $request->descripcion . ", por el tipo: " . $request->tipo. ", y por las siglas: ".$request->siglas ;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Actualizó la Institución con id: " .$id. ", por el nuevo nombre: ". $instituciones->nombre . ", por el tipo: " . $request->tipo. ", y por las siglas: ".$request->siglas ;
         $bitacora->save();
 
         return $instituciones;

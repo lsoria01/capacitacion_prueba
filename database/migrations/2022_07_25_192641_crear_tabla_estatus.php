@@ -14,7 +14,7 @@ class CrearTablaEstatus extends Migration
     public function up()
     {
         Schema::create('estatus', function (Blueprint $table) {
-            $table->id('id_estatus');
+            $table->id();
             $table->string('nombre')->nullable();
             $table->timestamps();
             $table->softDeletes();

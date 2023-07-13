@@ -18,10 +18,10 @@ class BitacoraController extends Controller
      */
     public function index()
     {
-        $bitacoras = Bitacora::leftJoin('users', 'bitacora.id_user', '=', 'users.id')
+        $bitacoras = Bitacora::leftJoin('usuarios', 'bitacora.usuario_id', '=', 'usuarios.id')
         ->select([
-            'bitacora.id_bitacora',
-            'users.nombreCompleto as id_user',
+            'bitacora.id',
+            'usuarios.usuario as usuario_id',
             'bitacora.descripcion',
             'bitacora.created_at'          
         ])

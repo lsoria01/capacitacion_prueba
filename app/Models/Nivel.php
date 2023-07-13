@@ -9,8 +9,7 @@ class Nivel extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $table = 'nivel';
-    protected $primaryKey = 'id_nivel';
+    protected $table = 'niveles';
     protected $fillable = [
         'nomenclatura',
         'nombre'

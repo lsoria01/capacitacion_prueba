@@ -13,8 +13,8 @@ class CrearTablaGradoEstudios extends Migration
      */
     public function up()
     {
-        Schema::create('gradoEst', function (Blueprint $table) {
-            $table->id('id_gradoEst');
+        Schema::create('grado_estudios', function (Blueprint $table) {
+            $table->id();
             $table->string('nombre')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -30,6 +30,6 @@ class CrearTablaGradoEstudios extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gradoEst');
+        Schema::dropIfExists('grado_estudios');
     }
 }

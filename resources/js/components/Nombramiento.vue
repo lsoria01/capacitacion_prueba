@@ -61,10 +61,10 @@
                         </b-col> -->
                         <b-col cols="12">
                           <label>Empleado:</label>
-                          <b-form-input list="empleado" v-model="nombramiento.id_user" autocomplete="off" required>
+                          <b-form-input list="empleado" v-model="nombramiento.usuario_id" autocomplete="off" required>
                           </b-form-input>
                           <datalist id="empleado">
-                            <option v-for="usuario in usuarios">{{ usuario.nombreCompleto }}</option>  
+                            <option v-for="usuario in usuarios">{{ usuario.persona_id }}</option>  
                           </datalist>
                           <span class="span">Seleccione un usuario de la lista</span>
                         </b-col>
@@ -75,12 +75,12 @@
                         </b-col>
                         <b-col cols="6">
                           <label>Fecha de Emisión:</label>
-                          <b-form-input type="date" v-model="nombramiento.fecEmis" placeholder="Seleccione una fecha" required>
+                          <b-form-input type="date" v-model="nombramiento.fec_emis" placeholder="Seleccione una fecha" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="6">
                           <label>Fecha de Ratificación:</label>
-                          <b-form-input type="date" v-model="nombramiento.fecRatif" required>
+                          <b-form-input type="date" v-model="nombramiento.fec_ratif" required>
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -122,10 +122,10 @@
                         </b-col> -->
                         <b-col cols="12">
                           <label>Empleado</label>
-                          <b-form-input list="empleado" v-model="nombramiento_.id_user" autocomplete="off">
+                          <b-form-input list="empleado" v-model="nombramiento_.usuario_id" autocomplete="off">
                           </b-form-input>
                           <datalist id="empleado">
-                            <option v-for="usuario in usuarios">{{ usuario.nombreCompleto }}</option>  
+                            <option v-for="usuario in usuarios">{{ usuario.persona_id }}</option>  
                           </datalist>
                         </b-col>
                         <b-col cols="12" class="mb-4">
@@ -135,12 +135,12 @@
                         </b-col>
                         <b-col cols="6">
                           <label>Fecha de Emisión</label>
-                          <b-form-input id="fecEmis" name="fecEmis" type="date" v-model="nombramiento_.fecEmis">
+                          <b-form-input id="fec_emis" name="fec_emis" type="date" v-model="nombramiento_.fec_emis">
                           </b-form-input>
                         </b-col>
                         <b-col cols="6">
                           <label>Fecha de Ratificación</label>
-                          <b-form-input id="fecRatif" name="fecRatif" type="date" v-model="nombramiento_.fecRatif">
+                          <b-form-input id="fec_ratif" name="fec_ratif" type="date" v-model="nombramiento_.fec_ratif">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -266,13 +266,14 @@
     data() {
       return {
         fields: [
-          { key: 'id_user', label: 'Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'id', label: 'Numero', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'usuario_id', label: 'Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'tipo', label: 'Tipo', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'fecEmis', label: 'Fecha de Emisión', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'fecRatif', label: 'Fecha de Ratificación', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'fec_emis', label: 'Fecha de Emisión', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'fec_ratif', label: 'Fecha de Ratificación', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
-        siEdita :'0',
+        //siEdita :'0',
         msgResult:'',
         rol:'',
         usrActual:'',
@@ -281,27 +282,27 @@
         noEditado:'',
         nombramientos:[],
         nombramiento:{
-          id_user:'',
+          usuario_id:'',
           tipo:'',
-          fecEmis:'',
-          fecRatif:''
+          fec_emis:'',
+          fec_ratif:''
         },
         nombramiento_:{
-          id_user:'',
+          usuario_id:'',
           tipo:'',
-          fecEmis:'',
-          fecRatif:''
+          fec_emis:'',
+          fec_ratif:''
         },
-        empleadoSeleccionado:{
+        /* empleadoSeleccionado:{
           id:'',
           name:'',
           adscripcion:''
-        },
+        }, 
         usrExistente:{
           id:'',
           name:'',
           adscripcion:''
-        },
+        },*/
         resultado_empleado:'',
         resultado_empleado_:'',
         totalRows: 1,
@@ -391,20 +392,20 @@
             })
             .then(value=>{
               if(value){
-                  var id_user = this.nombramiento.id_user
-                  var id_user_filter = this.usuarios.filter(function(e){
-                  return e.nombreCompleto === id_user                
+                  var usuario_id = this.nombramiento.usuario_id
+                  var usuario_id_filter = this.usuarios.filter(function(e){
+                  return e.persona_id === usuario_id                
                 })
-                console.log(id_user_filter);
-                for( var resultado of id_user_filter){
+                console.log(usuario_id_filter);
+                for( var resultado of usuario_id_filter){
                   this.resultado_empleado = resultado.id
                 }
                 console.log(this.resultado_empleado); 
               const params={
-                id_user: this.resultado_empleado,
+                usuario_id: this.resultado_empleado,
                 tipo: this.nombramiento.tipo,
-                fecEmis: this.nombramiento.fecEmis,
-                fecRatif: this.nombramiento.fecRatif
+                fec_emis: this.nombramiento.fec_emis,
+                fec_ratif: this.nombramiento.fec_ratif
               }
               console.log(params);
               axios.post('/nombramiento', params)
@@ -415,10 +416,10 @@
                 //mostrar toaster
                 this.$toaster.success('Nombramiento creado con éxito!')
                 //Limpiamos los campos
-                this.nombramiento.id_user = '';
+                this.nombramiento.usuario_id = '';
                 this.nombramiento.tipo = '';
-                this.nombramiento.fecEmis = '';
-                this.nombramiento.fecRatif = '';
+                this.nombramiento.fec_emis = '';
+                this.nombramiento.fec_ratif = '';
                 //recargamos cambios
                 axios.get('/nombramiento')
                 .then(res=>{
@@ -435,11 +436,11 @@
             })
       },
       cargarDatos(item){
-        this.nombramiento_.id_nombramiento = item.id_nombramiento,
-        this.nombramiento_.id_user = item.id_user,
+        this.nombramiento_.id = item.id,
+        this.nombramiento_.usuario_id = item.usuario_id,
         this.nombramiento_.tipo = item.tipo,
-        this.nombramiento_.fecEmis = item.fecEmis,
-        this.nombramiento_.fecRatif = item.fecRatif
+        this.nombramiento_.fec_emis = item.fec_emis,
+        this.nombramiento_.fec_ratif = item.fec_ratif
       },
       editar(item){
         this.msgResult='';
@@ -458,39 +459,38 @@
         })
         .then(value=>{
           if(value){
-              var id_user_ = item.id_user
-              var id_user_filter_ = this.usuarios.filter(function(e){
-              return e.nombreCompleto === id_user_                
+              var usuario_id_ = item.usuario_id
+              var usuario_id_filter_ = this.usuarios.filter(function(e){
+              return e.persona_id === usuario_id_                
             })
-            console.log(id_user_filter_);
-            for( var resultado_ of id_user_filter_){
+            console.log(usuario_id_filter_);
+            for( var resultado_ of usuario_id_filter_){
               this.resultado_empleado_ = resultado_.id
             }
             console.log(this.resultado_empleado_);   
             const params = {
-              id_nombramiento : item.id_nombramiento,
-              id_user: this.resultado_empleado_,
+              id_nombramiento : item.id,
+              usuario_id: this.resultado_empleado_,
               tipo: item.tipo,
-              fecEmis: item.fecEmis,
-              fecRatif: item.fecRatif
+              fec_emis: item.fec_emis,
+              fec_ratif: item.fec_ratif
             }
-            axios.put(`/nombramiento/${item.id_nombramiento}`, params)
+            axios.put(`/nombramiento/${item.id}`, params)
               .then(res =>{
                 //ocultar modal
                 this.$bvModal.hide('modal-editar');
                 const index = this.nombramientos.findIndex(
-                  nombramientoBuscar => nombramientoBuscar.id_nombramiento === item.id_nombramiento
+                  nombramientoBuscar => nombramientoBuscar.id === item.id
                 )
                 this.nombramientos[index] = res.data
                 //mostrar toaster
                 this.$toaster.success('Nombramiento actualizado con éxito')
                 //Limpiamos los campos
-                this.nombramiento_.id_user = '';
+                this.nombramiento_.usuario_id = '';
                 this.nombramiento_.tipo = '';
-                this.nombramiento_.fecEmis = '',
-                this.nombramiento_.fecRatif = '',
-                
-                this.siEdita = 0;            
+                this.nombramiento_.fec_emis = '',
+                this.nombramiento_.fec_ratif = '',
+                //this.siEdita = 0;            
                 //Recargamos los cambios
                 axios.get('/nombramiento')
                 .then(res=>{
@@ -522,8 +522,8 @@
                   id_nombramiento : item.id_nombramiento,
                   empleado: this.noEditado,
                   tipo: item.tipo,
-                  fecEmis: item.fecEmis,
-                  fecRatif: item.fecRatif
+                  fec_emis: item.fec_emis,
+                  fec_ratif: item.fec_ratif
                 }
                 axios.put(`/nombramiento/${item.id_nombramiento}`, params)
                 .then(res =>{
@@ -538,8 +538,8 @@
                   //Limpiamos los campos
                   this.nombramiento_.empleado = '';
                   this.nombramiento_.tipo = '';
-                  this.nombramiento_.fecEmis = '',
-                  this.nombramiento_.fecRatif = '',
+                  this.nombramiento_.fec_emis = '',
+                  this.nombramiento_.fec_ratif = '',
                   
                   this.siEdita = 0;            
                   //Recargamos los cambios
@@ -562,8 +562,8 @@
                 id_nombramiento : item.id_nombramiento,
                 empleado: this.empleadoSeleccionado.id,
                 tipo: item.tipo,
-                fecEmis: item.fecEmis,
-                fecRatif: item.fecRatif
+                fec_emis: item.fec_emis,
+                fec_ratif: item.fec_ratif
               }
               axios.put(`/nombramiento/${item.id_nombramiento}`, params)
               .then(res =>{
@@ -578,8 +578,8 @@
                 //Limpiamos los campos
                 this.nombramiento_.empleado = '';
                 this.nombramiento_.tipo = '';
-                this.nombramiento_.fecEmis = '',
-                this.nombramiento_.fecRatif = '',
+                this.nombramiento_.fec_emis = '',
+                this.nombramiento_.fec_ratif = '',
                 
                 this.siEdita = 0;            
                 //Recargamos los cambios

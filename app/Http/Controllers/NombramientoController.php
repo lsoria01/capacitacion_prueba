@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Nombramiento;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class NombramientoController extends Controller
 {
@@ -19,15 +20,17 @@ class NombramientoController extends Controller
      */
     public function index()
     {
-        $nombramientos = Nombramiento::leftJoin('users', 'nombramiento.id_user', '=', 'users.id')
-        ->select([
-            'nombramiento.id_nombramiento',
-            'users.nombreCompleto as id_user',
-            'nombramiento.tipo',
-            'nombramiento.fecEmis',
-            'nombramiento.fecRatif'
-        ])
-        ->orderBy("id_nombramiento")
+        $nombramientos = DB::table('nombramientos')
+        ->join('usuarios', 'nombramientos.usuario_id', '=' , 'usuarios.id')
+        ->join('personas', 'usuarios.persona_id', '=' , 'personas.id')
+        ->select(
+            'nombramientos.id',
+             DB::raw("CONCAT(personas.nombres,' ',personas.apellido_pat,' ',personas.apellido_mat) AS usuario_id"),
+            'nombramientos.tipo',
+            'nombramientos.fec_emis',
+            'nombramientos.fec_ratif'
+        )
+        ->orderBy("id")
         ->get();
         return $nombramientos;
     }
@@ -51,10 +54,10 @@ class NombramientoController extends Controller
     public function store(Request $request)
     {
         $nombramientos = new Nombramiento();
-        $nombramientos->id_user = $request->id_user;
+        $nombramientos->usuario_id = $request->usuario_id;
         $nombramientos->tipo = Str::upper($request->tipo);
-        $nombramientos->fecEmis = $request->fecEmis;
-        $nombramientos->fecRatif = $request->fecRatif;
+        $nombramientos->fec_emis = $request->fec_emis;
+        $nombramientos->fec_ratif = $request->fec_ratif;
         $nombramientos->save();
         return $nombramientos;
     }
@@ -88,13 +91,13 @@ class NombramientoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_nombramiento)
+    public function update(Request $request, $id)
     {
-        $nombramientos = Nombramiento::find($id_nombramiento);
-        $nombramientos->id_user = $request->id_user;
+        $nombramientos = Nombramiento::find($id);
+        $nombramientos->usuario_id = $request->usuario_id;
         $nombramientos->tipo = Str::upper($request->tipo);
-        $nombramientos->fecEmis = $request->fecEmis;
-        $nombramientos->fecRatif = $request->fecRatif;
+        $nombramientos->fec_emis = $request->fec_emis;
+        $nombramientos->fec_ratif = $request->fec_ratif;
         $nombramientos->save();
         return $nombramientos;
     }

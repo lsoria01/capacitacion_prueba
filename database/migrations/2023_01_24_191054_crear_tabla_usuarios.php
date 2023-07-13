@@ -13,13 +13,19 @@ class CrearTablaUsuarios extends Migration
      */
     public function up()
     {
-        Schema::create('usuario', function (Blueprint $table) {
-            $table->id('id_usuario');
-            $table->unsignedBigInteger('id_persona')->nullable();
-            $table->foreign('id_persona')->references('id_persona')->on('persona');
+        Schema::create('usuarios', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('persona_id')->nullable();
+            $table->foreign('persona_id')->references('id')->on('personas');
             $table->string('correo')->nullable();
+            $table->string('usuario')->nullable();
             $table->string('password')->nullable();
-            $table->string('status')->nullable();
+            $table->integer('rol')->nullable();
+            $table->boolean('estatus')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_spanish_ci';
         });
     }
 
@@ -30,6 +36,6 @@ class CrearTablaUsuarios extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('usuario');
+        Schema::dropIfExists('usuarios');
     }
 }

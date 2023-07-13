@@ -200,7 +200,7 @@
           nombre:''
         },
         estado_:{
-          id_estado:'',
+          id:'',
           nombre:''
         },
         totalRows: 1,
@@ -311,7 +311,7 @@
             })
       },
       cargarDatos(item){
-        this.estado_.id_estado = item.id_estado,
+        this.estado_.id = item.id,
         this.estado_.nombre = item.nombre
       },
       editar(item){
@@ -332,15 +332,15 @@
         .then(value=>{
           if(value){
             const params = {
-              id_estado : item.id_estado,
+              id : item.id,
               nombre: item.nombre
             }
-            axios.put(`/estado/${item.id_estado}`, params)
+            axios.put(`/estado/${item.id}`, params)
             .then(res =>{
               //ocultar modal
               this.$bvModal.hide('modal-editar');
               const index = this.estados.findIndex(
-                estadoBuscar => estadoBuscar.id_estado === item.id_estado
+                estadoBuscar => estadoBuscar.id === item.id
               )
               this.estados[index] = res.data
               //mostrar toaster

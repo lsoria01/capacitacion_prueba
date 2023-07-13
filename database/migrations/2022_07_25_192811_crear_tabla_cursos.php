@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CrearTablaCurso extends Migration
+class CrearTablaCursos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,24 +13,24 @@ class CrearTablaCurso extends Migration
      */
     public function up()
     {
-        Schema::create('curso', function (Blueprint $table) {
-            $table->id('id_curso');
+        Schema::create('cursos', function (Blueprint $table) {
+            $table->id();
             $table->string('nombre')->nullable();
             $table->date('fecha_inicio')->nullable();
             $table->date('fecha_fin')->nullable();
             /*******/
             //nuevos campos
-            $table->boolean('cursoOblig')->nullable();
-            $table->integer('hrsCap')->nullable();
-            $table->boolean('cursoIntExt')->nullable();
-            $table->boolean('difundidoDP')->nullable();
+            $table->boolean('curso_oblig')->nullable();
+            $table->integer('hrs_cap')->nullable();
+            $table->boolean('curso_int_ext')->nullable();
+            $table->boolean('difundido_DP')->nullable();
             $table->string('modalidad')->nullable();
-            $table->unsignedBigInteger('id_estatus')->nullable();
-            $table->foreign('id_estatus')->references('id_estatus')->on('estatus');
+            $table->unsignedBigInteger('estatus_id')->nullable();
+            $table->foreign('estatus_id')->references('id')->on('estatus');
             /*******/
-            $table->unsignedBigInteger('id_institucion')->nullable();
-            $table->foreign('id_institucion')->references('id_institucion')->on('institucion');
-            $table->string('folio')->nullable();
+            $table->unsignedBigInteger('institucion_id')->nullable();
+            $table->foreign('institucion_id')->references('id')->on('instituciones');
+            $table->string('identificador_curso')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->charset = 'utf8mb4';
@@ -45,6 +45,6 @@ class CrearTablaCurso extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('curso');
+        Schema::dropIfExists('cursos');
     }
 }

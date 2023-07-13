@@ -22,10 +22,10 @@ class GradoEstudioController extends Controller
     public function index()
     {
         $grados = GradoEstudio::select(
-            'gradoEst.id_gradoEst',
-            'gradoEst.nombre',
+            'grado_estudios.id',
+            'grado_estudios.nombre',
         )
-        ->orderBy("id_gradoEst")
+        ->orderBy("id")
         ->get();
         return $grados; 
     }
@@ -53,8 +53,8 @@ class GradoEstudioController extends Controller
         $grados->save();
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Creó un nuevo grado de estudios llamado: ". " " . $request->nombre;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Creó un nuevo grado de estudios llamado: ". " " . $grados->nombre;
         $bitacora->save(); 
         
         return $grados;
@@ -89,15 +89,15 @@ class GradoEstudioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_gradoEst)
+    public function update(Request $request, $id)
     {
-        $grados = GradoEstudio::find($id_gradoEst);
+        $grados = GradoEstudio::find($id);
         $grados->nombre = Str::upper($request->nombre);
         $grados->save();
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Actualizó el grado de estudios con id: " .$id_gradoEst. " por el nuevo nombre:". " " . $request->nombre;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Actualizó el grado de estudios con id: " .$id. " por el nuevo nombre:". " " . $grados->nombre;
         $bitacora->save(); 
 
         return $grados;

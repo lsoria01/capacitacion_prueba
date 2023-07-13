@@ -22,11 +22,11 @@ class NivelController extends Controller
     public function index()
     {
         $niveles = Nivel::select(
-            'nivel.id_nivel',
-            'nivel.nomenclatura',
-            'nivel.nombre'
+            'niveles.id',
+            'niveles.nomenclatura',
+            'niveles.nombre'
         )
-        ->orderBy("id_nivel")
+        ->orderBy("id")
         ->get();
         return $niveles; 
     }
@@ -55,8 +55,8 @@ class NivelController extends Controller
         $niveles->save();
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Creó un nuevo nivel, con nomenclatura: ". $request->nomenclatura . ", llamado: " . $request->nombre;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Creó un nuevo nivel, con nomenclatura: ". $request->nomenclatura . ", llamado: " . $niveles->nombre;
         $bitacora->save();
 
         return $niveles;
@@ -91,16 +91,16 @@ class NivelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_nivel)
+    public function update(Request $request, $id)
     {
-        $niveles = Nivel::find($id_nivel);
+        $niveles = Nivel::find($id);
         $niveles->nomenclatura = $request->nomenclatura;
         $niveles->nombre = Str::upper($request->nombre);
         $niveles->save();
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Actualizó el nivel con id: ". $id_nivel .  ", por la nomenclatura: ". $request->nomenclatura . ", y por el nombre: " . $request->nombre;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Actualizó el nivel con id: ". $id .  ", por la nomenclatura: ". $request->nomenclatura . ", y por el nombre: " . $niveles->nombre;
         $bitacora->save();
 
         return $niveles;

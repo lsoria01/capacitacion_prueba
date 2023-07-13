@@ -18,7 +18,7 @@ class LoginController extends Controller
             'curp' => 'required | string',
             'password' => 'required | string'
         ]);
-        if (Auth::attempt(['curp' => $request->curp, 'password' => $request->password, 'estatus' => 1])){
+        if (Auth::attempt(['usuario' => $request->curp, 'password' => $request->password, 'estatus' => 1])){
             return redirect()->route('home');
         }
 

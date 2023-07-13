@@ -131,7 +131,8 @@ Route::put('usuario/actualizaPassword/{id}', 'UserController@actualizaPassword')
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('usuario', 'UserController');
+//Route::resource('user', 'UserController');
+Route::resource('usuario', 'UsuarioController');
 Route::resource('calificacion', 'CalificacionController');
 Route::resource('adscripcion', 'AdscripcionController');
 Route::resource('puesto', 'PuestoController');

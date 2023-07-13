@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CrearTablaSubmodulo extends Migration
+class CrearTablaModulos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CrearTablaSubmodulo extends Migration
      */
     public function up()
     {
-        Schema::create('submodulo', function (Blueprint $table) {
-            $table->id('id_submodulo');
+        Schema::create('modulos', function (Blueprint $table) {
+            $table->id();
             $table->string('nombre')->nullable();
-            $table->unsignedBigInteger('id_modulo')->nullable();
-            $table->foreign('id_modulo')->references('id_modulo')->on('modulo');
+            $table->unsignedBigInteger('aplicacion_id')->nullable();
+            $table->foreign('aplicacion_id')->references('id')->on('aplicaciones');
         });
     }
 
@@ -28,6 +28,6 @@ class CrearTablaSubmodulo extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('submodulo');
+        Schema::dropIfExists('modulos');
     }
 }

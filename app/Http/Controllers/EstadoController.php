@@ -22,10 +22,10 @@ class EstadoController extends Controller
     public function index()
     {
         $estados = Estado::select(
-            'estado.id_estado',
-            'estado.nombre',
+            'estados.id',
+            'estados.nombre',
         )
-        ->orderBy("id_estado")
+        ->orderBy("id")
         ->get();
         return $estados; 
     }
@@ -53,8 +53,8 @@ class EstadoController extends Controller
         $estados->save();
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Creó un nuevo estado llamado: ". " " . $request->nombre;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Creó un nuevo estado llamado: ". " " . $estados->nombre;
         $bitacora->save(); 
 
         return $estados;
@@ -89,15 +89,15 @@ class EstadoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_estado)
+    public function update(Request $request, $id)
     {
-        $estados = Estado::find($id_estado);
+        $estados = Estado::find($id);
         $estados->nombre = Str::upper($request->nombre);
         $estados->save();
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Actualizó el estado con id: " .$id_estado. " por el nuevo nombre:". " " . $request->nombre;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Actualizó el estado con id: " .$id. " por el nuevo nombre:". " " . $estados->nombre;
         $bitacora->save(); 
 
         return $estados;

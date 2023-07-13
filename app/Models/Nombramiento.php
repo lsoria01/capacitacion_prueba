@@ -9,12 +9,11 @@ class Nombramiento extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $table = 'nombramiento';
-    protected $primaryKey = 'id_nombramiento';
+    protected $table = 'nombramientos';
     protected $fillable = [
-        'empleado',
+        'usuario_id',
         'tipo',
-        'fecEmis',
-        'fecRatif'
+        'fec_emis',
+        'fec_ratif'
     ];
 }

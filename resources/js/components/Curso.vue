@@ -48,8 +48,8 @@
                         </b-col>
                         <b-col cols="2">
                           <label for="">¿Curso Obligatorio?</label>
-                          <b-form-checkbox v-model="curso.cursoOblig" name="cursoOblig" switch required>
-                            <b v-if="curso.cursoOblig"> Si</b> <b v-else>No</b>
+                          <b-form-checkbox v-model="curso.curso_oblig" name="curso_oblig" switch required>
+                            <b v-if="curso.curso_oblig"> Si</b> <b v-else>No</b>
                           </b-form-checkbox>
                         </b-col>
                       </b-row>
@@ -65,13 +65,13 @@
                         </b-col>
                         <b-col cols="2">
                           <label>Hrs de Capacitación:</label>
-                          <b-form-input type="number" v-model="curso.hrsCap" required>
+                          <b-form-input type="number" v-model="curso.hrs_cap" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="2">
                           <label for="">Curso Interno o Externo:</label>
-                            <b-form-checkbox v-model="curso.cursoIntExt" name="cursoIntExt" switch required>
-                            <b v-if="curso.cursoIntExt"> Externo</b> <b v-else>Interno</b>
+                            <b-form-checkbox v-model="curso.curso_int_ext" name="curso_int_ext" switch required>
+                            <b v-if="curso.curso_int_ext"> Externo</b> <b v-else>Interno</b>
                           </b-form-checkbox>
                         </b-col>
                       </b-row>
@@ -79,14 +79,14 @@
                       <b-row>
                         <b-col cols="2">
                           <label for="">Difundido por la DP:</label>
-                          <b-form-select v-model="curso.difundidoDP" :options="difundidoDPs" required></b-form-select>
+                          <b-form-select v-model="curso.difundido_DP" :options="difundido_DPs" required></b-form-select>
                         </b-col>
                         <b-col cols="10">
-                          <label for="id_institucion">Institución:</label>
-                          <b-form-input list="id_institucion" v-model="curso.id_institucion" autocomplete="off" required>
+                          <label for="institucion_id">Institución:</label>
+                          <b-form-input list="institucion_id" v-model="curso.institucion_id" autocomplete="off" required>
                           </b-form-input>
                           <span class="span">Seleccione una institución de la lista</span>
-                          <datalist id="id_institucion">
+                          <datalist id="institucion_id">
                             <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
                           </datalist>                          
                         </b-col>
@@ -124,8 +124,8 @@
                         </b-col>
                         <b-col cols="2">
                           <label for="">¿Curso Obligatorio?</label>
-                          <b-form-checkbox v-model="curso_.cursoOblig" name="check-button" switch>
-                            <b v-if="curso_.cursoOblig"> Si</b> <b v-else>No</b>
+                          <b-form-checkbox v-model="curso_.curso_oblig" name="check-button" switch>
+                            <b v-if="curso_.curso_oblig"> Si</b> <b v-else>No</b>
                           </b-form-checkbox>
                         </b-col>
                       </b-row>
@@ -141,13 +141,13 @@
                         </b-col>
                         <b-col cols="2">
                           <label>Hrs de Capacitación:</label>
-                          <b-form-input type="number" v-model="curso_.hrsCap">
+                          <b-form-input type="number" v-model="curso_.hrs_cap">
                           </b-form-input>
                         </b-col>
                         <b-col cols="2">
                           <label for="">Curso Interno o Externo:</label>
-                            <b-form-checkbox v-model="curso_.cursoIntExt" switch>
-                            <b v-if="curso_.cursoIntExt"> Externo</b> <b v-else>Interno</b>
+                            <b-form-checkbox v-model="curso_.curso_int_ext" switch>
+                            <b v-if="curso_.curso_int_ext"> Externo</b> <b v-else>Interno</b>
                           </b-form-checkbox>
                         </b-col>
                       </b-row>
@@ -155,14 +155,14 @@
                       <b-row>
                         <b-col cols="2">
                           <label for="">Difundido por la DP:</label>
-                          <b-form-select v-model="curso_.difundidoDP" :options="difundidoDPs"></b-form-select>
+                          <b-form-select v-model="curso_.difundido_DP" :options="difundido_DPs"></b-form-select>
                         </b-col>
                         <b-col cols="10">
-                          <label for="id_institucion">Institución:</label>
-                          <b-form-input list="id_institucion" v-model="curso_.id_institucion" autocomplete="off">
+                          <label for="institucion_id">Institución:</label>
+                          <b-form-input list="institucion_id" v-model="curso_.institucion_id" autocomplete="off">
                           </b-form-input>
                           <span class="span">Si desea cambiar la Institución, deberá borrar la existente y seleccionar una nueva</span>
-                          <datalist id="id_institucion">
+                          <datalist id="institucion_id">
                             <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
                           </datalist>                          
                         </b-col>
@@ -199,9 +199,9 @@
                         <b-col cols="2">
                           <label for="">¿Curso Obligatorio?</label> 
                           <br>
-                          <b-form-input v-if="curso_.cursoOblig" readonly value="Si"></b-form-input>
-                          <b-form-input v-if="curso_.cursoOblig === false" readonly value="No"></b-form-input>
-                          <b-form-input v-if="curso_.cursoOblig === null " readonly value="Sin información"></b-form-input>
+                          <b-form-input v-if="curso_.curso_oblig" readonly value="Si"></b-form-input>
+                          <b-form-input v-if="curso_.curso_oblig === false" readonly value="No"></b-form-input>
+                          <b-form-input v-if="curso_.curso_oblig === null " readonly value="Sin información"></b-form-input>
                         </b-col>
                       </b-row>
                       <br>
@@ -216,12 +216,12 @@
                         </b-col>
                         <b-col cols="2">
                           <label>Hrs de Capacitación:</label>
-                          <b-form-input v-model="curso_.hrsCap" readonly>
+                          <b-form-input v-model="curso_.hrs_cap" readonly>
                           </b-form-input>
                         </b-col>
                         <b-col cols="2">
                           <label for="">Curso Int. o Ext. :</label>
-                          <b-form-input v-if="curso_.cursoIntExt" readonly value="Externo"></b-form-input>
+                          <b-form-input v-if="curso_.curso_int_ext" readonly value="Externo"></b-form-input>
                           <b-form-input v-else readonly value="Interno"></b-form-input>
                         </b-col>
                       </b-row>
@@ -229,15 +229,15 @@
                       <b-row>
                         <b-col cols="2">
                           <label for="">Difundido por la DP:</label>
-                          <b-form-input v-if="curso_.difundidoDP" readonly value="Si"></b-form-input>
-                          <b-form-input v-if="curso_.difundidoDP === false" readonly value="No"></b-form-input>
-                          <b-form-input v-if="curso_.difundidoDP === null " readonly value="Sin información"></b-form-input>
+                          <b-form-input v-if="curso_.difundido_DP" readonly value="Si"></b-form-input>
+                          <b-form-input v-if="curso_.difundido_DP === false" readonly value="No"></b-form-input>
+                          <b-form-input v-if="curso_.difundido_DP === null " readonly value="Sin información"></b-form-input>
                         </b-col>
                         <b-col cols="10">
-                          <label for="id_institucion">Institución:</label>
-                          <b-form-input list="id_institucion" v-model="curso_.id_institucion" autocomplete="off" readonly>
+                          <label for="institucion_id">Institución:</label>
+                          <b-form-input list="institucion_id" v-model="curso_.institucion_id" autocomplete="off" readonly>
                           </b-form-input>
-                          <datalist id="id_institucion">
+                          <datalist id="institucion_id">
                             <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
                           </datalist>                          
                         </b-col>
@@ -388,7 +388,7 @@
         fields: [
           { key: 'nombre', label: 'Nombre', class: 'text-center small',  sortable: true, sortDirection: 'desc', thStyle: { width: "25%" } },
           { key: 'fecha_fin', label: 'fecha de fin', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'id_institucion', label: 'Institución', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "25%" } },
+          { key: 'institucion_id', label: 'Institución', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "25%" } },
           { key: 'folio', label: 'Id Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'id_estatus', label: 'Estatus', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', label: 'Accioness', class: 'text-center small'},
@@ -401,13 +401,13 @@
           nombre:'',
           fecha_inicio:'',
           fecha_fin:'',
-          cursoOblig: false,
-          hrsCap: '',
-          cursoIntExt:0,
-          difundidoDP:'',
+          curso_oblig: false,
+          hrs_cap: '',
+          curso_int_ext:0,
+          difundido_DP:'',
           modalidad:'',
           id_estatus:2,
-          id_institucion:'',
+          institucion_id:'',
           folio:''
         },
         curso_:{
@@ -415,20 +415,20 @@
           nombre:'',
           fecha_inicio:'',
           fecha_fin:'',
-          cursoOblig: false,
-          hrsCap: '',
-          cursoIntExt: false,
-          difundidoDP:'',
+          curso_oblig: false,
+          hrs_cap: '',
+          curso_int_ext: false,
+          difundido_DP:'',
           modalidad:'',
           id_estatus:2,
-          id_institucion:'',
+          institucion_id:'',
           folio:''
         },
         instituciones:{
-          id_institucion:'',
+          institucion_id:'',
           descripcion:''
         },
-        difundidoDPs: [
+        difundido_DPs: [
           { value: true, text: 'Si' },
           { value: false, text: 'No' }
         ],
@@ -523,26 +523,26 @@
             })
             .then(value=>{
               if(value){
-                  var institucion = this.curso.id_institucion
+                  var institucion = this.curso.institucion_id
                   var institucion_filter = this.instituciones.filter(function(e){
                   return e.descripcion === institucion                
                 })
                 console.log(institucion_filter);
                 for( var resultado of institucion_filter){
-                  this.resultado_institucion = resultado.id_institucion
+                  this.resultado_institucion = resultado.institucion_id
                 }
                 console.log(this.resultado_institucion);              
                 const params={
                 nombre: this.curso.nombre,
                 fecha_inicio:this.curso.fecha_inicio,
                 fecha_fin:this.curso.fecha_fin,
-                cursoOblig: this.curso.cursoOblig,
-                hrsCap: this.curso.hrsCap,
-                cursoIntExt: this.curso.cursoIntExt,
-                difundidoDP: this.curso.difundidoDP,
+                curso_oblig: this.curso.curso_oblig,
+                hrs_cap: this.curso.hrs_cap,
+                curso_int_ext: this.curso.curso_int_ext,
+                difundido_DP: this.curso.difundido_DP,
                 modalidad: this.curso.modalidad,
                 id_estatus: this.curso.id_estatus,
-                id_institucion:this.resultado_institucion,
+                institucion_id:this.resultado_institucion,
                 folio:this.curso.folio
               }
               console.log(params);
@@ -575,13 +575,13 @@
         this.curso_.nombre = item.nombre,
         this.curso_.fecha_inicio = item.fecha_inicio,
         this.curso_.fecha_fin = item.fecha_fin,
-        this.curso_.cursoOblig = item.cursoOblig,
-        this.curso_.hrsCap = item.hrsCap,
-        this.curso_.cursoIntExt = item.cursoIntExt,
-        this.curso_.difundidoDP = item.difundidoDP,
+        this.curso_.curso_oblig = item.curso_oblig,
+        this.curso_.hrs_cap = item.hrs_cap,
+        this.curso_.curso_int_ext = item.curso_int_ext,
+        this.curso_.difundido_DP = item.difundido_DP,
         this.curso_.modalidad = item.modalidad,
         this.curso_.id_estatus = item.id_estatus,
-        this.curso_.id_institucion = item.id_institucion,
+        this.curso_.institucion_id = item.institucion_id,
         this.curso_.folio = item.folio
       },
       editar(item){
@@ -601,13 +601,13 @@
         })
         .then(value=>{
           if(value){
-            var institucion_ = item.id_institucion
+            var institucion_ = item.institucion_id
             var institucion_filter_ = this.instituciones.filter(function(e){
               return e.descripcion === institucion_                
             })
             console.log(institucion_filter_);
             for( var resultado of institucion_filter_){
-              this.resultado_institucion_ = resultado.id_institucion
+              this.resultado_institucion_ = resultado.institucion_id
             }
             console.log(this.resultado_institucion_);
             if(item.id_estatus === 'Registrado'){
@@ -620,12 +620,12 @@
               nombre: item.nombre,
               fecha_inicio: item.fecha_inicio,
               fecha_fin: item.fecha_fin,
-              cursoOblig: item.cursoOblig,
-              hrsCap: item.hrsCap,
-              cursoIntExt: item.cursoIntExt,
-              difundidoDP: item.difundidoDP,
+              curso_oblig: item.curso_oblig,
+              hrs_cap: item.hrs_cap,
+              curso_int_ext: item.curso_int_ext,
+              difundido_DP: item.difundido_DP,
               modalidad: item.modalidad,
-              id_institucion:this.resultado_institucion_,
+              institucion_id:this.resultado_institucion_,
               id_estatus: this.curso_.id_estatus,
               folio: item.folio
             }

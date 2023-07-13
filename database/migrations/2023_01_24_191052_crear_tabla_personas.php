@@ -13,16 +13,21 @@ class CrearTablaPersonas extends Migration
      */
     public function up()
     {
-        Schema::create('persona', function (Blueprint $table) {
-            $table->id('id_persona');
-            $table->string('apellidoPat')->nullable();
-            $table->string('apellidoMat')->nullable();
+        Schema::create('personas', function (Blueprint $table) {
+            $table->id();
+            $table->string('apellido_pat')->nullable();
+            $table->string('apellido_mat')->nullable();
             $table->string('nombres')->nullable();
             $table->string('rfc')->nullable();
-            $table->string('CURP')->nullable();
-            $table->string('sexo')->nullable();
-            $table->string('gradoEst')->nullable();
-            $table->string('nombreGradoEst')->nullable();
+            $table->string('curp')->nullable();
+            $table->boolean('sexo')->nullable();
+            $table->unsignedBigInteger('grado_estudios_id')->nullable();
+            $table->foreign('grado_estudios_id')->references('id')->on('grado_estudios');
+            $table->string('nombre_grado_estudios')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_spanish_ci';
         });
     }
 
@@ -33,6 +38,6 @@ class CrearTablaPersonas extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('persona');
+        Schema::dropIfExists('personas');
     }
 }

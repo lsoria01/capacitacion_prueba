@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CrearTablaAplicacion extends Migration
+class CrearTablaNiveles extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class CrearTablaAplicacion extends Migration
      */
     public function up()
     {
-        Schema::create('aplicacion', function (Blueprint $table) {
-            $table->id('id_aplicacion');
+        Schema::create('niveles', function (Blueprint $table) {
+            $table->id();
+            $table->string('nomenclatura')->nullable();
             $table->string('nombre')->nullable();
-            
+            $table->timestamps();
+            $table->softDeletes();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_spanish_ci';
         });
     }
 
@@ -27,6 +31,6 @@ class CrearTablaAplicacion extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('aplicacion');
+        Schema::dropIfExists('niveles');
     }
 }

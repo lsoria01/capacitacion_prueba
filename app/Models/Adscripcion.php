@@ -9,10 +9,9 @@ class Adscripcion extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $table = 'adscripcion';
-    protected $primaryKey = 'id_adscripcion';
+    protected $table = 'adscripciones';
     protected $fillable = [
-        'descripcion',
+        'nombre',
         'lugar'
     ];
 }

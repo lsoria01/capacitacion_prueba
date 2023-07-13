@@ -44,7 +44,7 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="descripcion" name="descripcion" v-model="adscripcion.descripcion" style="text-transform:uppercase" required>
+                          <b-form-input id="nombre" name="nombre" v-model="adscripcion.nombre" style="text-transform:uppercase" required>
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -63,7 +63,7 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="descripcion" name="descripcion" v-model="adscripcion_.descripcion" style="text-transform:uppercase">
+                          <b-form-input id="nombre" name="nombre" v-model="adscripcion_.nombre" style="text-transform:uppercase">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -190,7 +190,7 @@
     data() {
       return {
         fields: [
-          { key: 'descripcion', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'nombre', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
         msgResult:'',
@@ -198,11 +198,11 @@
         usrActual:'',
         adscripciones:[],
         adscripcion:{
-          descripcion:''
+          nombre:''
         },
         adscripcion_:{
           id_adscripcion:'',
-          descripcion:''
+          nombre:''
         },
         totalRows: 1,
         currentPage: 1,
@@ -285,7 +285,7 @@
             .then(value=>{
               if(value){
               const params={
-                descripcion: this.adscripcion.descripcion
+                nombre: this.adscripcion.nombre
               }
               axios.post('/adscripcion', params)
               .then(res=>{
@@ -295,7 +295,7 @@
                 //mostrar toaster
                 this.$toaster.success('¡Adscripción creada con éxito!')
                 //Limpiamos los campos
-                this.adscripcion.descripcion = '';
+                this.adscripcion.nombre = '';
                 //recargamos cambios
                 axios.get('/adscripcion')
                 .then(res=>{
@@ -312,8 +312,8 @@
             })
       },
       cargarDatos(item){
-        this.adscripcion_.id_adscripcion = item.id_adscripcion,
-        this.adscripcion_.descripcion = item.descripcion
+        this.adscripcion_.id = item.id,
+        this.adscripcion_.nombre = item.nombre
       },
       editar(item){
         this.msgResult='';
@@ -333,15 +333,15 @@
         .then(value=>{
           if(value){
             const params = {
-              id_adscripcion : item.id_adscripcion,
-              descripcion: item.descripcion
+              id : item.id,
+              nombre: item.nombre
             }
-            axios.put(`/adscripcion/${item.id_adscripcion}`, params)
+            axios.put(`/adscripcion/${item.id}`, params)
             .then(res =>{
               //ocultar modal
               this.$bvModal.hide('modal-editar');
               const index = this.adscripciones.findIndex(
-                adscripcionBuscar => adscripcionBuscar.id_adscripcion === item.id_adscripcion
+                adscripcionBuscar => adscripcionBuscar.id === item.id
               )
               this.adscripciones[index] = res.data
               //mostrar toaster

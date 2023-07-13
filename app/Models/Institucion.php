@@ -9,9 +9,8 @@ class Institucion extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $table = 'institucion';
-    protected $primaryKey = 'id_institucion';
+    protected $table = 'instituciones';
     protected $fillable = [
-        'descripcion'
+        'nombre'
     ];
 }

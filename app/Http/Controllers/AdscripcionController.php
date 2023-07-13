@@ -22,10 +22,10 @@ class AdscripcionController extends Controller
     public function index()
     {
         $adscripciones = Adscripcion::select(
-            'adscripcion.id_adscripcion',
-            'adscripcion.descripcion',
+            'adscripciones.id',
+            'adscripciones.nombre',
         )
-        ->orderBy("id_adscripcion")
+        ->orderBy("id")
         ->get();
         return $adscripciones; 
     }
@@ -49,12 +49,12 @@ class AdscripcionController extends Controller
     public function store(Request $request)
     {
         $adscripciones = new Adscripcion();
-        $adscripciones->descripcion = Str::upper($request->descripcion);
+        $adscripciones->nombre = Str::upper($request->nombre);
         $adscripciones->save();        
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Creó una nueva adscripción llamada: ". " " . $request->descripcion;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Creó una nueva adscripción llamada: ". " " . $adscripciones->nombre;
         $bitacora->save(); 
 
         return $adscripciones;
@@ -89,15 +89,15 @@ class AdscripcionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_adscripcion)
+    public function update(Request $request, $id)
     {
-        $adscripciones = Adscripcion::find($id_adscripcion);
-        $adscripciones->descripcion = Str::upper($request->descripcion);
+        $adscripciones = Adscripcion::find($id);
+        $adscripciones->nombre = Str::upper($request->nombre);
         $adscripciones->save();
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Actualizó la adscripción con id: " .$id_adscripcion. " por el nuevo nombre:". " " . $request->descripcion;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Actualizó la adscripción con id: " .$id. " por el nuevo nombre:". " " . $adscripciones->nombre;
         $bitacora->save(); 
 
         return $adscripciones;

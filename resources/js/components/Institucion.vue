@@ -43,7 +43,7 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="descripcion" name="descripcion" v-model="institucion.descripcion" style="text-transform:uppercase" required>
+                          <b-form-input id="nombre" name="nombre" v-model="institucion.nombre" style="text-transform:uppercase" required>
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -74,7 +74,7 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="descripcion" name="descripcion" v-model="institucion_.descripcion" style="text-transform:uppercase">
+                          <b-form-input id="nombre" name="nombre" v-model="institucion_.nombre" style="text-transform:uppercase">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -213,7 +213,7 @@
     data() {
       return {
         fields: [
-          { key: 'descripcion', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'nombre', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'tipo', label: 'Tipo', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'siglas', label: 'Siglas', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
@@ -223,13 +223,13 @@
         usrActual:'',
         instituciones:[],
         institucion:{
-          descripcion:'',
+          nombre:'',
           tipo:'',
           siglas:''
         },
         institucion_:{
-          id_institucion:'',
-          descripcion:'',
+          id:'',
+          nombre:'',
           tipo:'',
           siglas:''
         },
@@ -314,7 +314,7 @@
             .then(value=>{
               if(value){
               const params={
-                descripcion: this.institucion.descripcion,
+                nombre: this.institucion.nombre,
                 tipo: this.institucion.tipo,
                 siglas: this.institucion.siglas,
               }
@@ -326,7 +326,9 @@
                 //mostrar toaster
                 this.$toaster.success('¡Institución creada con éxito!')
                 //Limpiamos los campos
-                this.institucion.descripcion = '';
+                this.institucion.nombre = '';
+                this.institucion.tipo = '';
+                this.institucion.siglas = '';
                 //recargamos cambios
                 axios.get('/institucion')
                 .then(res=>{
@@ -343,8 +345,8 @@
             })
       },
       cargarDatos(item){
-        this.institucion_.id_institucion = item.id_institucion,
-        this.institucion_.descripcion = item.descripcion
+        this.institucion_.id = item.id,
+        this.institucion_.nombre = item.nombre
         this.institucion_.tipo = item.tipo
         this.institucion_.siglas = item.siglas
       },
@@ -366,17 +368,17 @@
         .then(value=>{
           if(value){
             const params = {
-              id_institucion : item.id_institucion,
-              descripcion: item.descripcion,
+              id : item.id,
+              nombre: item.nombre,
               tipo: item.tipo,
               siglas: item.siglas
             }
-            axios.put(`/institucion/${item.id_institucion}`, params)
+            axios.put(`/institucion/${item.id}`, params)
             .then(res =>{
               //ocultar modal
               this.$bvModal.hide('modal-editar');
               const index = this.instituciones.findIndex(
-                institucionBuscar => institucionBuscar.id_institucion === item.id_institucion
+                institucionBuscar => institucionBuscar.id === item.id
               )
               this.instituciones[index] = res.data
               //mostrar toaster

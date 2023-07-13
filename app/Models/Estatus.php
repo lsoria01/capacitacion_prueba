@@ -10,7 +10,6 @@ class Estatus extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
     protected $table = 'estatus';
-    protected $primaryKey = 'id_estatus';
     protected $fillable = [
         'nombre'
     ];

@@ -43,7 +43,7 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="descripcion" name="descripcion" v-model="puesto.descripcion" style="text-transform:uppercase">
+                          <b-form-input id="nombre" name="nombre" v-model="puesto.nombre" style="text-transform:uppercase">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -62,7 +62,7 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="descripcion" name="descripcion" v-model="puesto_.descripcion" style="text-transform:uppercase">
+                          <b-form-input id="nombre" name="nombre" v-model="puesto_.nombre" style="text-transform:uppercase">
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -189,7 +189,7 @@
     data() {
       return {
         fields: [
-          { key: 'descripcion', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'nombre', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
         msgResult:'',
@@ -197,11 +197,11 @@
         usrActual:'',
         puestos:[],
         puesto:{
-          descripcion:''
+          nombre:''
         },
         puesto_:{
-          id_puesto:'',
-          descripcion:''
+          id:'',
+          nombre:''
         },
         totalRows: 1,
         currentPage: 1,
@@ -284,7 +284,7 @@
             .then(value=>{
               if(value){
               const params={
-                descripcion: this.puesto.descripcion
+                nombre: this.puesto.nombre
               }
               axios.post('/puesto', params)
               .then(res=>{
@@ -294,7 +294,7 @@
                 //mostrar toaster
                 this.$toaster.success('Puesto creado con éxito!')
                 //Limpiamos los campos
-                this.puesto.descripcion = '';
+                this.puesto.nombre = '';
                 //recargamos cambios
                 axios.get('/puesto')
                 .then(res=>{
@@ -311,8 +311,8 @@
             })
       },
       cargarDatos(item){
-        this.puesto_.id_puesto = item.id_puesto,
-        this.puesto_.descripcion = item.descripcion
+        this.puesto_.id = item.id,
+        this.puesto_.nombre = item.nombre
       },
       editar(item){
         this.msgResult='';
@@ -332,15 +332,15 @@
         .then(value=>{
           if(value){
             const params = {
-              id_puesto : item.id_puesto,
-              descripcion: item.descripcion
+              id : item.id,
+              nombre: item.nombre
             }
-            axios.put(`/puesto/${item.id_puesto}`, params)
+            axios.put(`/puesto/${item.id}`, params)
             .then(res =>{
               //ocultar modal
               this.$bvModal.hide('modal-editar');
               const index = this.puestos.findIndex(
-                puestoBuscar => puestoBuscar.id_puesto === item.id_puesto
+                puestoBuscar => puestoBuscar.id === item.id
               )
               this.puestos[index] = res.data
               //mostrar toaster

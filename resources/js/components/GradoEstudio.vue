@@ -200,7 +200,7 @@
           nombre:''
         },
         grado_:{
-          id_grado:'',
+          id:'',
           nombre:''
         },
         totalRows: 1,
@@ -311,7 +311,7 @@
             })
       },
       cargarDatos(item){
-        this.grado_.id_gradoEst = item.id_gradoEst,
+        this.grado_.id = item.id,
         this.grado_.nombre = item.nombre
       },
       editar(item){
@@ -332,15 +332,15 @@
         .then(value=>{
           if(value){
             const params = {
-              id_gradoEst : item.id_gradoEst,
+              id : item.id,
               nombre: item.nombre
             }
-            axios.put(`/grado/${item.id_gradoEst}`, params)
+            axios.put(`/grado/${item.id}`, params)
             .then(res =>{
               //ocultar modal
               this.$bvModal.hide('modal-editar');
               const index = this.grados.findIndex(
-                gradoBuscar => gradoBuscar.id_gradoEst === item.id_gradoEst
+                gradoBuscar => gradoBuscar.id === item.id
               )
               this.grados[index] = res.data
               //mostrar toaster

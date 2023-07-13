@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CrearTablaCalificacion extends Migration
+class CrearTablaCalificaciones extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,20 @@ class CrearTablaCalificacion extends Migration
      */
     public function up()
     {
-        Schema::create('calificacion', function (Blueprint $table) {
-            $table->id('id_calificacion');
-            $table->unsignedBigInteger('id_user')->nullable();
-            $table->unsignedBigInteger('id_curso')->nullable();
-            $table->boolean('cursoFin')->nullable();
+        Schema::create('calificaciones', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('usuario_id')->nullable();
+            $table->unsignedBigInteger('curso_id')->nullable();
+            $table->boolean('curso_fin')->nullable();
             $table->boolean('aprobado')->nullable();
             $table->string('calif')->nullable();
             $table->date('fecha')->nullable();
             $table->integer('anio')->nullable();
             $table->string('rechazo')->nullable();
-            $table->string('urlConstancia')->nullable();
-            $table->string('nombreConstancia')->nullable();
-            $table->unsignedBigInteger('id_estatus')->nullable();
-            $table->foreign('id_estatus')->references('id_estatus')->on('estatus');
+            $table->string('url_constancia')->nullable();
+            $table->string('nombre_constancia')->nullable();
+            $table->unsignedBigInteger('estatus_id')->nullable();
+            $table->foreign('estatus_id')->references('id')->on('estatus');
             $table->timestamps();
             $table->softDeletes();
             $table->charset = 'utf8mb4';
@@ -41,6 +41,6 @@ class CrearTablaCalificacion extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('calificacion');
+        Schema::dropIfExists('calificaciones');
     }
 }

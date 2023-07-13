@@ -22,10 +22,10 @@ class PuestoController extends Controller
     public function index()
     {
         $puestos = Puesto::select(
-            'puesto.id_puesto',
-            'puesto.descripcion',
+            'puestos.id',
+            'puestos.nombre',
         )
-        ->orderBy("id_puesto")
+        ->orderBy("id")
         ->get();
         return $puestos; 
     }
@@ -49,12 +49,12 @@ class PuestoController extends Controller
     public function store(Request $request)
     {
         $puestos = new Puesto();
-        $puestos->descripcion = Str::upper($request->descripcion);
+        $puestos->nombre = Str::upper($request->nombre);
         $puestos->save();
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Creó un nuevo puesto llamado: ". " " . $request->descripcion;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Creó un nuevo puesto llamado: ". " " . $puestos->nombre;
         $bitacora->save(); 
 
         return $puestos;
@@ -89,15 +89,15 @@ class PuestoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_puesto)
+    public function update(Request $request, $id)
     {
-        $puestos = Puesto::find($id_puesto);
-        $puestos->descripcion = Str::upper($request->descripcion);
+        $puestos = Puesto::find($id);
+        $puestos->nombre = Str::upper($request->nombre);
         $puestos->save();
 
         $bitacora = new Bitacora();
-        $bitacora->id_user = Auth::id();
-        $bitacora->descripcion = "Actualizó el puesto con id: " .$id_puesto. " por el nuevo nombre:". " " . $request->descripcion;
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = "Actualizó el puesto con id: " .$id. " por el nuevo nombre:". " " . $puestos->nombre;
         $bitacora->save(); 
 
         return $puestos;

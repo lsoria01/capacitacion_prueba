@@ -9,8 +9,7 @@ class Puesto extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $table = 'puesto';
-    protected $primaryKey = 'id_puesto';
+    protected $table = 'puestos';
     protected $fillable = [
         'descripcion'
     ];

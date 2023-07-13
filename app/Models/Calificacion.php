@@ -9,18 +9,16 @@ class Calificacion extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $table = 'calificacion';
-    protected $primaryKey = 'id_calificacion';
+    protected $table = 'calificaciones';
     protected $fillable = [
-        'id_user',
-        'id_curso',
-        'cursoFin',
+        'usuario_id',
+        'curso_id',
+        'curso_fin',
         'aprobado',
         'calif',
         'fecha',
         'anio',
-        'id_institucion',
-        'urlConstancia',
-        'id_estatus'
+        'url_constancia',
+        'estatus_id'
     ];
 }

@@ -9,19 +9,18 @@ class Curso extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $table = 'curso';
-    protected $primaryKey = 'id_curso';
+    protected $table = 'cursos';
     protected $fillable = [
         'nombre',
         'fecha_inicio',
         'fecha_fin',
-        'cursoOblig',
-        'hrsCap',
-        'cursoIntExt',
-        'difundidoDP',
+        'curso_oblig',
+        'hrs_cap',
+        'curso_int_ext',
+        'difundido_DP',
         'modalidad',
-        'id_estatus',
-        'id_institucion',
-        'folio'
+        'estatus_id',
+        'institucion_id',
+        'identificador_curso'
     ];
 }

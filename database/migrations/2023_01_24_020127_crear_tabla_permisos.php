@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CrearTablaBitacora extends Migration
+class CrearTablaPermisos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CrearTablaBitacora extends Migration
      */
     public function up()
     {
-        Schema::create('bitacora', function (Blueprint $table) {
+        Schema::create('permisos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('usuario_id')->nullable();
-            $table->foreign('usuario_id')->references('id')->on('usuarios');
-            $table->longText('descripcion')->nullable();
-            $table->timestamps();
+            $table->string('nombre')->nullable();
+            $table->unsignedBigInteger('submodulo_id')->nullable();
+            $table->foreign('submodulo_id')->references('id')->on('submodulos');
         });
     }
 
@@ -29,6 +28,6 @@ class CrearTablaBitacora extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bitacora');
+        Schema::dropIfExists('permiso');
     }
 }

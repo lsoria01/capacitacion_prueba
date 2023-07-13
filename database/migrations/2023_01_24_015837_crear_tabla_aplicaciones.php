@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CrearTablaPermiso extends Migration
+class CrearTablaAplicaciones extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CrearTablaPermiso extends Migration
      */
     public function up()
     {
-        Schema::create('permiso', function (Blueprint $table) {
-            $table->id('id_permiso');
+        Schema::create('aplicaciones', function (Blueprint $table) {
+            $table->id();
             $table->string('nombre')->nullable();
-            $table->unsignedBigInteger('id_submodulo')->nullable();
-            $table->foreign('id_submodulo')->references('id_submodulo')->on('submodulo');
         });
     }
 
@@ -28,6 +26,6 @@ class CrearTablaPermiso extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('permiso');
+        Schema::dropIfExists('aplicaciones');
     }
 }

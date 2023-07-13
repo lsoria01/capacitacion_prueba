@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CrearTablaPuesto extends Migration
+class CrearTablaInstituciones extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CrearTablaPuesto extends Migration
      */
     public function up()
     {
-        Schema::create('puesto', function (Blueprint $table) {
-            $table->id('id_puesto');
-            $table->string('descripcion')->nullable();
-            $table->unsignedBigInteger('superior')->nullable();
+        Schema::create('instituciones', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre')->nullable();
+            $table->string('tipo')->nullable();
+            $table->string('siglas')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->charset = 'utf8mb4';
@@ -31,6 +32,6 @@ class CrearTablaPuesto extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('puesto');
+        Schema::dropIfExists('instituciones');
     }
 }

@@ -14,6 +14,7 @@
                         <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/sedes">Sedes</b-dropdown-item>
                         <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown right>
@@ -139,13 +140,14 @@
     data() {
       return {
         fields: [
-          { key: 'id_user', label: 'Usuario', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'usuario_id', label: 'Usuario', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'descripcion', label: 'Detalle', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'created_at', label: 'Fecha', class: 'text-center small', sortable: true, sortDirection: 'desc' },
         ],
         msgResult:'',
         rol:'',
         usrActual:'',
+        bitacoras:[],
         estados:[],
         estado:{
           nombre:''

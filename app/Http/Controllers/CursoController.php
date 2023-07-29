@@ -78,12 +78,56 @@ class CursoController extends Controller
         $cursos->save();
 
         $institucion = DB::table('instituciones')
-                ->where('id', $request->id)
+                ->where('id', $request->institucion_id)
                 ->value('nombre');
+
+        //Curso obligatorio
+            if($cursos->curso_oblig){
+                $curso_oblig = 'Si';
+            }
+            else{
+                $curso_oblig = 'No';
+            }
+            
+        //Curso Interno o Externo
+            if($cursos->curso_int_ext){
+                $curso_int_ext = 'Externo';
+            }
+            else{
+                $curso_int_ext = 'Interno';
+            }
+        
+        //Difundido por la DP
+            if($cursos->difundido_DP){
+                $difundido_DP = 'Si';
+            }
+            else{
+                $difundido_DP = 'No';
+            }
 
         $bitacora = new Bitacora();
         $bitacora->usuario_id = Auth::id();
-        $bitacora->descripcion = "Creó un nuevo curso, con nombre: ". $cursos->nombre . ", con fecha de inicio: " . $request->fecha_inicio. ", con fecha de fin: ".$request->fecha_fin. ", de la Institución: ".$institucion. " y con curso ID: " . $request->identificador_curso;
+        $bitacora->descripcion = 
+            "Creó un nuevo curso, con nombre: ". 
+            $cursos->nombre .
+            ", Obligatorio: ". 
+            $curso_oblig.
+            ", con fecha de inicio: ". 
+            $cursos->fecha_inicio. 
+            ", con fecha de fin: ".
+            $cursos->fecha_fin. 
+            ", horas de capacitación: ".
+            $cursos->hrs_cap.
+            ", Curso interno o externo: ".
+            $curso_int_ext.
+            ", difundido por la DP: ".
+            $difundido_DP.
+            ", de la Institución: ".
+            $institucion. 
+            ", con curso ID: " .
+            $cursos->identificador_curso.
+            " y de la modalidad: " .
+            $cursos->modalidad;
         $bitacora->save();
 
         return $cursos;
@@ -126,21 +170,65 @@ class CursoController extends Controller
         $cursos->fecha_fin = $request->fecha_fin;
         $cursos->curso_oblig = $request->curso_oblig;
         $cursos->hrs_cap = $request->hrs_cap;
-        $cursos->cursoIntExt = $request->cursoIntExt;
-        $cursos->difundidoDP = $request->difundidoDP;
+        $cursos->curso_int_ext = $request->curso_int_ext;
+        $cursos->difundido_DP = $request->difundido_DP;
         $cursos->modalidad = $request->modalidad;
-        $cursos->id_estatus = $request->id_estatus;
+        $cursos->estatus_id = $request->estatus_id;
         $cursos->identificador_curso = $request->identificador_curso;
-        $cursos->id_institucion = $request->id_institucion;
+        $cursos->institucion_id = $request->institucion_id;
         $cursos->save();
 
-        $institucion = DB::table('institucion')
-                ->where('id_institucion', $request->id_institucion)
-                ->value('descripcion');
+        $institucion = DB::table('instituciones')
+                ->where('id', $request->institucion_id)
+                ->value('nombre');
+
+        //Curso obligatorio
+            if($cursos->curso_oblig){
+                $curso_oblig = 'Si';
+            }
+            else{
+                $curso_oblig = 'No';
+            }
+            
+        //Curso Interno o Externo
+            if($cursos->curso_int_ext){
+                $curso_int_ext = 'Externo';
+            }
+            else{
+                $curso_int_ext = 'Interno';
+            }
+        
+        //Difundido por la DP
+            if($cursos->difundido_DP){
+                $difundido_DP = 'Si';
+            }
+            else{
+                $difundido_DP = 'No';
+            }
 
         $bitacora = new Bitacora();
         $bitacora->usuario_id = Auth::id();
-        $bitacora->descripcion = "Actualizó el curso con id: " .$id. ", por el nuevo nombre: ". $request->nombre . ", por la nueva fecha de inicio: " . $request->fecha_inicio. ", por la nueva fecha de fin: ".$request->fecha_fin. ", por la nueva Institución: ".$institucion. " y por el nuevo curso ID: " . $request->identificador_curso;
+        $bitacora->descripcion = 
+            "Actualizó el curso con id: ".
+            $id.
+            ", por el nuevo nombre: ".
+            $cursos->nombre .
+            ", por la nueva fecha de inicio: ".
+            $request->fecha_inicio.
+            ", por la nueva fecha de fin: ".
+            $request->fecha_fin.
+            ", horas de capacitación: ".
+            $cursos->hrs_cap.
+            ", Curso interno o externo: ".
+            $curso_int_ext.
+            ", difundido por la DP: ".
+            $difundido_DP.
+            ", por la nueva Institución: ".
+            $institucion. 
+            " por el nuevo curso ID: ".
+            $cursos->identificador_curso.
+            " en la modalidad de: " .
+            $cursos->modalidad;
         $bitacora->save();
         
         return $cursos;
@@ -159,21 +247,21 @@ class CursoController extends Controller
 
     public function nombreInstituciones(){
         $instituciones = Institucion::select(
-            'institucion.id_institucion',
-            'institucion.descripcion',
-            'institucion.tipo',
-            'institucion.siglas'
+            'instituciones.id',
+            'instituciones.nombre',
+            'instituciones.tipo',
+            'instituciones.siglas'
         )
-        ->orderBy("id_institucion")
+        ->orderBy("id")
         ->get();
         return $instituciones; 
 
     }
 
-    public function validar($id_curso){
-        $curso = Curso::find($id_curso);
-        if($curso->id_estatus == 1){
-            $curso->id_estatus = 2;
+    public function validar($id){
+        $curso = Curso::find($id);
+        if($curso->estatus_id == 1){
+            $curso->estatus_id = 2;
             $curso->save();
             return ("Curso validado con éxito");
         }else{

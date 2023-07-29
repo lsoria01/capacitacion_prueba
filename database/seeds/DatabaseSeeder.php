@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(NivelSeeder::class);
         $this->call(PuestoSeeder::class);
         $this->call(EstadoSeeder::class);
+        $this->call(SedeSeeder::class);
         $this->call(InstitucionSeeder::class);
         $this->call(CursoSeeder::class);
         $this->call(GradoEstudioSeeder::class);      

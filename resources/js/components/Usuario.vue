@@ -13,6 +13,8 @@
                             <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                             <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                             <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/sedes">Sedes</b-dropdown-item>
+                            <b-dropdown-item class="activo active" v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
                             <b-dropdown-item v-if="rol == 1" href="/kardex">Kardex</b-dropdown-item>
@@ -90,12 +92,12 @@
                 </b-col>
                 <b-col cols="2">
                   <label>No Empleado:</label>
-                  <b-form-input v-model="usuario.numEmpl" autocomplete="off">
+                  <b-form-input v-model="usuario.num_empleado" autocomplete="off">
                   </b-form-input>
                 </b-col>
                 <b-col cols="6">
-                  <label>Email:</label>
-                  <b-form-input v-model="usuario.email" autocomplete="off">
+                  <label>correo:</label>
+                  <b-form-input v-model="usuario.correo" autocomplete="off">
                   </b-form-input>
                 </b-col>
               </b-row>
@@ -141,14 +143,14 @@
               <b-row>
                 <b-col cols="5">
                   <label>Fecha de ingreso:</label>
-                  <b-form-datepicker v-model="usuario.fechaIngr" id="fecha_inicio" placeholder=""></b-form-datepicker>
+                  <b-form-datepicker v-model="usuario.fecha_ingr" id="fecha_inicio" placeholder=""></b-form-datepicker>
                 </b-col>
                 <b-col cols="7">
                   <label>Puesto:</label>
-                    <b-form-input list="id_puesto" v-model="usuario.id_puesto" autocomplete="off">
+                    <b-form-input list="puesto_id" v-model="usuario.puesto_id" autocomplete="off">
                     </b-form-input>
-                    <datalist id="id_puesto">
-                      <option v-for="puesto in puestos">{{ puesto.descripcion }}</option>  
+                    <datalist id="puesto_id">
+                      <option v-for="puesto in puestos">{{ puesto.nombre }}</option>  
                     </datalist>  
                     <span class="span">Seleccione un puesto de la lista:</span>
                 </b-col>
@@ -156,19 +158,19 @@
               <b-row>
                 <b-col cols="3">
                   <label>Nivel:</label>
-                  <b-form-input list="id_nivel" v-model="usuario.id_nivel" autocomplete="off">
+                  <b-form-input list="nivel_id" v-model="usuario.nivel_id" autocomplete="off">
                   </b-form-input>
-                  <datalist id="id_nivel">
+                  <datalist id="nivel_id">
                     <option v-for="nivel in niveles">{{ nivel.nomenclatura }}</option>  
                   </datalist>
                   <span class="span">Seleccione un nivel de la lista:</span>
                 </b-col>
                 <b-col cols="9">
                   <label>Adscripción:</label>
-                  <b-form-input list="id_adscripcion" v-model="usuario.id_adscripcion" autocomplete="off">
+                  <b-form-input list="adscripcion_id" v-model="usuario.adscripcion_id" autocomplete="off">
                   </b-form-input>
-                  <datalist id="id_adscripcion">
-                    <option v-for="adscripcion in adscripciones">{{ adscripcion.descripcion }}</option>  
+                  <datalist id="adscripcion_id">
+                    <option v-for="adscripcion in adscripciones">{{ adscripcion.nombre }}</option>  
                   </datalist>
                   <span class="span">Seleccione una adscripción de la lista:</span>
                 </b-col>
@@ -177,14 +179,14 @@
               <b-row>
                 <b-col cols="6">
                   <label>Ciudad en donde está adscrita la plaza:</label>
-                  <b-form-input v-model="usuario.ciudadAdscr" autocomplete="off">
+                  <b-form-input v-model="usuario.ciudad_adscripcion" autocomplete="off">
                   </b-form-input>
                 </b-col>
                 <b-col cols="6">
                   <label>Estado en donde está adscrita la plaza:</label>
-                  <b-form-input list="id_estado" v-model="usuario.id_estado" autocomplete="off">
+                  <b-form-input list="estado_id" v-model="usuario.estado_id" autocomplete="off">
                   </b-form-input>
-                  <datalist id="id_estado">
+                  <datalist id="estado_id">
                     <option v-for="estado in estados">{{ estado.nombre }}</option>  
                   </datalist>
                   <span class="span">Seleccione un estado de la lista:</span>
@@ -194,16 +196,16 @@
               <b-row>
                 <b-col cols="5">
                   <label>Último grado de estudios:</label>
-                  <b-form-input list="id_gradoEst" v-model="usuario.id_gradoEst" autocomplete="off">
+                  <b-form-input list="grado_estudios_id" v-model="usuario.grado_estudios_id" autocomplete="off">
                   </b-form-input>
-                  <datalist id="id_gradoEst">
+                  <datalist id="grado_estudios_id">
                     <option v-for="grado in grados">{{ grado.nombre }}</option>  
                   </datalist>
                   <span class="span">Seleccione un grado de estudios de la lista:</span>
                 </b-col>
                 <b-col cols="7">
                   <label>Nombre del último grado de estudios:</label>
-                  <b-form-input v-model="usuario.descripEstud" autocomplete="off">
+                  <b-form-input v-model="usuario.nombre_grado_estudios" autocomplete="off">
                   </b-form-input>
                 </b-col>
               </b-row>
@@ -231,7 +233,7 @@
               <b-row>
                 <b-col cols="6">
                   <label>Nombre completo:</label>
-                  <b-form-input type="text" v-model="usuario_.nombreCompleto" readonly>
+                  <b-form-input type="text" v-model="usuario_.persona_id" readonly>
                   </b-form-input>
                 </b-col>
               </b-row>
@@ -249,12 +251,12 @@
                 </b-col>
                 <b-col cols="2">
                   <label>No Empleado:</label>
-                  <b-form-input v-model="usuario_.numEmpl" readonly>
+                  <b-form-input v-model="usuario_.num_empleado" readonly>
                   </b-form-input>
                 </b-col>
                 <b-col cols="6">
-                  <label>Email:</label>
-                  <b-form-input v-model="usuario_.email" readonly>
+                  <label>correo:</label>
+                  <b-form-input v-model="usuario_.correo" readonly>
                   </b-form-input>
                 </b-col>
               </b-row>
@@ -275,23 +277,23 @@
               <b-row>
                 <b-col cols="5">
                   <label>Fecha de ingreso:</label>
-                  <b-form-datepicker v-model="usuario_.fechaIngr" id="fecha_inicio" readonly></b-form-datepicker>
+                  <b-form-datepicker v-model="usuario_.fecha_ingr" id="fecha_inicio" readonly></b-form-datepicker>
                 </b-col>
                 <b-col cols="7">
                   <label>Puesto:</label>
-                  <b-form-input v-model="usuario_.id_puesto" readonly>
+                  <b-form-input v-model="usuario_.puesto_id" readonly>
                   </b-form-input>
                 </b-col>
               </b-row>
               <b-row>
                 <b-col cols="3">
                   <label>Nivel:</label>
-                  <b-form-input v-model="usuario_.id_nivel" readonly>
+                  <b-form-input v-model="usuario_.nivel_id" readonly>
                   </b-form-input>
                 </b-col>
                 <b-col cols="9">
                   <label>Adscripción:</label>
-                  <b-form-input v-model="usuario_.id_adscripcion" readonly>
+                  <b-form-input v-model="usuario_.adscripcion_id" readonly>
                   </b-form-input>
                 </b-col>
               </b-row>
@@ -299,12 +301,12 @@
               <b-row>
                 <b-col cols="6">
                   <label>Ciudad en donde está adscrita la plaza:</label>
-                  <b-form-input v-model="usuario_.ciudadAdscr" readonly>
+                  <b-form-input v-model="usuario_.ciudad_adscripcion" readonly>
                   </b-form-input>
                 </b-col>
                 <b-col cols="6">
                   <label>Estado en donde está adscrita la plaza:</label>
-                  <b-form-input v-model="usuario_.id_estado" readonly>
+                  <b-form-input v-model="usuario_.estado_id" readonly>
                   </b-form-input>
                 </b-col>
               </b-row>
@@ -312,12 +314,12 @@
               <b-row>
                 <b-col cols="5">
                   <label>Último grado de estudios:</label>
-                  <b-form-input v-model="usuario_.id_gradoEst" readonly>
+                  <b-form-input v-model="usuario_.grado_estudios_id" readonly>
                   </b-form-input>
                 </b-col>
                 <b-col cols="7">
                   <label>Nombre del último grado de estudios:</label>
-                  <b-form-input v-model="usuario_.descripEstud" readonly>
+                  <b-form-input v-model="usuario_.nombre_grado_estudios" readonly>
                   </b-form-input>
                 </b-col>
               </b-row>
@@ -340,7 +342,7 @@
                 <b-row>
                   <b-col cols="6">
                     <label>Nombre completo:</label>
-                    <b-form-input type="text" v-model="usuario_.nombreCompleto" readonly>
+                    <b-form-input type="text" v-model="usuario_.persona_id" readonly>
                     </b-form-input>
                   </b-col>
                 </b-row>
@@ -358,12 +360,12 @@
                   </b-col>
                   <b-col cols="2">
                     <label>No Empleado:</label>
-                    <b-form-input v-model="usuario_.numEmpl" >
+                    <b-form-input v-model="usuario_.num_empleado" >
                     </b-form-input>
                   </b-col>
                   <b-col cols="6">
-                    <label>Email:</label>
-                    <b-form-input v-model="usuario_.email" >
+                    <label>correo:</label>
+                    <b-form-input v-model="usuario_.correo" >
                     </b-form-input>
                   </b-col>
                 </b-row>
@@ -415,14 +417,14 @@
                 <b-row>
                   <b-col cols="5">
                     <label>Fecha de ingreso:</label>
-                    <b-form-datepicker v-model="usuario_.fechaIngr" id="fecha_inicio" ></b-form-datepicker>
+                    <b-form-datepicker v-model="usuario_.fecha_ingr" id="fecha_inicio" ></b-form-datepicker>
                   </b-col>
                   <b-col cols="7">
                     <label>Puesto:</label>
-                    <b-form-input list="id_puesto" v-model="usuario_.id_puesto" autocomplete="off">
+                    <b-form-input list="puesto_id" v-model="usuario_.puesto_id" autocomplete="off">
                     </b-form-input>
-                    <datalist id="id_puesto">
-                      <option v-for="puesto in puestos">{{ puesto.descripcion }}</option>  
+                    <datalist id="puesto_id">
+                      <option v-for="puesto in puestos">{{ puesto.nombre }}</option>  
                     </datalist>
                     <span class="span">Si desea editar el puesto, deberá seleccionar uno nuevo de la lista:</span>
                   </b-col>
@@ -430,19 +432,19 @@
                 <b-row>
                   <b-col cols="3">
                     <label>Nivel:</label>
-                    <b-form-input list="id_nivel" v-model="usuario_.id_nivel" autocomplete="off">
+                    <b-form-input list="nivel_id" v-model="usuario_.nivel_id" autocomplete="off">
                     </b-form-input>
-                    <datalist id="id_nivel">
+                    <datalist id="nivel_id">
                       <option v-for="nivel in niveles">{{ nivel.nomenclatura }}</option>  
                     </datalist>
                     <span class="span">Si desea editar el nivel, deberá seleccionar uno nuevo de la lista:</span>
                   </b-col>
                   <b-col cols="9">
                     <label>Adscripción:</label>
-                    <b-form-input list="id_adscripcion" v-model="usuario_.id_adscripcion" autocomplete="off">
+                    <b-form-input list="adscripcion_id" v-model="usuario_.adscripcion_id" autocomplete="off">
                     </b-form-input>
-                    <datalist id="id_adscripcion">
-                      <option v-for="adscripcion in adscripciones">{{ adscripcion.descripcion }}</option>  
+                    <datalist id="adscripcion_id">
+                      <option v-for="adscripcion in adscripciones">{{ adscripcion.nombre }}</option>  
                     </datalist>
                     <span class="span">Si desea editar la adscripción, deberá seleccionar una nueva de la lista:</span>
                   </b-col>
@@ -451,14 +453,14 @@
                 <b-row>
                   <b-col cols="6">
                     <label>Ciudad en donde está adscrita la plaza:</label>
-                    <b-form-input v-model="usuario_.ciudadAdscr" >
+                    <b-form-input v-model="usuario_.ciudad_adscripcion" >
                     </b-form-input>
                   </b-col>
                   <b-col cols="6">
                     <label>Estado en donde está adscrita la plaza:</label>
-                    <b-form-input list="id_estado" v-model="usuario_.id_estado" autocomplete="off">
+                    <b-form-input list="estado_id" v-model="usuario_.estado_id" autocomplete="off">
                     </b-form-input>
-                    <datalist id="id_estado">
+                    <datalist id="estado_id">
                       <option v-for="estado in estados">{{ estado.nombre }}</option>  
                     </datalist>
                     <span class="span">Si desea editar el estado, deberá seleccionar uno nuevo de la lista:</span>
@@ -468,16 +470,16 @@
                 <b-row>
                   <b-col cols="5">
                     <label>Último grado de estudios:</label>
-                    <b-form-input list="id_gradoEst" v-model="usuario_.id_gradoEst" autocomplete="off">
+                    <b-form-input list="grado_estudios_id" v-model="usuario_.grado_estudios_id" autocomplete="off">
                     </b-form-input>
-                    <datalist id="id_gradoEst">
+                    <datalist id="grado_estudios_id">
                       <option v-for="grado in grados">{{ grado.nombre }}</option>  
                     </datalist>
                     <span class="span">Si desea editar el grado de estudios, deberá seleccionar uno nuevo de la lista:</span>
                   </b-col>
                   <b-col cols="7">
                     <label>Nombre del último grado de estudios:</label>
-                    <b-form-input v-model="usuario_.descripEstud" >
+                    <b-form-input v-model="usuario_.nombre_grado_estudios" >
                     </b-form-input>
                   </b-col>
                 </b-row>
@@ -616,10 +618,10 @@
     data() {
       return {
         fields: [
-          { key: 'numEmpl', label: 'Número de Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "15%" } },
-          { key: 'nombreCompleto', label: 'Nombre completo', class: 'text-center small', sortable: true, sortDirection: 'desc', thStyle: { width: "15%" } },
-          { key: 'id_adscripcion', label: 'Adscripcion', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "15%" } },
-          { key: 'email', label: 'Correo electrónico', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "15%" } },
+          { key: 'num_empleado', label: 'Número de Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "15%" } },
+          { key: 'persona_id', label: 'Nombre completo', class: 'text-center small', sortable: true, sortDirection: 'desc', thStyle: { width: "15%" } },
+          { key: 'adscripcion_id', label: 'Adscripcion', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "15%" } },
+          { key: 'correo', label: 'Correo electrónico', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "15%" } },
           { key: 'estatus', label: 'Estatus', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "15%" } },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
@@ -640,45 +642,43 @@
         },
         usuario:{
           id:'',
-          numEmpl:'',
+          num_empleado:'',
           curp:'',
-          nombreCompleto:'',
+          persona_id:'',
           rfc:'',
-          id:'',
-          email:'',
+          correo:'',
           estatus:'',
           rol:'',
-          fechaIngr:'',
-          id_puesto:'',
-          id_nivel:'',
-          id_adscripcion:'',
-          ciudadAdscr:'',
-          id_estado:'',
-          id_gradoEst:'',
-          descripEstud:''
+          fecha_ingr:'',
+          puesto_id:'',
+          nivel_id:'',
+          adscripcion_id:'',
+          ciudad_adscripcion:'',
+          estado_id:'',
+          grado_estudios_id:'',
+          nombre_grado_estudios:''
         },
         usuario_:{
           id:'',
-          numEmpl:'',
+          num_empleado:'',
           curp:'',
-          nombreCompleto:'',
+          persona_id:'',
           nombre:'',
           rfc:'',
-          id:'',
-          email:'',
+          correo:'',
           indicio:'',
           password:'',
           estatus:'',
           rol:'',
-          fechaIngr:'',
-          id_puesto:'',
-          id_nivel:'',
-          id_adscripcion:'',
-          ciudadAdscr:'',
+          fecha_ingr:'',
+          puesto_id:'',
+          nivel_id:'',
+          adscripcion_id:'',
+          ciudad_adscripcion:'',
           sexo:'',
-          id_estado:'',
-          id_gradoEst:'',
-          descripEstud:''
+          estado_id:'',
+          grado_estudios_id:'',
+          nombre_grado_estudios:''
         },
         estatusOp: [
           { value: true, text: 'Activo' },
@@ -689,23 +689,23 @@
           { value: 2, text: 'Usuario' }
         ],
         puestos:{
-          id_puesto:'',
-          descripcion:'',
+          id:'',
+          nombre:'',
         },
         niveles:{
-          id_nivel:'',
+          id:'',
           nomenclatura:''
         },
         adscripciones:{
-          id_adscripcion:'',
-          descripcion:''
+          id:'',
+          nombre:''
         },
         estados:{
-          id_estado:'',
+          id:'',
           nombre:''
         },
         grados:{
-          id_gradoEst:'',
+          id:'',
           nombre:''
         },
         resultado_puesto: '',
@@ -817,57 +817,57 @@
             .then(value=>{
               if(value){
                 //info del puesto
-                var puesto = this.usuario.id_puesto
+                var puesto = this.usuario.puesto_id
                 var puesto_filter = this.puestos.filter(function(e){
-                return e.descripcion === puesto                
+                return e.nombre === puesto                
                 })
                 console.log(puesto_filter);
                 for( var resultadoPuesto of puesto_filter){
-                  this.resultado_puesto = resultadoPuesto.id_puesto
+                  this.resultado_puesto = resultadoPuesto.id
                 }
                 console.log(this.resultado_puesto); 
                 //info del nivel
-                var nivel = this.usuario.id_nivel
+                var nivel = this.usuario.nivel_id
                 var nivel_filter = this.niveles.filter(function(e){
                 return e.nomenclatura === nivel                
                 })
                 console.log(nivel_filter);
                 for( var resultadoNivel of nivel_filter){
-                  this.resultado_nivel = resultadoNivel.id_nivel
+                  this.resultado_nivel = resultadoNivel.id
                 }
                 console.log(this.resultado_nivel);
                 //info de la adscripción
-                var adscripcion = this.usuario.id_adscripcion
+                var adscripcion = this.usuario.adscripcion_id
                 var adscripcion_filter = this.adscripciones.filter(function(e){
-                return e.descripcion === adscripcion                
+                return e.nombre === adscripcion                
                 })
                 console.log(adscripcion_filter);
                 for( var resultadoAdscripcion of adscripcion_filter){
-                  this.resultado_adscripcion = resultadoAdscripcion.id_adscripcion
+                  this.resultado_adscripcion = resultadoAdscripcion.id
                 }
                 console.log(this.resultado_adscripcion);
                 //info del estado
-                var estado = this.usuario.id_estado
+                var estado = this.usuario.estado_id
                 var estado_filter = this.estados.filter(function(e){
                 return e.nombre === estado                
                 })
                 console.log(estado_filter);
                 for( var resultadoEstado of estado_filter){
-                  this.resultado_estado = resultadoEstado.id_estado
+                  this.resultado_estado = resultadoEstado.id
                 }
                 console.log(this.resultado_estado);
                 //info grado de estudios
-                var grado = this.usuario.id_gradoEst
+                var grado = this.usuario.grado_estudios_id
                 var grado_filter = this.grados.filter(function(e){
                 return e.nombre === grado                
                 })
                 console.log(grado_filter);
                 for( var resultadoGrado of grado_filter){
-                  this.resultado_grado = resultadoGrado.id_gradoEst
+                  this.resultado_grado = resultadoGrado.id
                 }
                 console.log(this.resultado_grado);
                 //concatenar apellidos y nombres
-                this.usuario.nombreCompleto =  this.datos.nombres + ' ' + this.datos.apellido1 + ' ' + this.datos.apellido2;
+                this.usuario.persona_id =  this.datos.nombres + ' ' + this.datos.apellido1 + ' ' + this.datos.apellido2;
                 if(this.datos.sexo == 'H'){
                   this.datos.sexo = 1;
                 }
@@ -875,24 +875,27 @@
                   this.datos.sexo = 0;
                 }
               const params={
-                numEmpl: this.usuario.numEmpl,
+                num_empleado: this.usuario.num_empleado,
                 curp: this.usuario.curp,
-                nombreCompleto: this.usuario.nombreCompleto,
+                //persona_id: this.usuario.persona_id,
+                apellido_pat: this.datos.apellido1,
+                apellido_mat: this.datos.apellido2,
+                nombres: this.datos.nombres,
                 rfc: this.usuario.rfc,
                 sexo: this.datos.sexo,
-                email: this.usuario.email,
+                correo: this.usuario.correo,
                 estatus: this.usuario.estatus,
                 rol: this.usuario.rol,
                 password: this.password,
                 indicio: this.indicio,
-                fechaIngr: this.usuario.fechaIngr,
-                id_puesto: this.resultado_puesto,
-                id_nivel: this.resultado_nivel,
-                id_adscripcion: this.resultado_adscripcion,
-                ciudadAdscr: this.usuario.ciudadAdscr,
-                id_estado: this.resultado_estado,
-                id_gradoEst: this.resultado_grado,
-                descripEstud: this.usuario.descripEstud
+                fecha_ingr: this.usuario.fecha_ingr,
+                puesto_id: this.resultado_puesto,
+                nivel_id: this.resultado_nivel,
+                adscripcion_id: this.resultado_adscripcion,
+                ciudad_adscripcion: this.usuario.ciudad_adscripcion,
+                estado_id: this.resultado_estado,
+                grado_estudios_id: this.resultado_grado,
+                nombre_grado_estudios: this.usuario.nombre_grado_estudios
               }
               console.log(params);
               axios.post('/usuario', params)
@@ -909,20 +912,20 @@
                 this.datos.nombres = '',
                 this.datos.sexo = '',
                 this.usuario.rfc = '',
-                this.usuario.numEmpl = '',
-                this.usuario.email = '',
+                this.usuario.num_empleado = '',
+                this.usuario.correo = '',
                 this.usuario.estatus = '',
                 this.usuario.rol = '',
                 this.password = '',
                 this.indicio = '',
-                this.usuario.fechaIngr = '',
-                this.usuario.id_puesto = '',
-                this.usuario.id_nivel = '',
-                this.usuario.id_adscripcion = '',
-                this.usuario.ciudadAdscr= '',
-                this.usuario.id_estado = '',
-                this.usuario.id_gradoEst = '',
-                this.usuario.descripEstud = '',
+                this.usuario.fecha_ingr = '',
+                this.usuario.puesto_id = '',
+                this.usuario.nivel_id = '',
+                this.usuario.adscripcion_id = '',
+                this.usuario.ciudad_adscripcion= '',
+                this.usuario.estado_id = '',
+                this.usuario.grado_estudios_id = '',
+                this.usuario.nombre_grado_estudios = '',
                 this.resultado_puesto = '',
                 this.resultado_nivel ='',
                 this.resultado_adscripcion ='',
@@ -945,25 +948,25 @@
       },
       cargarDatos(item){
         this.usuario_.id = item.id,
-        this.usuario_.numEmpl = item.numEmpl,
+        this.usuario_.num_empleado = item.num_empleado,
         this.usuario_.curp  = item.curp,
-        this.usuario_.nombreCompleto  = item.nombreCompleto,
+        this.usuario_.persona_id  = item.persona_id,
         this.usuario_.rfc  = item.rfc,
-        this.usuario_.email  = item.email,
+        this.usuario_.correo  = item.correo,
         this.usuario_.indicio  = item.indicio,
         this.usuario_.estatus  = item.estatus,
         this.usuario_.rol  = item.rol,
         this.usuario_.sexo  = item.sexo,
         this.usuario_.password  = item.password,
         this.usuario_.indicio  = item.indicio,
-        this.usuario_.fechaIngr  = item.fechaIngr,
-        this.usuario_.id_puesto  = item.id_puesto,
-        this.usuario_.id_nivel  = item.id_nivel,
-        this.usuario_.id_adscripcion  = item.id_adscripcion,
-        this.usuario_.ciudadAdscr  = item.ciudadAdscr,
-        this.usuario_.id_estado  = item.id_estado,
-        this.usuario_.id_gradoEst  = item.id_gradoEst,
-        this.usuario_.descripEstud  = item.descripEstud,
+        this.usuario_.fecha_ingr  = item.fecha_ingr,
+        this.usuario_.puesto_id  = item.puesto_id,
+        this.usuario_.nivel_id  = item.nivel_id,
+        this.usuario_.adscripcion_id  = item.adscripcion_id,
+        this.usuario_.ciudad_adscripcion  = item.ciudad_adscripcion,
+        this.usuario_.estado_id  = item.estado_id,
+        this.usuario_.grado_estudios_id  = item.grado_estudios_id,
+        this.usuario_.nombre_grado_estudios  = item.nombre_grado_estudios,
         this.password = '',
         this.indicio = '',
         this.cambiapwd = 0
@@ -986,53 +989,53 @@
         .then(value=>{
           if(value){
             //info del puesto
-            var puesto_ = this.usuario_.id_puesto
+            var puesto_ = this.usuario_.puesto_id
             var puesto_filter_ = this.puestos.filter(function(e){
-            return e.descripcion === puesto_                
+            return e.nombre === puesto_                
             })
             console.log(puesto_filter_);
             for( var resultadoPuesto_ of puesto_filter_){
-              this.resultado_puesto = resultadoPuesto_.id_puesto
+              this.resultado_puesto = resultadoPuesto_.puesto_id
             }
             console.log(this.resultado_puesto); 
             //info del nivel
-            var nivel_ = this.usuario_.id_nivel
+            var nivel_ = this.usuario_.nivel_id
             var nivel_filter_ = this.niveles.filter(function(e){
             return e.nomenclatura === nivel_                
             })
             console.log(nivel_filter_);
             for( var resultadoNivel_ of nivel_filter_){
-              this.resultado_nivel = resultadoNivel_.id_nivel
+              this.resultado_nivel = resultadoNivel_.nivel_id
             }
             console.log(this.resultado_nivel);
             //info de la adscripción
-            var adscripcion_ = this.usuario_.id_adscripcion
+            var adscripcion_ = this.usuario_.adscripcion_id
             var adscripcion_filter_ = this.adscripciones.filter(function(e){
-            return e.descripcion === adscripcion_                
+            return e.nombre === adscripcion_                
             })
             console.log(adscripcion_filter_);
             for( var resultadoAdscripcion_ of adscripcion_filter_){
-              this.resultado_adscripcion = resultadoAdscripcion_.id_adscripcion
+              this.resultado_adscripcion = resultadoAdscripcion_.adscripcion_id
             }
             console.log(this.resultado_adscripcion);
             //info del estado
-            var estado_ = this.usuario_.id_estado
+            var estado_ = this.usuario_.estado_id
             var estado_filter_ = this.estados.filter(function(e){
             return e.nombre === estado_                
             })
             console.log(estado_filter_);
             for( var resultadoEstado_ of estado_filter_){
-              this.resultado_estado = resultadoEstado_.id_estado
+              this.resultado_estado = resultadoEstado_.estado_id
             }
             console.log(this.resultado_estado);
             //info grado de estudios
-            var grado_ = this.usuario_.id_gradoEst
+            var grado_ = this.usuario_.grado_estudios_id
             var grado_filter_ = this.grados.filter(function(e){
             return e.nombre === grado_                
             })
             console.log(grado_filter_);
             for( var resultadoGrado_ of grado_filter_){
-              this.resultado_grado = resultadoGrado_.id_gradoEst
+              this.resultado_grado = resultadoGrado_.grado_estudios_id
             }
             console.log(this.resultado_grado);
             if(this.cambiapwd == 1){
@@ -1043,20 +1046,20 @@
             }
             const params = {
               rfc: item.rfc,
-              numEmpl: item.numEmpl,
-              email: item.email,
+              num_empleado: item.num_empleado,
+              correo: item.correo,
               estatus: item.estatus,
               rol: item.rol,
               password: this.usuario_.password,
               indicio: this.usuario_.password,
-              fechaIngr: item.fechaIngr,
-              id_puesto: this.resultado_puesto,
-              id_nivel: this.resultado_nivel,
-              id_adscripcion: this.resultado_adscripcion,
-              ciudadAdscr: item.ciudadAdscr,
-              id_estado: this.resultado_estado,
-              id_gradoEst: this.resultado_grado,
-              descripEstud: item.descripEstud
+              fecha_ingr: item.fecha_ingr,
+              puesto_id: this.resultado_puesto,
+              nivel_id: this.resultado_nivel,
+              adscripcion_id: this.resultado_adscripcion,
+              ciudad_adscripcion: item.ciudad_adscripcion,
+              estado_id: this.resultado_estado,
+              grado_estudios_id: this.resultado_grado,
+              nombre_grado_estudios: item.nombre_grado_estudios
             }
             console.log(params);
             axios.put(`/usuario/${item.id}`, params)

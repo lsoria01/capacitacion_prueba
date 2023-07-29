@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Nombramiento;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class NombramientoController extends Controller
 {
@@ -111,5 +112,21 @@ class NombramientoController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function nombramientoAuth(){
+        $nombramiento = DB::table('nombramientos')
+        ->join('usuarios','nombramientos.usuario_id', '=' , 'usuarios.id')
+        ->join('personas', 'usuarios.persona_id', '=' , 'personas.id')
+        ->select([
+            'nombramientos.id',
+            DB::raw("CONCAT(personas.nombres,' ',personas.apellido_pat,' ',personas.apellido_mat) AS usuario_id"),
+            'nombramientos.tipo',
+            'nombramientos.fec_emis',
+            'nombramientos.fec_ratif'
+        ])
+        ->where('nombramientos.usuario_id', Auth::user()->id)
+        ->get();
+        return $nombramiento;
     }
 }

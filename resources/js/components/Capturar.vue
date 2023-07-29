@@ -13,6 +13,7 @@
                           <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                           <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                           <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                          <b-dropdown-item v-if="rol == 1" href="/sedes">Sedes</b-dropdown-item>
                           <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
                   </b-nav-item-dropdown>
                   <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
@@ -51,7 +52,7 @@
                       <b-col cols="8">
                         <label for="curso">Nombre del curso:</label> <br>
                         <span class="span">Selecciona o busca el curso a registrar del listado:</span>
-                        <b-form-input list="curso" v-model="miCurso.id_curso" autocomplete="off" required>
+                        <b-form-input list="curso" v-model="miCurso.curso_id" autocomplete="off" required>
                         </b-form-input>
                         <datalist id="curso">
                           <option v-for="curso in cursos">{{ curso.nombre }}</option>  
@@ -79,10 +80,10 @@
                       <b-col cols="11">
                         <b-card sub-title="Detalles del curso">
                           <b-card-text>
-                            <b> - Institución:</b>  <p style="color: #285C4D; display: inline;"> {{ detallesCurso.id_institucion }} </p><br>
-                            <b> - Horas de Capacitación:</b> <p style="color: #285C4D; display: inline;">{{ detallesCurso.hrsCap }} </p><br>
+                            <b> - Institución:</b>  <p style="color: #285C4D; display: inline;"> {{ detallesCurso.institucion_id }} </p><br>
+                            <b> - Horas de Capacitación:</b> <p style="color: #285C4D; display: inline;">{{ detallesCurso.hrs_cap }} </p><br>
                             <b> - Modalidad:</b> <p style="color: #285C4D; display: inline;">{{ detallesCurso.modalidad }} </p><br>
-                            <b> - Obligatorio u optativo:</b> <p v-if="detallesCurso.cursoOblig" style="color: #285C4D; display: inline;">Obligatorio</p> <p v-if="detallesCurso.cursoOblig === null " style="color: #285C4D; display: inline;">Sin información</p> <p v-if="detallesCurso.cursoOblig === false" style="color: #285C4D; display: inline;">Optativo</p> <br>
+                            <b> - Obligatorio u optativo:</b> <p v-if="detallesCurso.curso_oblig" style="color: #285C4D; display: inline;">Obligatorio</p> <p v-if="detallesCurso.curso_oblig === null " style="color: #285C4D; display: inline;">Sin información</p> <p v-if="detallesCurso.curso_oblig === false" style="color: #285C4D; display: inline;">Optativo</p> <br>
                             <b> - Fecha de finalización del curso:</b> <p style="color: #285C4D; display: inline;"> {{ detallesCurso.fecha_fin }} </p><br>                           
                           </b-card-text>
                         </b-card>
@@ -125,7 +126,7 @@
                 <b-row>
                   <b-col cols="8">
                     <label for="curso">Nombre del curso:</label>
-                    <b-form-input list="curso" v-model="miCurso_.id_curso" autocomplete="off" readonly>
+                    <b-form-input list="curso" v-model="miCurso_.curso_id" autocomplete="off" readonly>
                     </b-form-input>                        
                   </b-col>
                   <b-col cols="2">
@@ -139,10 +140,10 @@
                   <b-col cols="11">
                     <b-card sub-title="Detalles del curso">
                       <b-card-text>
-                        <b> - Institución:</b>  <p style="color: #285C4D; display: inline;"> {{ miCurso_.id_institucion }} </p><br>
-                        <b> - Horas de Capacitación:</b> <p style="color: #285C4D; display: inline;">{{ miCurso_.hrsCap }} </p><br>
+                        <b> - Institución:</b>  <p style="color: #285C4D; display: inline;"> {{ miCurso_.institucion_id }} </p><br>
+                        <b> - Horas de Capacitación:</b> <p style="color: #285C4D; display: inline;">{{ miCurso_.hrs_cap }} </p><br>
                         <b> - Modalidad:</b> <p style="color: #285C4D; display: inline;">{{ miCurso_.modalidad }} </p><br>
-                        <b> - Obligatorio u optativo:</b> <p v-if="miCurso_.cursoOblig" style="color: #285C4D; display: inline;">Obligatorio</p> <p v-else style="color: #285C4D; display: inline;">Optativo</p> <br>
+                        <b> - Obligatorio u optativo:</b> <p v-if="miCurso_.curso_oblig" style="color: #285C4D; display: inline;">Obligatorio</p> <p v-else style="color: #285C4D; display: inline;">Optativo</p> <br>
                         <b> - Fecha de finalización del curso:</b> <p style="color: #285C4D; display: inline;"> {{ miCurso_.fecha_fin }} </p><br>                           
                       </b-card-text>
                     </b-card>
@@ -158,7 +159,7 @@
                   <b-col cols="6">
                     <label>Constancia:</label>
                     <br> 
-                    <a v-if="miCurso_.urlConstancia" :href="miCurso_.urlConstancia" target="blank">Descargar constancia ({{ miCurso_.nombreConstancia }})</a>
+                    <a v-if="miCurso_.url_constancia" :href="miCurso_.url_constancia" target="blank">Descargar constancia ({{ miCurso_.nombre_constancia }})</a>
                     <p v-else>Sin constancia</p>
                   </b-col>
                 </b-row>
@@ -200,8 +201,8 @@
                         <!-- No se muestra del lado del usuario -->
                         <!-- <b-col cols="2">
                           <label for="">¿Curso Obligatorio?</label>
-                          <b-form-checkbox v-model="curso.cursoOblig" name="check-button" switch>
-                            <b v-if="curso.cursoOblig"> Si</b> <b v-else>No</b>
+                          <b-form-checkbox v-model="curso.curso_oblig" name="check-button" switch>
+                            <b v-if="curso.curso_oblig"> Si</b> <b v-else>No</b>
                           </b-form-checkbox>
                         </b-col> -->
                       </b-row>
@@ -217,13 +218,13 @@
                         </b-col>
                         <b-col cols="2">
                           <label>Hrs de Capacitación:</label>
-                          <b-form-input type="number" v-model="curso.hrsCap" required>
+                          <b-form-input type="number" v-model="curso.hrs_cap" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="2">
                           <label for="">Curso Interno o Externo:</label>
-                            <b-form-checkbox v-model="curso.cursoIntExt" name="cursoIntExt" switch required>
-                            <b v-if="curso.cursoIntExt"> Externo</b> <b v-else>Interno</b>
+                            <b-form-checkbox v-model="curso.curso_int_ext" name="curso_int_ext" switch required>
+                            <b v-if="curso.curso_int_ext"> Externo</b> <b v-else>Interno</b>
                           </b-form-checkbox>
                         </b-col>
                       </b-row>
@@ -232,15 +233,15 @@
                         <!-- No se muestra del lado del usuario -->
                         <!-- <b-col cols="2">
                           <label for="">Difundido por la DP:</label>
-                          <b-form-select v-model="curso.difundidoDP" :options="difundidoDPs"></b-form-select>
+                          <b-form-select v-model="curso.difundido_DP" :options="difundido_DPs"></b-form-select>
                         </b-col> -->
                         <b-col cols="12">
-                          <label for="id_institucion">Institución:</label>
-                          <b-form-input list="id_institucion" v-model="curso.id_institucion" autocomplete="off">
+                          <label for="institucion_id">Institución:</label>
+                          <b-form-input list="institucion_id" v-model="curso.institucion_id" autocomplete="off">
                           </b-form-input>
                           <span class="span">Selecciona o busca la Institución a registrar del listado:</span>
-                          <datalist id="id_institucion">
-                            <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
+                          <datalist id="institucion_id">
+                            <option v-for="institucion in instituciones">{{ institucion.nombre }}</option>  
                           </datalist>                          
                         </b-col>
                       </b-row>
@@ -337,17 +338,17 @@
                   </b-button>
                   <b-button size="sm" class="botones" 
                       @click="cargarDatos(row.item)"
-                      v-if="row.item.id_estatus == 'Rechazado'" 
+                      v-if="row.item.estatus_id == 'Rechazado'" 
                       v-b-modal.modal-rechazo
                       v-b-tooltip.hover title="Haga click para conocer los motivos de rechazo">
                       <b-icon icon="exclamation-triangle"></b-icon>
                   </b-button>
               </template>
 
-              <template v-slot:cell(id_estatus)="row">
-                <p v-if="row.item.id_estatus === 'Registrado'"> <span>Registrado</span></p>
-                <p v-if="row.item.id_estatus === 'Rechazado'"> <span style="color: red;">Rechazado</span></p>                  
-                <p v-if="row.item.id_estatus === 'Validado'"> <span style="color: green;">Validado</span></p>
+              <template v-slot:cell(estatus_id)="row">
+                <p v-if="row.item.estatus_id === 'Registrado'"> <span>Registrado</span></p>
+                <p v-if="row.item.estatus_id === 'Rechazado'"> <span style="color: red;">Rechazado</span></p>                  
+                <p v-if="row.item.estatus_id === 'Validado'"> <span style="color: green;">Validado</span></p>
               </template>
 
               <template #row-details="row">
@@ -416,11 +417,11 @@ export default {
     const fecha = today;
     return {
       fields: [
-          { key: 'id_curso', label: 'Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'curso_id', label: 'Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'calif', label: 'Calificación', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'hrsCap', label: 'Hrs de Cap.', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'hrs_cap', label: 'Hrs de Cap.', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'fecha', label: 'Fecha', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'id_estatus', label: 'Estatus', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'estatus_id', label: 'Estatus', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
       ],
       dismissSecs: 20,
@@ -435,16 +436,16 @@ export default {
       idUsrActual:'',
       misCursos:[],
       miCurso:{
-        id_user:'',
-        id_curso:'',
-        cursoFin:'',
+        usuario_id:'',
+        curso_id:'',
+        curso_fin:'',
         aprobado:false,
         calif:'',
         fecha:'',
         anio:'',
-        urlConstancia:'',
-        nombreConstancia:'',
-        id_estatus:''
+        url_constancia:'',
+        nombre_constancia:'',
+        estatus_id:''
       },
       miCurso_:{
         id_calificacion:'',
@@ -456,38 +457,38 @@ export default {
         fecha:'',
         anio:'',
         rechazo:'',
-        urlConstancia:'',
-        nombreConstancia:'',
-        id_estatus:'',
+        url_constancia:'',
+        nombre_constancia:'',
+        estatus_id:'',
         //detalles del curso
-        id_institucion:'',
-        hrsCap:'',
+        institucion_id:'',
+        hrs_cap:'',
         modalidad:'',
-        cursoOblig:'',
+        curso_oblig:'',
         fecha_fin:''
       },
       cursos:{
-        id_curso:'',
+        id:'',
         nombre:''
       },
       instituciones:{
-        id_institucion:'',
-        descripcion:''
+        id:'',
+        nombre:''
       },
       resultado_curso:'',
       resultado_institucion:'',
       //muestra los detalles del curso
       detallesCurso:{
-        cursoIntExt:'',
-        cursoOblig:'',
-        difundidoDP:'',
+        curso_int_ext:'',
+        curso_oblig:'',
+        difundido_DP:'',
         fecha_fin:'',
         fecha_inicio:'',
         folio:'',
-        hrsCap:'',
-        id_curso:'',
-        id_estatus:'',
-        id_institucion:'',
+        hrs_cap:'',
+        curso_id:'',
+        estatus_id:'',
+        institucion_id:'',
         modalidad:'',
         nombre:''
       },
@@ -496,16 +497,16 @@ export default {
         nombre:'',
         fecha_inicio:'',
         fecha_fin:'',
-        cursoOblig: false,
-        hrsCap: '',
-        cursoIntExt:0,
-        difundidoDP:'',
+        curso_oblig: false,
+        hrs_cap: '',
+        curso_int_ext:0,
+        difundido_DP:'',
         modalidad:'',
-        id_estatus:1,
-        id_institucion:'',
+        estatus_id:1,
+        institucion_id:'',
         folio:''
       },
-      difundidoDPs: [
+      difundido_DPs: [
         { value: true, text: 'Si' },
         { value: false, text: 'No' }
       ],
@@ -595,7 +596,7 @@ export default {
       console.log();
       this.detalles = 1;
       //valor del id-curso
-      var curso = this.miCurso.id_curso
+      var curso = this.miCurso.curso_id
       var curso_filter = this.cursos.filter(function(e){
       return e.nombre === curso                
       })
@@ -606,7 +607,7 @@ export default {
     },
     crear(){
       //validación de curso existente en datalist
-      var cursoCap = this.miCurso.id_curso
+      var cursoCap = this.miCurso.curso_id
       var cursoCapFilter = this.cursos.filter(function(e){
         return e.nombre === cursoCap
       })
@@ -618,7 +619,7 @@ export default {
       }
       else{
         this.$toaster.error('Lo sentimos, debe seleccionar un curso de la lista')
-        this.miCurso.id_curso = '';
+        this.miCurso.curso_id = '';
       }
     },
     showMsgBoxCrear(){
@@ -635,15 +636,15 @@ export default {
           .then(value=>{
             if(value){
               //valor del id-curso
-              var curso = this.miCurso.id_curso
+              var curso = this.miCurso.curso_id
               var curso_filter = this.cursos.filter(function(e){
               return e.nombre === curso                
               })
               //console.log(curso_filter);
               for( var resultadoCurso of curso_filter){
-                this.resultado_curso = resultadoCurso.id_curso
+                this.resultado_curso = resultadoCurso.id
               }
-              console.log("El id del curso es ",this.resultado_curso);
+              //console.log("El id bueno del curso es ",this.resultado_curso);
               var fechaCompleta = this.fecha_hoy;
               var fecha = fechaCompleta.split('-');
               console.log(fecha[0]);    
@@ -651,36 +652,36 @@ export default {
               //console.log(this.miCurso.anio);   
               //envío de params por formData
               let formData = new FormData();
-              formData.append('id_user', this.idUsrActual);
-              formData.append('id_curso', this.resultado_curso);
-              formData.append('cursoFin', this.miCurso.aprobado);
+              formData.append('usuario_id', this.idUsrActual);
+              formData.append('curso_id', this.resultado_curso);
+              formData.append('curso_fin', this.miCurso.aprobado);
               formData.append('aprobado', this.miCurso.aprobado);
               formData.append('calif', this.miCurso.calif);
               formData.append('fecha', this.fecha_hoy);
               formData.append('anio', this.miCurso.anio);
-              formData.append('id_estatus', 1);
+              formData.append('estatus_id', 1);
               formData.append('file', this.archivo);
-              //console.log(params);
-            axios.post('/calificacion', formData)
-            .then(res=>{
+              //console.log(formData);
+              axios.post('/calificacion', formData)
+              .then(res=>{
               //ocultar modal
               this.$bvModal.hide('modal-crear');
               this.misCursos.push(res.data)
               //mostrar toaster
               this.$toaster.success('Curso creado con éxito!')
               //Limpiamos los campos
-              this.miCurso.id_curso = '',
+              this.miCurso.curso_id = '',
               this.resultado_curso = '',
               this.miCurso.aprobado = '',
-              this.miCurso.cursoOblig = '',
+              this.miCurso.curso_oblig = '',
               this.miCurso.calif = '',
               this.miCurso.fecha = '',
               //Volvemos a ocultar el apartado de detalles 
               this.detalles= false;
-              this.detallesCurso.id_institucion = '';
-              this.detallesCurso.hrsCap = '';
+              this.detallesCurso.institucion_id = '';
+              this.detallesCurso.hrs_cap = '';
               this.detallesCurso.modalidad = '';
-              this.detallesCurso.cursoOblig = '';
+              this.detallesCurso.curso_oblig = '';
               this.detallesCurso.fecha_fin = '';
               //recargamos cambios
               axios.get('/califAuth')
@@ -698,23 +699,23 @@ export default {
           })
     },
     cargarDatos(item){
-      this.miCurso_.id_calificacion = item.id_calificacion,
-      this.miCurso_.id_user = item.id_user,
-      this.miCurso_.id_curso = item.id_curso,
-      this.miCurso_.cursoFin = item.cursoFin,
+      this.miCurso_.id = item.id,
+      this.miCurso_.usuario_id = item.usuario_id,
+      this.miCurso_.curso_id = item.curso_id,
+      this.miCurso_.curso_fin = item.curso_fin,
       this.miCurso_.aprobado = item.aprobado,
       this.miCurso_.calif = item.calif,
       this.miCurso_.fecha = item.fecha,
       this.miCurso_.anio = item.anio,
       this.miCurso_.rechazo = item.rechazo,
-      this.miCurso_.urlConstancia = item.urlConstancia,
-      this.miCurso_.nombreConstancia = item.nombreConstancia,
-      this.miCurso_.id_estatus = item.id_estatus,
+      this.miCurso_.url_constancia = item.url_constancia,
+      this.miCurso_.nombre_constancia = item.nombre_constancia,
+      this.miCurso_.estatus_id = item.estatus_id,
       //detalles del curso 
-      this.miCurso_.id_institucion = item.id_institucion,
-      this.miCurso_.hrsCap = item.hrsCap,
+      this.miCurso_.institucion_id = item.institucion_id,
+      this.miCurso_.hrs_cap = item.hrs_cap,
       this.miCurso_.modalidad = item.modalidad,
-      this.miCurso_.cursoOblig = item.cursoOblig,
+      this.miCurso_.curso_oblig = item.curso_oblig,
       this.miCurso_.fecha_fin = item.fecha_fin
     },
     cancelar(){
@@ -728,9 +729,9 @@ export default {
     },
     crearCurso(){
       //validación de institución existente en datalist
-      var institucionCap = this.curso.id_institucion
+      var institucionCap = this.curso.institucion_id
       var institucionCapFilter = this.instituciones.filter(function(e){
-        return e.descripcion === institucionCap
+        return e.nombre === institucionCap
       })
       console.log(institucionCapFilter);
       if(institucionCapFilter != ''){
@@ -740,7 +741,7 @@ export default {
       }
       else{
         this.$toaster.error('Lo sentimos, debe seleccionar una Institución de la lista')
-        this.curso.id_institucion = '';
+        this.curso.institucion_id = '';
       }       
     },
     showMsgBoxCrearCurso(){
@@ -756,26 +757,26 @@ export default {
           })
           .then(value=>{
             if(value){
-                var institucion = this.curso.id_institucion
+                var institucion = this.curso.institucion_id
                 var institucion_filter = this.instituciones.filter(function(e){
-                return e.descripcion === institucion                
+                return e.nombre === institucion                
               })
               console.log(institucion_filter);
               for( var resultado of institucion_filter){
-                this.resultado_institucion = resultado.id_institucion
+                this.resultado_institucion = resultado.id
               }
               console.log(this.resultado_institucion);              
               const params={
               nombre: this.curso.nombre,
               fecha_inicio:this.curso.fecha_inicio,
               fecha_fin:this.curso.fecha_fin,
-              //cursoOblig: this.curso.cursoOblig,
-              hrsCap: this.curso.hrsCap,
-              cursoIntExt: this.curso.cursoIntExt,
-              //difundidoDP: this.curso.difundidoDP,
+              //curso_oblig: this.curso.curso_oblig,
+              hrs_cap: this.curso.hrs_cap,
+              curso_int_ext: this.curso.curso_int_ext,
+              //difundido_DP: this.curso.difundido_DP,
               modalidad: this.curso.modalidad,
-              id_estatus: this.curso.id_estatus,
-              id_institucion:this.resultado_institucion,
+              estatus_id: this.curso.estatus_id,
+              institucion_id:this.resultado_institucion,
               //folio:this.curso.folio
             }
             console.log(params);

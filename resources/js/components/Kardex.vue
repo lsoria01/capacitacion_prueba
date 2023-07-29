@@ -13,6 +13,7 @@
                         <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                         <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                        <b-dropdown-item v-if="rol == 1" href="/sedes">Sedes</b-dropdown-item>
                         <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
@@ -53,8 +54,8 @@
                             <th colspan="3" class="renglonUno">Nombre</th>
                         </tr>
                         <tr>
-                            <td colspan="3" class="renglonDos">{{autentic.numEmpl}}</td>
-                            <td colspan="3" class="renglonDos">{{autentic.nombreCompleto}}</td>
+                            <td colspan="3" class="renglonDos">{{autentic.num_empleado}}</td>
+                            <td colspan="3" class="renglonDos">{{autentic.persona_id}}</td>
                         </tr>
                         <tr>
                             <th colspan="2" class="renglonUno">Puesto</th>
@@ -62,17 +63,17 @@
                             <th colspan="2" class="renglonUno">Adscripción</th>
                         </tr>
                         <tr>
-                            <td colspan="2">{{autentic.id_puesto}}</td>
-                            <td colspan="2">{{autentic.id_nivel}}</td>
-                            <td colspan="2">{{autentic.id_adscripcion}}</td>
+                            <td colspan="2">{{autentic.puesto_id}}</td>
+                            <td colspan="2">{{autentic.nivel_id}}</td>
+                            <td colspan="2">{{autentic.adscripcion_id}}</td>
                         </tr>
                         <tr>
                             <th colspan="3" class="renglonUno">Fecha de ingreso al CFCRL</th>
                             <th colspan="3" class="renglonUno">Superior Jerárquico</th>
                         </tr>
                         <tr>
-                            <td colspan="3">{{autentic.fechaIngr}}</td>
-                            <td colspan="3">{{autentic.id_superior}}</td>
+                            <td colspan="3">{{autentic.fecha_ingr}}</td>
+                            <td colspan="3"><p v-if="autentic.empleado_id">{{autentic.empleado_id}}</p> <p v-else>Sin información</p></td>
                         </tr>
                         <tr>
                             <th colspan="2" class="renglonUno">CURP</th>
@@ -81,7 +82,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">{{autentic.curp}}</td>
-                            <td colspan="2">{{autentic.email}}</td>
+                            <td colspan="2">{{autentic.correo}}</td>
                             <td colspan="2">{{fecha_hoy}}</td>
                         </tr>
                     </tbody>
@@ -142,7 +143,7 @@
                     <table class="table table-striped" style="text-align: center;">
                         <thead>
                             <tr>
-                                <th class="renglonUno">No.</th>
+                                <!-- <th class="renglonUno">No.</th> -->
                                 <th class="renglonUno">Año</th>
                                 <th class="renglonUno">Tipo de curso</th>
                                 <th class="renglonUno">Categoría</th>
@@ -157,12 +158,12 @@
                         
                         <tbody>
                             <tr v-for="calif in resultado" :key="calif.id">
-                                <td>{{calif.id_calificacion}}</td>
+                                <!-- <td>{{calif.id}}</td> -->
                                 <td>{{calif.anio}}</td>
-                                <td><p v-if="calif.cursoOblig">Obligatorio</p> <p v-else>Optativo</p> </td>                                
-                                <td>{{calif.id_institucion}}</td>
-                                <td>{{calif.id_curso}}</td>
-                                <td>{{calif.hrsCap}}</td> 
+                                <td><p v-if="calif.curso_oblig">Obligatorio</p> <p v-else>Optativo</p> </td>                                
+                                <td>{{calif.institucion_id}}</td>
+                                <td>{{calif.curso_id}}</td>
+                                <td>{{calif.hrs_cap}}</td> 
                                 <td>{{calif.calif}}</td>
                             </tr>
                         </tbody>
@@ -172,7 +173,7 @@
                         <table class="table table-striped" style="text-align: center;">
                             <thead>
                                 <tr>
-                                    <th class="renglonUno">No.</th>
+                                    <!-- <th class="renglonUno">No.</th> -->
                                     <th class="renglonUno">Ejercicio</th>
                                     <th class="renglonUno">TOTAL DE HORAS DE AÑO</th>
                                     <th class="renglonUno">CUMPLIMIENTO</th> 
@@ -180,7 +181,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>1</td>
+                                    <!-- <td>1</td> -->
                                     <td>{{ anio }}</td>
                                     <td>{{ totalhrs }}</td>
                                     <td> <p v-if="totalhrs >=40">Cumple</p> <p v-else>No cumple</p> </td>
@@ -254,8 +255,8 @@
                                             <th colspan="3" class="renglonUno">Nombre</th>
                                         </tr>
                                         <tr>
-                                            <td colspan="3" class="renglonDos">{{autentic.numEmpl}}</td>
-                                            <td colspan="3" class="renglonDos">{{autentic.nombreCompleto}}</td>
+                                            <td colspan="3" class="renglonDos">{{autentic.num_empleado}}</td>
+                                            <td colspan="3" class="renglonDos">{{autentic.persona_id}}</td>
                                         </tr>
                                         <tr>
                                             <th colspan="2" class="renglonUno">Puesto</th>
@@ -263,17 +264,17 @@
                                             <th colspan="2" class="renglonUno">Adscripción</th>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">{{autentic.id_puesto}}</td>
-                                            <td colspan="2">{{autentic.id_nivel}}</td>
-                                            <td colspan="2">{{autentic.id_adscripcion}}</td>
+                                            <td colspan="2">{{autentic.puesto_id}}</td>
+                                            <td colspan="2">{{autentic.nivel_id}}</td>
+                                            <td colspan="2">{{autentic.adscripcion_id}}</td>
                                         </tr>
                                         <tr>
                                             <th colspan="3" class="renglonUno">Fecha de ingreso al CFCRL</th>
                                             <th colspan="3" class="renglonUno">Superior Jerárquico</th>
                                         </tr>
                                         <tr>
-                                            <td colspan="3">{{autentic.fechaIngr}}</td>
-                                            <td colspan="3">{{autentic.id_superior}}</td>
+                                            <td colspan="3">{{autentic.fecha_ingr}}</td>
+                                            <td colspan="3"><p v-if="autentic.empleado_id">{{autentic.empleado_id}}</p> <p v-else>Sin información</p></td>
                                         </tr>
                                         <tr>
                                             <th colspan="2" class="renglonUno">CURP</th>
@@ -282,7 +283,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">{{autentic.curp}}</td>
-                                            <td colspan="2">{{autentic.email}}</td>
+                                            <td colspan="2">{{autentic.correo}}</td>
                                             <td colspan="2">{{fecha_hoy}}</td>
                                         </tr>
                                     </tbody>
@@ -308,7 +309,7 @@
                                                 <th colspan="7" class="renglonUno">Historial de Capacitación</th>
                                             </tr>
                                             <tr>
-                                                <th colspan="1" class="renglonDos">No.</th>
+                                                <!-- <th colspan="1" class="renglonDos">No.</th> -->
                                                 <th colspan="1" class="renglonDos">Año</th>
                                                 <th colspan="1" class="renglonDos">Tipo de curso</th>
                                                 <th colspan="1" class="renglonDos">Categoría</th>
@@ -317,12 +318,12 @@
                                                 <th colspan="1" class="renglonDos">Calificación</th>
                                             </tr>
                                             <tr v-for="calif in resultado" :key="calif.id">
-                                                <td colspan="1">{{calif.id_calificacion}}</td>
+                                                <!-- <td colspan="1">{{calif.id}}</td> -->
                                                 <td colspan="1">{{calif.anio}}</td>
-                                                <td colspan="1"><p v-if="calif.cursoOblig">Obligatorio</p> <p v-else>Optativo</p> </td>                                
-                                                <td colspan="1">{{calif.id_institucion}}</td>
+                                                <td colspan="1"><p v-if="calif.curso_oblig">Obligatorio</p> <p v-else>Optativo</p> </td>                                
+                                                <td colspan="1">{{calif.institucion_id}}</td>
                                                 <td colspan="1">{{calif.id_curso}}</td>
-                                                <td colspan="1">{{calif.hrsCap}}</td>
+                                                <td colspan="1">{{calif.hrs_cap}}</td>
                                                 <td colspan="1">{{calif.calif}}</td>
                                             </tr>
                                         </tbody>
@@ -332,7 +333,7 @@
                                         <table class="table table-sm striped hover" style="text-align: center; font-size: 10px">
                                             <thead>
                                                 <tr>
-                                                    <th class="renglonUno">No.</th>
+                                                    <!-- <th class="renglonUno">No.</th> -->
                                                     <th class="renglonUno">Ejercicio</th>
                                                     <th class="renglonUno">TOTAL DE HORAS DE AÑO</th>
                                                     <th class="renglonUno">CUMPLIMIENTO</th> 
@@ -340,7 +341,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>1</td>
+                                                    <!-- <td>1</td> -->
                                                     <td>{{ anio }}</td>
                                                     <td>{{ totalhrs }}</td>
                                                     <td> <p v-if="totalhrs >=40">Cumple</p> <p v-else>No cumple</p> </td>
@@ -450,7 +451,7 @@ export default{
             this.resultado = resultado
             let totalhrs = 0;
             resultado.forEach(item => {
-                totalhrs = totalhrs + item.hrsCap;
+                totalhrs = totalhrs + item.hrs_cap;
             })
             this.totalhrs = totalhrs;
             // https://www.youtube.com/watch?v=Xw7G2b80dDg

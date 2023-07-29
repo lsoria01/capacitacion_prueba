@@ -86,6 +86,10 @@ Route::get('/kardex', function () {
 Route::get('/mi-cuenta', function () {
     return view('miCuenta');
 })->middleware('auth');
+
+Route::get('/sedes', function () {
+    return view('sede');
+})->middleware('auth');
 /*
 ********** Comentado la ruta  Auth::routes();
 */
@@ -115,23 +119,23 @@ Route::post('email/resend', 'Auth\VerificationController@resend')->name('verific
 /* Fin de nuevas rutas */
 
 
-Route::get('/autenticado', 'UserController@autenticado')->name('autenticado'); //Información del usuario atenticado
-Route::get('/nombramientoAuth', 'UserController@nombramientoAuth')->name('nombramientoAuth'); //Nombramiento del usuario atenticado
-Route::get('/usrActual', 'UserController@usrActual')->name('usrActual'); //Nombre del usuario autenticado
-Route::get('/rol', 'UserController@rol')->name('rol'); //Rol del usuario atenticado
+Route::get('/nombramientoAuth', 'NombramientoController@nombramientoAuth')->name('nombramientoAuth'); //Nombramiento del usuario atenticado
+Route::get('/autenticado', 'UsuarioController@autenticado')->name('autenticado'); //Información del usuario atenticado
+Route::get('/usrActual', 'UsuarioController@usrActual')->name('usrActual'); //Nombre del usuario autenticado
+Route::get('/rol', 'UsuarioController@rol')->name('rol'); //Rol del usuario atenticado
 Route::get('/nombreInstituciones', 'CursoController@nombreInstituciones')->name('nombreInstituciones'); //Nombre de las instituciones existentes
 Route::post('calificacion/validar/{id_calificacion}', 'CalificacionController@validar')->name('validar'); //Valida el curso-calificación
 Route::put('calificacion/{rechazar}/{id_calificacion}', 'CalificacionController@rechazar'); //Rechaza el curso-calificación
 Route::post('curso/validar/{id_curso}', 'CursoController@validar')->name('validar'); //Valida el curso
-Route::get('/idUsrActual', 'UserController@idUsrActual')->name('idUsrActual'); //Id del usuario autenticado
+Route::get('/idUsrActual', 'UsuarioController@idUsrActual')->name('idUsrActual'); //Id del usuario autenticado
 Route::get('/califAuth', 'CalificacionController@califAuth')->name('califAuth'); //Calificaciones del usuario atenticado califAuth
 Route::get('/califKardex', 'CalificacionController@califKardex')->name('califKardex'); //Calificaciones del usuario atenticado para Kardex
-Route::post('usuario/cambiaEstatus/{id}', 'UserController@cambiaEstatus')->name('cambiaEstatus'); //Cambia el estatus del usuario
-Route::put('usuario/actualizaPassword/{id}', 'UserController@actualizaPassword')->name('actualizaPassword'); //Cambia el password del usuario
+Route::post('usuario/cambiaEstatus/{id}', 'UsuarioController@cambiaEstatus')->name('cambiaEstatus'); //Cambia el estatus del usuario
+Route::put('usuario/actualizaPassword/{id}', 'UsuarioController@actualizaPassword')->name('actualizaPassword'); //Cambia el password del usuario
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Route::resource('user', 'UserController');
+//Route::resource('user', 'UsuarioController');
 Route::resource('usuario', 'UsuarioController');
 Route::resource('calificacion', 'CalificacionController');
 Route::resource('adscripcion', 'AdscripcionController');
@@ -143,3 +147,4 @@ Route::resource('nivel', 'NivelController');
 Route::resource('estado', 'EstadoController');
 Route::resource('grado', 'GradoEstudioController');
 Route::resource('bitacora', 'BitacoraController');
+Route::resource('sede', 'SedeController');

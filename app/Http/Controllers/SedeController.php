@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Sede;
 use App\Models\Bitacora;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
-class BitacoraController extends Controller
+class SedeController extends Controller
 {
     public function __construct()
     {
@@ -19,16 +22,15 @@ class BitacoraController extends Controller
      */
     public function index()
     {
-        $bitacoras = Bitacora::leftJoin('usuarios', 'bitacora.usuario_id', '=', 'usuarios.id')
-        ->join('personas' , 'usuarios.persona_id' , '=' , 'personas.id')
+        $sedes = Sede::leftjoin('estados', 'sedes.estado_id', '=', 'estados.id')
         ->select([
-            'bitacora.id',
-            DB::raw("CONCAT(personas.nombres,' ',personas.apellido_pat,' ',personas.apellido_mat) AS usuario_id"),
-            'bitacora.descripcion',
-            'bitacora.created_at'          
+            'sedes.id',
+            'sedes.nombre',
+            'estados.nombre as estado_id'
         ])
+        ->orderBy("id")
         ->get();
-        return $bitacoras;
+        return $sedes;
     }
 
     /**
@@ -49,7 +51,26 @@ class BitacoraController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $sedes = new Sede();
+        $sedes->nombre = Str::upper($request->nombre);
+        $sedes->estado_id = $request->estado_id;
+        $sedes->save();
+
+        $estado = DB::table('estados')
+                ->where('id', $sedes->estado_id)
+                ->value('nombre');
+
+        $bitacora = new Bitacora();
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = 
+            "Creó una nueva sede, con nombre: ". 
+            $sedes->nombre .
+            ", Del estado de : ". 
+            $estado;            
+        $bitacora->save();
+
+        return $sedes;
+
     }
 
     /**
@@ -83,7 +104,27 @@ class BitacoraController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $sedes = Sede::find($id);
+        $sedes->nombre = Str::upper($request->nombre);
+        $sedes->estado_id = $request->estado_id;
+        $sedes->save();
+
+        $estado = DB::table('estados')
+                ->where('id', $sedes->estado_id)
+                ->value('nombre');
+
+        $bitacora = new Bitacora();
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion =
+            " Actualizó el curso con id: ".
+            $id. 
+            " por el nuevo nombre: ". 
+            $sedes->nombre .
+            ", Del estado de : ". 
+            $estado;            
+        $bitacora->save();
+        
+        return $sedes;
     }
 
     /**

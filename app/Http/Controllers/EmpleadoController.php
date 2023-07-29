@@ -3,15 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Bitacora;
-use Illuminate\Support\Facades\DB;
 
-class BitacoraController extends Controller
+class EmpleadoController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -19,16 +13,7 @@ class BitacoraController extends Controller
      */
     public function index()
     {
-        $bitacoras = Bitacora::leftJoin('usuarios', 'bitacora.usuario_id', '=', 'usuarios.id')
-        ->join('personas' , 'usuarios.persona_id' , '=' , 'personas.id')
-        ->select([
-            'bitacora.id',
-            DB::raw("CONCAT(personas.nombres,' ',personas.apellido_pat,' ',personas.apellido_mat) AS usuario_id"),
-            'bitacora.descripcion',
-            'bitacora.created_at'          
-        ])
-        ->get();
-        return $bitacoras;
+        //
     }
 
     /**

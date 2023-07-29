@@ -13,6 +13,7 @@
                             <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                             <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                             <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/sedes">Sedes</b-dropdown-item>
                             <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
@@ -87,7 +88,7 @@
                           </b-form-input>
                           <span class="span">Seleccione una institución de la lista</span>
                           <datalist id="institucion_id">
-                            <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
+                            <option v-for="institucion in instituciones">{{ institucion.nombre }}</option>  
                           </datalist>                          
                         </b-col>
                       </b-row>
@@ -95,7 +96,7 @@
                       <b-row>
                         <b-col cols="2">
                           <label>Id Curso:</label>
-                          <b-form-input id="folio" name="folio" v-model="curso.folio" autocomplete="off" required>
+                          <b-form-input id="identificador_curso" name="identificador_curso" v-model="curso.identificador_curso" autocomplete="off" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="3">
@@ -163,7 +164,7 @@
                           </b-form-input>
                           <span class="span">Si desea cambiar la Institución, deberá borrar la existente y seleccionar una nueva</span>
                           <datalist id="institucion_id">
-                            <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
+                            <option v-for="institucion in instituciones">{{ institucion.nombre }}</option>  
                           </datalist>                          
                         </b-col>
                       </b-row>
@@ -171,7 +172,7 @@
                       <b-row>
                         <b-col cols="2">
                           <label>Id Curso:</label>
-                          <b-form-input id="folio" name="folio" v-model="curso_.folio">
+                          <b-form-input id="identificador_curso" name="identificador_curso" v-model="curso_.identificador_curso">
                           </b-form-input>
                         </b-col>
                         <b-col cols="3">
@@ -238,7 +239,7 @@
                           <b-form-input list="institucion_id" v-model="curso_.institucion_id" autocomplete="off" readonly>
                           </b-form-input>
                           <datalist id="institucion_id">
-                            <option v-for="institucion in instituciones">{{ institucion.descripcion }}</option>  
+                            <option v-for="institucion in instituciones">{{ institucion.nombre }}</option>  
                           </datalist>                          
                         </b-col>
                       </b-row>
@@ -246,8 +247,8 @@
                       <b-row>
                         <b-col cols="2">
                           <label>Id Curso:</label>
-                          <b-form-input v-if="curso_.folio === null " readonly value="Sin información"></b-form-input>
-                          <b-form-input v-if="curso_.folio" readonly v-model="curso_.folio"></b-form-input>
+                          <b-form-input v-if="curso_.identificador_curso === null " readonly value="Sin información"></b-form-input>
+                          <b-form-input v-if="curso_.identificador_curso" readonly v-model="curso_.identificador_curso"></b-form-input>
                         </b-col>
                         <b-col cols="3">
                           <label>Modalidad:</label>
@@ -317,16 +318,16 @@
                       <b-icon icon="eye"></b-icon>
                     </b-button>
                     <b-button size="sm" class="botones" @click="validar(row.item)" 
-                    v-if="row.item.id_estatus == 'Registrado'"
+                    v-if="row.item.estatus_id == 'Registrado'"
                     v-b-tooltip.hover title="Haga click para validar el curso">
                       <b-icon icon="check-square"></b-icon>
                     </b-button>
                 </template>
 
-                <template v-slot:cell(id_estatus)="row">
-                  <p v-if="row.item.id_estatus === 'Registrado'"> <span>Registrado</span></p>
-                  <p v-if="row.item.id_estatus === 'Rechazado'"> <span style="color: red;">Rechazado</span></p>                  
-                  <p v-if="row.item.id_estatus === 'Validado'"> <span style="color: green;">Validado</span></p>
+                <template v-slot:cell(estatus_id)="row">
+                  <p v-if="row.item.estatus_id === 'Registrado'"> <span>Registrado</span></p>
+                  <p v-if="row.item.estatus_id === 'Rechazado'"> <span style="color: red;">Rechazado</span></p>                  
+                  <p v-if="row.item.estatus_id === 'Validado'"> <span style="color: green;">Validado</span></p>
                 </template>
 
                 <template #row-details="row">
@@ -389,8 +390,8 @@
           { key: 'nombre', label: 'Nombre', class: 'text-center small',  sortable: true, sortDirection: 'desc', thStyle: { width: "25%" } },
           { key: 'fecha_fin', label: 'fecha de fin', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'institucion_id', label: 'Institución', class: 'text-center small', sortable: true, sortDirection: 'desc' , thStyle: { width: "25%" } },
-          { key: 'folio', label: 'Id Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'id_estatus', label: 'Estatus', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'identificador_curso', label: 'Id Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'estatus_id', label: 'Estatus', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', label: 'Accioness', class: 'text-center small'},
         ],
         msgResult:'',
@@ -406,12 +407,12 @@
           curso_int_ext:0,
           difundido_DP:'',
           modalidad:'',
-          id_estatus:2,
+          estatus_id:2,
           institucion_id:'',
-          folio:''
+          identificador_curso:''
         },
         curso_:{
-          id_curso:'',
+          id:'',
           nombre:'',
           fecha_inicio:'',
           fecha_fin:'',
@@ -420,13 +421,13 @@
           curso_int_ext: false,
           difundido_DP:'',
           modalidad:'',
-          id_estatus:2,
+          estatus_id:2,
           institucion_id:'',
-          folio:''
+          identificador_curso:''
         },
         instituciones:{
-          institucion_id:'',
-          descripcion:''
+          id:'',
+          nombre:''
         },
         difundido_DPs: [
           { value: true, text: 'Si' },
@@ -525,11 +526,11 @@
               if(value){
                   var institucion = this.curso.institucion_id
                   var institucion_filter = this.instituciones.filter(function(e){
-                  return e.descripcion === institucion                
+                  return e.nombre === institucion                
                 })
                 console.log(institucion_filter);
                 for( var resultado of institucion_filter){
-                  this.resultado_institucion = resultado.institucion_id
+                  this.resultado_institucion = resultado.id
                 }
                 console.log(this.resultado_institucion);              
                 const params={
@@ -541,37 +542,48 @@
                 curso_int_ext: this.curso.curso_int_ext,
                 difundido_DP: this.curso.difundido_DP,
                 modalidad: this.curso.modalidad,
-                id_estatus: this.curso.id_estatus,
+                estatus_id: this.curso.estatus_id,
                 institucion_id:this.resultado_institucion,
-                folio:this.curso.folio
-              }
-              console.log(params);
-               axios.post('/curso', params)
-              .then(res=>{
-                //ocultar modal
-                this.$bvModal.hide('modal-crear');
-                this.cursos.push(res.data)
-                //mostrar toaster
-                this.$toaster.success('Curso creado con éxito!')
-                //Limpiamos los campos
-                this.curso.nombre = '';
-                //recargamos cambios
-                axios.get('/curso')
+                identificador_curso:this.curso.identificador_curso
+                }
+                console.log(params);
+                axios.post('/curso', params)
                 .then(res=>{
-                    this.cursos = res.data;
-                })
-                .catch((error) => {
-                            if (error) {
-                                this.$toaster.error('Lo sentimos, el curso no se pudo crear ')
-                                console.log(error);
-                            }
-                    })
-                })
+                  //ocultar modal
+                  this.$bvModal.hide('modal-crear');
+                  this.cursos.push(res.data)
+                  //mostrar toaster
+                  this.$toaster.success('Curso creado con éxito!')
+                  //Limpiamos los campos
+                  this.curso.nombre = '';
+                  this.curso.fecha_inicio = '';
+                  this.curso.fecha_fin = '';
+                  this.curso.curso_oblig = '';
+                  this.curso.hrs_cap = '';
+                  this.curso.curso_int_ext = '';
+                  this.curso.difundido_DP = '';
+                  this.curso.modalidad = '';
+                  this.curso.estatus_id = '';
+                  this.resultado_institucion = '';
+                  this.curso.institucion_id = '';
+                  this.curso.identificador_curso = '';
+                  //recargamos cambios
+                  axios.get('/curso')
+                  .then(res=>{
+                      this.cursos = res.data;
+                  })
+                  .catch((error) => {
+                              if (error) {
+                                  this.$toaster.error('Lo sentimos, el curso no se pudo crear ')
+                                  console.log(error);
+                              }
+                      })
+                  })
               }
             })
       },
       cargarDatos(item){
-        this.curso_.id_curso = item.id_curso,
+        this.curso_.id = item.id,
         this.curso_.nombre = item.nombre,
         this.curso_.fecha_inicio = item.fecha_inicio,
         this.curso_.fecha_fin = item.fecha_fin,
@@ -580,9 +592,9 @@
         this.curso_.curso_int_ext = item.curso_int_ext,
         this.curso_.difundido_DP = item.difundido_DP,
         this.curso_.modalidad = item.modalidad,
-        this.curso_.id_estatus = item.id_estatus,
+        this.curso_.estatus_id = item.estatus_id,
         this.curso_.institucion_id = item.institucion_id,
-        this.curso_.folio = item.folio
+        this.curso_.identificador_curso = item.identificador_curso
       },
       editar(item){
         this.msgResult='';
@@ -603,20 +615,20 @@
           if(value){
             var institucion_ = item.institucion_id
             var institucion_filter_ = this.instituciones.filter(function(e){
-              return e.descripcion === institucion_                
+              return e.nombre === institucion_                
             })
             console.log(institucion_filter_);
             for( var resultado of institucion_filter_){
-              this.resultado_institucion_ = resultado.institucion_id
+              this.resultado_institucion_ = resultado.id
             }
             console.log(this.resultado_institucion_);
-            if(item.id_estatus === 'Registrado'){
-                this.curso_.id_estatus = 1;
+            if(item.estatus_id === 'Registrado'){
+                this.curso_.estatus_id = 1;
             }else{
-                this.curso_.id_estatus = 2;
+                this.curso_.estatus_id = 2;
             } 
             const params = {
-              id_curso: item.id_curso,
+              id: item.id,
               nombre: item.nombre,
               fecha_inicio: item.fecha_inicio,
               fecha_fin: item.fecha_fin,
@@ -626,16 +638,16 @@
               difundido_DP: item.difundido_DP,
               modalidad: item.modalidad,
               institucion_id:this.resultado_institucion_,
-              id_estatus: this.curso_.id_estatus,
-              folio: item.folio
+              estatus_id: this.curso_.estatus_id,
+              identificador_curso: item.identificador_curso
             }
             console.log(params);
-            axios.put(`/curso/${item.id_curso}`, params)
+            axios.put(`/curso/${item.id}`, params)
             .then(res =>{
               //ocultar modal
               this.$bvModal.hide('modal-editar');
               const index = this.cursos.findIndex(
-                cursoBuscar => cursoBuscar.id_curso === item.id_curso
+                cursoBuscar => cursoBuscar.id === item.id
               )
               this.cursos[index] = res.data
               //mostrar toaster
@@ -672,7 +684,7 @@
                         container: null
                         });
                         console.log(item.id_curso);
-                        axios.post(`curso/validar/${item.id_curso}`)
+                        axios.post(`curso/validar/${item.id}`)
                         .then(res => {
                             console.log(res.data);
                             //ocultar spinner

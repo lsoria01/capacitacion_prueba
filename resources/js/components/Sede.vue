@@ -3,50 +3,58 @@
         <b-navbar toggleable="lg" class="background-nav" type="dark">
           <a href="/home"><img v-bind:src="'img/logo-header.svg'" class="logo-gobmx"></a>
           <!-- Right aligned nav items -->
-                <b-navbar-nav class="ml-auto">
-                  <b-nav-item-dropdown v-if="rol == 1" text="Catálogos" class="mr-4" right>
-                        <b-dropdown-item class="activo active" v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/sedes">Sedes</b-dropdown-item>
-                        <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
-                </b-nav-item-dropdown>
-                <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
-                        <b-dropdown-item v-if="rol == 1" href="/kardex">Kardex</b-dropdown-item>
-                        <b-dropdown-item v-if="rol == 1" href="/calificaciones">Validación de cursos externos</b-dropdown-item>
-                </b-nav-item-dropdown>
-                <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
-                        <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Registrar cursos externos</b-dropdown-item>
-                </b-nav-item-dropdown>
+                    <b-navbar-nav class="ml-auto">
+                      <b-nav-item-dropdown v-if="rol == 1" text="Catálogos" class="mr-4" right>
+                            <b-dropdown-item v-if="rol == 1" href="/adscripciones">Areas</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/cursos">Cursos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/estados">Estados</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/grados">Grados de estudio</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                            <b-dropdown-item class="activo active" v-if="rol == 1" href="/sedes">Sedes</b-dropdown-item>
+                            <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
+                    </b-nav-item-dropdown>
+                    <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
+                            <b-dropdown-item v-if="rol == 1" href="/kardex">Kardex</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/calificaciones">Validación de cursos externos</b-dropdown-item>
+                    </b-nav-item-dropdown>
+                    <b-nav-item-dropdown v-if="rol == 1 || rol == 2" text="Servicios" class="mr-4" right>
+                            <b-dropdown-item v-if="rol == 1 || rol == 2" href="/capturar">Registrar cursos externos</b-dropdown-item>
+                    </b-nav-item-dropdown>
                     <b-nav-item-dropdown right>
                         <!-- Using 'button-content' slot -->
                         <template #button-content>
                             <em>{{usrActual}}</em>
                         </template>
-                        <!-- <b-dropdown-item href="/mi-cuenta">Mi cuenta</b-dropdown-item> -->
                         <b-dropdown-item href="#" @click.prevent="logout">Cerrar Sesión</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
         </b-navbar>
         <div class="container my-4">
             <b-row align-h="end">
-              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Adscripción</b-button>
+              <b-button size="sm" class="botones mb-4" v-b-modal.modal-crear>Crear Sede</b-button>
             </b-row>
 
             <!-- Inicio modal crear -->
 
-            <b-modal centered id="modal-crear" title="Nueva Adscripción" hide-footer>
+            <b-modal centered id="modal-crear" title="Nueva Sede" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="adscripcion.nombre" style="text-transform:uppercase" required>
+                          <b-form-input id="nombre" name="nombre" v-model="sede.nombre" style="text-transform:uppercase" required>
                           </b-form-input>
+                        </b-col>
+                        <b-col cols="12">
+                          <label>Estado:</label>
+                          <b-form-input list="estado" v-model="sede.estado_id" autocomplete="off" required>
+                          </b-form-input>
+                          <datalist id="estado">
+                            <option v-for="estado in estados">{{ estado.nombre }}</option>  
+                          </datalist>
+                          <span class="span">Seleccione un estado de la lista</span>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
@@ -59,13 +67,22 @@
 
             <!-- Inicio modal editar -->
 
-            <b-modal centered id="modal-editar" title="Editar Adscripción" hide-footer>
-                    <b-form @submit.prevent="editar(adscripcion_)">
+            <b-modal centered id="modal-editar" title="Editar Sede" hide-footer>
+                    <b-form @submit.prevent="editar(sede_)">
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="adscripcion_.nombre" style="text-transform:uppercase">
+                          <b-form-input id="nombre" name="nombre" v-model="sede_.nombre" style="text-transform:uppercase">
                           </b-form-input>
+                        </b-col>
+                        <b-col cols="12">
+                          <label>Estado:</label>
+                          <b-form-input list="estado" v-model="sede_.estado_id" autocomplete="off" required>
+                          </b-form-input>
+                          <datalist id="estado">
+                            <option v-for="estado in estados">{{ estado.nombre }}</option>  
+                          </datalist>
+                          <span class="span">Si desea editar el estado, deberá seleccionar uno nuevo de la lista:</span>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
@@ -108,7 +125,7 @@
                 <!-- Main table element -->
                 <b-table striped hover
                 class="table table-sm"
-                :items="adscripciones"
+                :items="sedes"
                 :fields="fields"
                 :current-page="currentPage"
                 :per-page="perPage"
@@ -129,7 +146,7 @@
 
                 <template #cell(actions)="row">
                   <b-button size="sm" class="botones" @click="cargarDatos(row.item)" v-b-modal.modal-editar 
-                    v-b-tooltip.hover title="Haga click si desea editar la adscripción">
+                    v-b-tooltip.hover title="Haga click si desea editar la sede">
                     <b-icon icon="pencil-square"></b-icon>
                   </b-button>
                 </template>
@@ -192,19 +209,32 @@
       return {
         fields: [
           { key: 'nombre', label: 'Nombre', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'estado_id', label: 'Estado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
         msgResult:'',
         rol:'',
         usrActual:'',
-        adscripciones:[],
-        adscripcion:{
+        sedes:[],
+        sede:{
+            nombre:'',
+            estado_id: ''
+        },
+        sede_:{
+            id:'',
+            nombre:'',
+            estado_id: ''
+        },
+        estados:[],
+        estado:{
           nombre:''
         },
-        adscripcion_:{
-          id_adscripcion:'',
+        estado_:{
+          id:'',
           nombre:''
         },
+        resultado_estado:'',
+        resultado_estado_:'',
         totalRows: 1,
         currentPage: 1,
         perPage: 5,
@@ -222,9 +252,13 @@
       }
     },
     created(){
-        axios.get('/adscripcion')
+        axios.get('/sede')
         .then(res=>{
-            this.adscripciones = res.data;
+            this.sedes = res.data;
+        })
+        axios.get('/estado')
+        .then(res=>{
+            this.estados = res.data;
         })
         axios.get('/rol')
         .then(res=>{
@@ -245,12 +279,12 @@
           })
       },
       totalregistros(){
-          return this.adscripciones.length;
+          return this.sedes.length;
         },
     },
     mounted() {
       // Set the initial number of items
-      this.totalRows = this.adscripciones.length
+      this.totalRows = this.sedes.length
     },
     methods: {
       info(item, index, button) {
@@ -273,7 +307,7 @@
 
       },
       showMsgBoxCrear(){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar la nueva adscripción?`, {
+        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea guardar la nueva sede?`, {
                 title: 'Aviso',
                 size: 'sm',
                 buttonSize: 'sm',
@@ -285,43 +319,56 @@
             })
             .then(value=>{
               if(value){
-              const params={
-                nombre: this.adscripcion.nombre
-              }
-              axios.post('/adscripcion', params)
-              .then(res=>{
-                //ocultar modal
-                this.$bvModal.hide('modal-crear');
-                this.adscripciones.push(res.data)
-                //mostrar toaster
-                this.$toaster.success('¡Adscripción creada con éxito!')
-                //Limpiamos los campos
-                this.adscripcion.nombre = '';
-                //recargamos cambios
-                axios.get('/adscripcion')
+                var estado_id = this.sede.estado_id
+                var estado_id_filter = this.estados.filter(function(e){
+                    return e.nombre === estado_id 
+                })
+                //console.log(estado_id_filter);
+                for( var resultado of estado_id_filter){
+                  this.resultado_estado = resultado.id
+                }
+                //console.log(this.resultado_estado); 
+                const params={
+                nombre: this.sede.nombre,
+                estado_id: this.resultado_estado
+                }
+                console.log(params);
+                axios.post('/sede', params)
                 .then(res=>{
-                    this.adscripciones = res.data;
-                })
-                .catch((error) => {
-                            if (error) {
-                                this.$toaster.error('Lo sentimos, la adscripción no se pudo crear ')
-                                console.log(error);
-                            }
+                    //ocultar modal
+                    this.$bvModal.hide('modal-crear');
+                    this.sedes.push(res.data)
+                    //mostrar toaster
+                    this.$toaster.success('Sede creada con éxito!')
+                    //Limpiamos los campos
+                    this.sede.nombre = '';
+                    this.sede.estado_id = '';
+                    //recargamos cambios
+                    axios.get('/sede')
+                    .then(res=>{
+                        this.sedes = res.data;
                     })
-                })
+                    .catch((error) => {
+                                if (error) {
+                                    this.$toaster.error('Lo sentimos, la sede no se pudo crear ')
+                                    console.log(error);
+                                }
+                        })
+                    })
               }
             })
       },
       cargarDatos(item){
-        this.adscripcion_.id = item.id,
-        this.adscripcion_.nombre = item.nombre
+        this.sede_.id = item.id,
+        this.sede_.nombre = item.nombre,
+        this.sede_.estado_id = item.estado_id
       },
       editar(item){
         this.msgResult='';
         this.showMsgBoxEditar(item); //Modal confirmación
       },
       showMsgBoxEditar(item){
-        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea editar la adscripción actual ?`, {
+        this.$bvModal.msgBoxConfirm(`¿ Confirma que desea editar la sede actual ?`, {
             title: 'Aviso',
             size: 'sm',
             buttonSize: 'sm',
@@ -333,24 +380,34 @@
         })
         .then(value=>{
           if(value){
+            var estado_id_ = this.sede_.estado_id
+            var estado_id_filter_ = this.estados.filter(function(e){
+                return e.nombre === estado_id_ 
+            })
+            //console.log(estado_id_filter);
+            for( var resultado of estado_id_filter_){
+              this.resultado_estado_ = resultado.id
+            }
+            //console.log(this.resultado_estado); 
             const params = {
               id : item.id,
-              nombre: item.nombre
+              nombre: item.nombre,
+              estado_id : this.resultado_estado_
             }
-            axios.put(`/adscripcion/${item.id}`, params)
+            axios.put(`/sede/${item.id}`, params)
             .then(res =>{
               //ocultar modal
               this.$bvModal.hide('modal-editar');
-              const index = this.adscripciones.findIndex(
-                adscripcionBuscar => adscripcionBuscar.id === item.id
+              const index = this.sedes.findIndex(
+                sedeBuscar => sedeBuscar.id === item.id
               )
-              this.adscripciones[index] = res.data
+              this.sedes[index] = res.data
               //mostrar toaster
-              this.$toaster.success('¡Adscripción actualizada con éxito')
+              this.$toaster.success('Sede actualizada con éxito')
               //Recargamos los cambios
-              axios.get('/adscripcion')
+              axios.get('/sede')
                 .then(res=>{
-                    this.adscripciones = res.data
+                    this.sedes = res.data
                 })
               .catch((error) => {
                 if (error) {
@@ -395,5 +452,9 @@ height: 48px;
 }
 .activo{
   background-color: #D4C19C !important;
+}
+.span{
+  color:#B38E5D;
+  font-size:14px;
 }
 </style>

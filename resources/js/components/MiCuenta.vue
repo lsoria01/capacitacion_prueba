@@ -12,7 +12,8 @@
                             <b-dropdown-item v-if="rol == 1" href="/instituciones">Instituciones</b-dropdown-item>
                             <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                             <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
-                            <b-dropdown-item class="activo active" v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/sedes">Sedes</b-dropdown-item>
                             <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
@@ -43,17 +44,17 @@
                     <b-row>
                         <b-col cols="">
                             <label>Número de empleado:</label>
-                            <b-form-input v-model="usuario.numEmpl" readonly>
+                            <b-form-input v-model="usuario.num_empleado" readonly>
                             </b-form-input>
                         </b-col>
                         <b-col cols="">
                             <label>Nombre completo:</label>
-                            <b-form-input v-model="usuario.nombreCompleto" readonly>
+                            <b-form-input v-model="usuario.persona_id" readonly>
                             </b-form-input>
                         </b-col>
                         <b-col cols="">
                             <label>Puesto:</label>
-                            <b-form-input v-model="usuario.id_puesto" readonly>
+                            <b-form-input v-model="usuario.puesto_id" readonly>
                             </b-form-input>
                         </b-col>
                     </b-row>
@@ -63,12 +64,12 @@
                     <b-row>
                         <b-col cols="">
                             <label>Correo:</label>
-                            <b-form-input v-model="usuario.email" readonly>
+                            <b-form-input v-model="usuario.correo" readonly>
                             </b-form-input>
                         </b-col>
                         <b-col cols="">
                             <label>Adscripción:</label>
-                            <b-form-input v-model="usuario.id_adscripcion" readonly>
+                            <b-form-input v-model="usuario.adscripcion_id" readonly>
                             </b-form-input>
                         </b-col>
                     </b-row>
@@ -131,11 +132,11 @@
         usuarios:[],
         usuario:{
             id:'',
-            numEmpl:'',
-            nombreCompleto:'',
-            id_puesto:'',
-            id_adscripcion:'',
-            email:''
+            num_empleado:'',
+            persona_id:'',
+            puesto_id:'',
+            adscripcion_id:'',
+            correo:''
         },
         id:'',
         passwordAnterior:'',

@@ -20,6 +20,7 @@ class CrearTablaUsuarios extends Migration
             $table->string('correo')->nullable();
             $table->string('usuario')->nullable();
             $table->string('password')->nullable();
+            $table->string('indicio')->nullable();
             $table->integer('rol')->nullable();
             $table->boolean('estatus')->nullable();
             $table->timestamps();

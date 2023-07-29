@@ -13,6 +13,7 @@
                             <b-dropdown-item v-if="rol == 1" href="/niveles">Niveles</b-dropdown-item>
                             <b-dropdown-item v-if="rol == 1" href="/nombramientos">Nombramientos</b-dropdown-item>
                             <b-dropdown-item v-if="rol == 1" href="/puestos">Puestos</b-dropdown-item>
+                            <b-dropdown-item v-if="rol == 1" href="/sedes">Sedes</b-dropdown-item>
                             <!-- <b-dropdown-item v-if="rol == 1" href="/usuarios">Usuarios</b-dropdown-item> -->
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown v-if="rol == 1" text="Administración" class="mr-4" right>
@@ -49,21 +50,21 @@
               <b-row>
                 <b-col>
                   <label for="empleado">Usuario:</label>  
-                  <b-form-input readonly id="empleado" v-model="calificacion_.id_user"></b-form-input>
+                  <b-form-input readonly id="empleado" v-model="calificacion_.usuario_id"></b-form-input>
                 </b-col>
                 <b-col>
                   <label for="empleado">Curso:</label>
-                  <b-form-input readonly id="empleado" v-model="calificacion_.id_curso"></b-form-input>
+                  <b-form-input readonly id="empleado" v-model="calificacion_.curso_id"></b-form-input>
                 </b-col>
               </b-row>
               <b-row>
                 <b-col>
-                  <label for="cursoFin">Curso finalizado:</label>
-                  <p v-if="calificacion_.cursoFin">
-                    <b-form-input readonly id="cursoFin" value="Si"></b-form-input>
+                  <label for="curso_fin">Curso finalizado:</label>
+                  <p v-if="calificacion_.curso_fin">
+                    <b-form-input readonly id="curso_fin" value="Si"></b-form-input>
                   </p>
                   <p v-else>
-                    <b-form-input readonly id="cursoFin" value="No"></b-form-input>
+                    <b-form-input readonly id="curso_fin" value="No"></b-form-input>
                   </p>
                 </b-col>
                 <b-col>
@@ -76,12 +77,12 @@
                   </p>
                 </b-col>
                 <b-col>
-                  <label for="cursoOblig">Curso Obligatorio:</label>
-                  <p v-if="calificacion_.cursoOblig">
-                    <b-form-input readonly id="cursoOblig" value="Si"></b-form-input>
+                  <label for="curso_oblig">Curso Obligatorio:</label>
+                  <p v-if="calificacion_.curso_oblig">
+                    <b-form-input readonly id="curso_oblig" value="Si"></b-form-input>
                   </p>
                   <p v-else>
-                    <b-form-input readonly id="cursoOblig" value="No"></b-form-input>
+                    <b-form-input readonly id="curso_oblig" value="No"></b-form-input>
                   </p>
                 </b-col>
                 <b-col>
@@ -91,37 +92,37 @@
               </b-row>
               <b-row>
                 <b-col>
-                  <label for="hrsCap">Horas de Capacitación:</label>
-                  <b-form-input readonly id="hrsCap" v-model="calificacion_.hrsCap"></b-form-input>
+                  <label for="hrs_cap">Horas de Capacitación:</label>
+                  <b-form-input readonly id="hrs_cap" v-model="calificacion_.hrs_cap"></b-form-input>
                 </b-col>
                 <b-col>
                   <label for="fecha">Fecha de finalización:</label>
                   <b-form-input readonly id="fecha" v-model="calificacion_.fecha"></b-form-input>
                 </b-col>
                 <b-col>
-                  <label for="cursoOblig">Tipo de Curso:</label>
-                  <p v-if="calificacion_.cursoIntExt">
-                    <b-form-input readonly id="cursoOblig" value="Externo"></b-form-input>
+                  <label for="curso_oblig">Tipo de Curso:</label>
+                  <p v-if="calificacion_.curso_int_ext">
+                    <b-form-input readonly id="curso_oblig" value="Externo"></b-form-input>
                   </p>
                   <p v-else>
-                    <b-form-input readonly id="cursoOblig" value="Interno"></b-form-input>
+                    <b-form-input readonly id="curso_oblig" value="Interno"></b-form-input>
                   </p>
                 </b-col>
               </b-row>
               <b-row>
                 <b-col>
-                  <label for="id_institucion">Institución que imparte:</label>
-                  <b-form-input readonly id="id_institucion" v-model="calificacion_.id_institucion"></b-form-input>
+                  <label for="institucion_id">Institución que imparte:</label>
+                  <b-form-input readonly id="institucion_id" v-model="calificacion_.institucion_id"></b-form-input>
                 </b-col>
               </b-row>
               <b-row>
                 <b-col>
-                  <label for="difundidoDP">Difundido por la Dirección de Profesionalización:</label>
-                  <p v-if="calificacion_.difundidoDP">
-                    <b-form-input readonly id="difundidoDP" value="Si"></b-form-input>
+                  <label for="difundido_DP">Difundido por la Dirección de Profesionalización:</label>
+                  <p v-if="calificacion_.difundido_DP">
+                    <b-form-input readonly id="difundido_DP" value="Si"></b-form-input>
                   </p>
                   <p v-else>
-                    <b-form-input readonly id="difundidoDP" value="No"></b-form-input>
+                    <b-form-input readonly id="difundido_DP" value="No"></b-form-input>
                   </p>
                 </b-col>
                 <b-col>
@@ -134,7 +135,7 @@
                 <b-col cols="12">
                   <label>Constancia:</label>
                   <br> 
-                  <a v-if="calificacion_.urlConstancia" :href="calificacion_.urlConstancia" target="blank">Descargar constancia</a>
+                  <a v-if="calificacion_.url_constancia" :href="calificacion_.url_constancia" target="blank">Descargar constancia</a>
                   <p v-else>Sin constancia</p>
                   <!-- <iframe src='storage/constancias/IDkmXqU6mKX4RaUNgn2eiBzANTRum2A3v7CXktAY.pdf' height="100%" width="100%" scrolling="auto"></iframe> -->
                 </b-col>
@@ -220,21 +221,21 @@
                         <b-icon icon="eye"></b-icon>
                     </b-button>
                     <b-button size="sm" class="botones" 
-                        @click="validar(row.item)" v-if="row.item.id_estatus == 'Registrado'"
+                        @click="validar(row.item)" v-if="row.item.estatus_id == 'Registrado'"
                         v-b-tooltip.hover title="Haga click para validar el curso">
                         <b-icon icon="check-square"></b-icon>
                     </b-button>
                     <b-button size="sm" class="botones" 
-                        @click="cargarDatos(row.item)" v-if="row.item.id_estatus == 'Registrado'" v-b-modal.modal-rechazar
+                        @click="cargarDatos(row.item)" v-if="row.item.estatus_id == 'Registrado'" v-b-modal.modal-rechazar
                         v-b-tooltip.hover title="Haga click para rechazar el curso">
                         <b-icon icon="x-circle"></b-icon>
                     </b-button>                    
                 </template>
 
-                <template v-slot:cell(id_estatus)="row">
-                  <p v-if="row.item.id_estatus === 'Registrado'"> <span>Registrado</span></p>
-                  <p v-if="row.item.id_estatus === 'Rechazado'"> <span style="color: red;">Rechazado</span></p>                  
-                  <p v-if="row.item.id_estatus === 'Validado'"> <span style="color: green;">Validado</span></p>
+                <template v-slot:cell(estatus_id)="row">
+                  <p v-if="row.item.estatus_id === 'Registrado'"> <span>Registrado</span></p>
+                  <p v-if="row.item.estatus_id === 'Rechazado'"> <span style="color: red;">Rechazado</span></p>                  
+                  <p v-if="row.item.estatus_id === 'Validado'"> <span style="color: green;">Validado</span></p>
                 </template>
 
                 <template #row-details="row">
@@ -294,11 +295,11 @@
     data() {
       return {
         fields: [
-          { key: 'id_user', label: 'Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'id_curso', label: 'Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'usuario_id', label: 'Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'curso_id', label: 'Curso', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'calif', label: 'Calificación', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'fecha', label: 'Fecha', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'id_estatus', label: 'Estatus', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'estatus_id', label: 'Estatus', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'actions', class: 'text-center small', label: 'Acciones' }
         ],
         link: 'http://google.com',
@@ -307,41 +308,41 @@
         usrActual:'',
         calificaciones:[],
         calificacion:{
-          id_user:'',
-          id_curso:'',
-          cursoFin:'',
+          usuario_id:'',
+          curso_id:'',
+          curso_fin:'',
           aprobado:'',
-          cursoOblig:'',
+          curso_oblig:'',
           calif:'',
-          hrsCap:'',
+          hrs_cap:'',
           fecha:'',
           anio:'',
-          cursoIntExt:'',
-          id_institucion:'',
-          difundidoDP:'',
+          curso_int_ext:'',
+          institucion_id:'',
+          difundido_DP:'',
           modalidad:'',
-          urlConstancia:'',
-          nombreConstancia:'',
-          id_estatus:''
+          url_constancia:'',
+          nombre_constancia:'',
+          estatus_id:''
         },
         calificacion_:{
-          id_calificacion:'',
-          id_user:'',
-          id_curso:'',
-          cursoFin:'',
+          id:'',
+          usuario_id:'',
+          curso_id:'',
+          curso_fin:'',
           aprobado:'',
-          cursoOblig:'',
+          curso_oblig:'',
           calif:'',
-          hrsCap:'',
+          hrs_cap:'',
           fecha:'',
           anio:'',
-          cursoIntExt:'',
-          id_institucion:'',
-          difundidoDP:'',
+          curso_int_ext:'',
+          institucion_id:'',
+          difundido_DP:'',
           modalidad:'',
-          urlConstancia:'',
-          nombreConstancia:'',
-          id_estatus:'',
+          url_constancia:'',
+          nombre_constancia:'',
+          estatus_id:'',
           rechazo:''
         },
         usuario: null,
@@ -349,18 +350,18 @@
           { value: 'A', text: 'Luis de Jesús Soria Zavala' },
           { value: 'B', text: 'Juan Manuel Vázquez Martínez' }
         ],
-        cursoOblig: null,
-        cursoObligs: [
+        curso_oblig: null,
+        curso_obligs: [
           { value: 'A', text: 'Obligatorio' },
           { value: 'B', text: 'Optativo' }
         ],
-        difundidoDP: null,
-        difundidoDPs: [
+        difundido_DP: null,
+        difundido_DPs: [
           { value: 'A', text: 'Si' },
           { value: 'B', text: 'No' }
         ],
         checked: true,
-        cursoIntExt: true,
+        curso_int_ext: true,
         totalRows: 1,
         currentPage: 1,
         perPage: 5,
@@ -424,23 +425,23 @@
         this.currentPage = 1
       },
       cargarDatos(item){
-        this.calificacion_.id_calificacion = item.id_calificacion
-        this.calificacion_.id_user = item.id_user,
-        this.calificacion_.id_curso = item.id_curso,
-        this.calificacion_.cursoFin = item.cursoFin,
+        this.calificacion_.id = item.id
+        this.calificacion_.usuario_id = item.usuario_id,
+        this.calificacion_.curso_id = item.curso_id,
+        this.calificacion_.curso_fin = item.curso_fin,
         this.calificacion_.aprobado = item.aprobado,
-        this.calificacion_.cursoOblig = item.cursoOblig,
+        this.calificacion_.curso_oblig = item.curso_oblig,
         this.calificacion_.calif = item.calif,
-        this.calificacion_.hrsCap = item.hrsCap,
+        this.calificacion_.hrs_cap = item.hrs_cap,
         this.calificacion_.fecha = item.fecha,
         this.calificacion_.anio = item.anio,
-        this.calificacion_.cursoIntExt = item.cursoIntExt,
-        this.calificacion_.id_institucion = item.id_institucion,
-        this.calificacion_.difundidoDP = item.difundidoDP,
+        this.calificacion_.curso_int_ext = item.curso_int_ext,
+        this.calificacion_.institucion_id = item.institucion_id,
+        this.calificacion_.difundido_DP = item.difundido_DP,
         this.calificacion_.modalidad = item.modalidad,
-        this.calificacion_.urlConstancia = item.urlConstancia,
-        this.calificacion_.nombreConstancia = item.nombreConstancia,
-        this.calificacion_.id_estatus = item.id_estatus
+        this.calificacion_.url_constancia = item.url_constancia,
+        this.calificacion_.nombre_constancia = item.nombre_constancia,
+        this.calificacion_.estatus_id = item.estatus_id
         //Rechazo
         this.calificacion_.rechazo = item.rechazo;
       },
@@ -465,13 +466,13 @@
               rechazo: item.rechazo,
             }
             console.log(params);
-            axios.put(`calificacion/${item.id_calificacion}`, params)
-            //axios.put(`calificacion/rechazar/${item.id_calificacion}`, params)
+            axios.put(`calificacion/${item.id}`, params)
+            //axios.put(`calificacion/rechazar/${item.id}`, params)
             .then(res =>{
               //ocultar modal
               this.$bvModal.hide('modal-rechazar');
               const index = this.calificaciones.findIndex(
-                calificacionBuscar => calificacionBuscar.id_calificacion === item.id_calificacion
+                calificacionBuscar => calificacionBuscar.id === item.id
               )
               this.calificaciones[index] = res.data
               //mostrar toaster
@@ -507,8 +508,8 @@
                         var loader =  this.$loading.show({
                         container: null
                         });
-                        console.log(item.id_calificacion);
-                        axios.post(`calificacion/validar/${item.id_calificacion}`)
+                        console.log(item.id);
+                        axios.post(`calificacion/validar/${item.id}`)
                         .then(res => {
                             console.log(res.data);
                             //ocultar spinner

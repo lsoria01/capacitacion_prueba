@@ -61,10 +61,10 @@
                           </div>                         
                         </b-col> -->
                         <b-col cols="12">
-                          <label>Empleado:</label>
-                          <b-form-input list="empleado" v-model="nombramiento.usuario_id" autocomplete="off" required>
+                          <label>Usuario:</label>
+                          <b-form-input list="usuario" v-model="nombramiento.usuario_id" autocomplete="off" required>
                           </b-form-input>
-                          <datalist id="empleado">
+                          <datalist id="usuario">
                             <option v-for="usuario in usuarios">{{ usuario.persona_id }}</option>  
                           </datalist>
                           <span class="span">Seleccione un usuario de la lista</span>
@@ -122,10 +122,10 @@
                           </div>
                         </b-col> -->
                         <b-col cols="12">
-                          <label>Empleado</label>
-                          <b-form-input list="empleado" v-model="nombramiento_.usuario_id" autocomplete="off">
+                          <label>Usuario:</label>
+                          <b-form-input list="usuario" v-model="nombramiento_.usuario_id" autocomplete="off">
                           </b-form-input>
-                          <datalist id="empleado">
+                          <datalist id="usuario">
                             <option v-for="usuario in usuarios">{{ usuario.persona_id }}</option>  
                           </datalist>
                         </b-col>
@@ -268,7 +268,7 @@
       return {
         fields: [
           { key: 'id', label: 'Numero', class: 'text-center small', sortable: true, sortDirection: 'desc' },
-          { key: 'usuario_id', label: 'Empleado', class: 'text-center small', sortable: true, sortDirection: 'desc' },
+          { key: 'usuario_id', label: 'Usuario', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'tipo', label: 'Tipo', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'fec_emis', label: 'Fecha de Emisión', class: 'text-center small', sortable: true, sortDirection: 'desc' },
           { key: 'fec_ratif', label: 'Fecha de Ratificación', class: 'text-center small', sortable: true, sortDirection: 'desc' },
@@ -304,8 +304,8 @@
           name:'',
           adscripcion:''
         },*/
-        resultado_empleado:'',
-        resultado_empleado_:'',
+        resultado_usuario:'',
+        resultado_usuario_:'',
         totalRows: 1,
         currentPage: 1,
         perPage: 5,
@@ -399,11 +399,11 @@
                 })
                 console.log(usuario_id_filter);
                 for( var resultado of usuario_id_filter){
-                  this.resultado_empleado = resultado.id
+                  this.resultado_usuario = resultado.id
                 }
-                console.log(this.resultado_empleado); 
+                console.log(this.resultado_usuario); 
               const params={
-                usuario_id: this.resultado_empleado,
+                usuario_id: this.resultado_usuario,
                 tipo: this.nombramiento.tipo,
                 fec_emis: this.nombramiento.fec_emis,
                 fec_ratif: this.nombramiento.fec_ratif
@@ -466,12 +466,12 @@
             })
             console.log(usuario_id_filter_);
             for( var resultado_ of usuario_id_filter_){
-              this.resultado_empleado_ = resultado_.id
+              this.resultado_usuario_ = resultado_.id
             }
-            console.log(this.resultado_empleado_);   
+            console.log(this.resultado_usuario_);   
             const params = {
               id_nombramiento : item.id,
-              usuario_id: this.resultado_empleado_,
+              usuario_id: this.resultado_usuario_,
               tipo: item.tipo,
               fec_emis: item.fec_emis,
               fec_ratif: item.fec_ratif

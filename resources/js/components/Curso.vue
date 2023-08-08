@@ -119,7 +119,7 @@
                       <b-row>
                         <b-col cols="10">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="curso_.nombre" style="text-transform:uppercase">
+                          <b-form-input id="nombre" name="nombre" v-model="curso_.nombre" style="text-transform:uppercase" autocomplete="off">
                           </b-form-input>
                           <span class="span">Si desea cambiar el nombre, deberá borrar el existente y seleccionar uno nuevo</span>
                         </b-col>
@@ -172,7 +172,7 @@
                       <b-row>
                         <b-col cols="2">
                           <label>Id Curso:</label>
-                          <b-form-input id="identificador_curso" name="identificador_curso" v-model="curso_.identificador_curso">
+                          <b-form-input id="identificador_curso" name="identificador_curso" v-model="curso_.identificador_curso" autocomplete="off">
                           </b-form-input>
                         </b-col>
                         <b-col cols="3">

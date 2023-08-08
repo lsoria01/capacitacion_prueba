@@ -27,6 +27,7 @@ class BitacoraController extends Controller
             'bitacora.descripcion',
             'bitacora.created_at'          
         ])
+        ->orderBy("id")
         ->get();
         return $bitacoras;
     }

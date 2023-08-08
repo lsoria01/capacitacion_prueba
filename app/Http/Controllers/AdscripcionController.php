@@ -7,6 +7,7 @@ use App\Models\Adscripcion;
 use App\Models\Bitacora;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class AdscripcionController extends Controller
 {
@@ -28,6 +29,9 @@ class AdscripcionController extends Controller
         ->orderBy("id")
         ->get();
         return $adscripciones; 
+
+        /* $fecha = Carbon::now('America/Mexico_City');
+        return $fecha->format('l jS \\of F Y h:i:s A'); */
     }
 
     /**
@@ -54,7 +58,9 @@ class AdscripcionController extends Controller
 
         $bitacora = new Bitacora();
         $bitacora->usuario_id = Auth::id();
-        $bitacora->descripcion = "Creó una nueva adscripción llamada: ". " " . $adscripciones->nombre;
+        $bitacora->descripcion = 
+        " Creó una nueva adscripción llamada: ".
+        $adscripciones->nombre;
         $bitacora->save(); 
 
         return $adscripciones;
@@ -92,12 +98,19 @@ class AdscripcionController extends Controller
     public function update(Request $request, $id)
     {
         $adscripciones = Adscripcion::find($id);
+        $nombre_anterior = $adscripciones->nombre;
         $adscripciones->nombre = Str::upper($request->nombre);
         $adscripciones->save();
 
         $bitacora = new Bitacora();
         $bitacora->usuario_id = Auth::id();
-        $bitacora->descripcion = "Actualizó la adscripción con id: " .$id. " por el nuevo nombre:". " " . $adscripciones->nombre;
+        $bitacora->descripcion = 
+        "Actualizó la adscripción con id: " .
+        $id.
+        ", que antes se llamaba: " .
+        $nombre_anterior. 
+        " por el nuevo nombre: ".
+        $adscripciones->nombre;
         $bitacora->save(); 
 
         return $adscripciones;

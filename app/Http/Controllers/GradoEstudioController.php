@@ -54,7 +54,9 @@ class GradoEstudioController extends Controller
 
         $bitacora = new Bitacora();
         $bitacora->usuario_id = Auth::id();
-        $bitacora->descripcion = "Creó un nuevo grado de estudios llamado: ". " " . $grados->nombre;
+        $bitacora->descripcion = 
+        " Creó un nuevo grado de estudios llamado: ".
+        $grados->nombre;
         $bitacora->save(); 
         
         return $grados;
@@ -92,12 +94,19 @@ class GradoEstudioController extends Controller
     public function update(Request $request, $id)
     {
         $grados = GradoEstudio::find($id);
+        $nombre_anterior = $grados->nombre;
         $grados->nombre = Str::upper($request->nombre);
         $grados->save();
 
         $bitacora = new Bitacora();
         $bitacora->usuario_id = Auth::id();
-        $bitacora->descripcion = "Actualizó el grado de estudios con id: " .$id. " por el nuevo nombre:". " " . $grados->nombre;
+        $bitacora->descripcion = 
+        " Actualizó el grado de estudios con id: " .
+        $id.
+        ", que antes se llamaba: " .
+        $nombre_anterior. 
+        " por el nuevo nombre: ".
+        $grados->nombre;
         $bitacora->save(); 
 
         return $grados;

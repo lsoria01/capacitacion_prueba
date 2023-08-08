@@ -54,7 +54,9 @@ class PuestoController extends Controller
 
         $bitacora = new Bitacora();
         $bitacora->usuario_id = Auth::id();
-        $bitacora->descripcion = "Creó un nuevo puesto llamado: ". " " . $puestos->nombre;
+        $bitacora->descripcion = 
+        "Creó un nuevo puesto llamado: ".
+        $puestos->nombre;
         $bitacora->save(); 
 
         return $puestos;
@@ -92,12 +94,19 @@ class PuestoController extends Controller
     public function update(Request $request, $id)
     {
         $puestos = Puesto::find($id);
+        $nombre_anterior = $puestos->nombre;
         $puestos->nombre = Str::upper($request->nombre);
         $puestos->save();
 
         $bitacora = new Bitacora();
         $bitacora->usuario_id = Auth::id();
-        $bitacora->descripcion = "Actualizó el puesto con id: " .$id. " por el nuevo nombre:". " " . $puestos->nombre;
+        $bitacora->descripcion =
+        "Actualizó el puesto con id: " .
+        $id.
+        ", que antes se llamaba: " .
+        $nombre_anterior.
+        " por el nuevo nombre: ".
+        $puestos->nombre;
         $bitacora->save(); 
 
         return $puestos;

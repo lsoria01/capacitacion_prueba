@@ -54,7 +54,9 @@ class EstadoController extends Controller
 
         $bitacora = new Bitacora();
         $bitacora->usuario_id = Auth::id();
-        $bitacora->descripcion = "Creó un nuevo estado llamado: ". " " . $estados->nombre;
+        $bitacora->descripcion = 
+        " Creó un nuevo estado llamado: ".
+        $estados->nombre;
         $bitacora->save(); 
 
         return $estados;
@@ -92,12 +94,19 @@ class EstadoController extends Controller
     public function update(Request $request, $id)
     {
         $estados = Estado::find($id);
+        $nombre_anterior = $estados->nombre;
         $estados->nombre = Str::upper($request->nombre);
         $estados->save();
 
         $bitacora = new Bitacora();
         $bitacora->usuario_id = Auth::id();
-        $bitacora->descripcion = "Actualizó el estado con id: " .$id. " por el nuevo nombre:". " " . $estados->nombre;
+        $bitacora->descripcion =
+        " Actualizó el estado con id: " .
+        $id.
+        ", que antes se llamaba: " .
+        $nombre_anterior. 
+        " por el nuevo nombre: ".
+        $estados->nombre;
         $bitacora->save(); 
 
         return $estados;

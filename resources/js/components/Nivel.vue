@@ -44,12 +44,12 @@
                       <b-row>
                         <b-col cols="4">
                           <label>Nomenclatura:</label>
-                          <b-form-input id="nomenclatura" name="nomenclatura" v-model="nivel.nomenclatura" required>
+                          <b-form-input id="nomenclatura" name="nomenclatura" v-model="nivel.nomenclatura" autocomplete="off" required>
                           </b-form-input>
                         </b-col>
                         <b-col cols="8">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="nivel.nombre" style="text-transform:uppercase" required>
+                          <b-form-input id="nombre" name="nombre" v-model="nivel.nombre" style="text-transform:uppercase" autocomplete="off" required>
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -68,12 +68,12 @@
                       <b-row>
                         <b-col cols="4">
                           <label>Nomenclatura:</label>
-                          <b-form-input id="nomenclatura" name="nomenclatura" v-model="nivel_.nomenclatura">
+                          <b-form-input id="nomenclatura" name="nomenclatura" v-model="nivel_.nomenclatura" autocomplete="off">
                           </b-form-input>
                         </b-col>
                         <b-col cols="8">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="nivel_.nombre" style="text-transform:uppercase">
+                          <b-form-input id="nombre" name="nombre" v-model="nivel_.nombre" style="text-transform:uppercase" autocomplete="off">
                           </b-form-input>
                         </b-col>
                       </b-row>

@@ -44,7 +44,7 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="grado.nombre" style="text-transform:uppercase" required>
+                          <b-form-input id="nombre" name="nombre" v-model="grado.nombre" style="text-transform:uppercase" autocomplete="off" required>
                           </b-form-input>
                         </b-col>
                       </b-row>
@@ -63,7 +63,7 @@
                       <b-row>
                         <b-col cols="12">
                           <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="grado_.nombre" style="text-transform:uppercase">
+                          <b-form-input id="nombre" name="nombre" v-model="grado_.nombre" style="text-transform:uppercase" autocomplete="off">
                           </b-form-input>
                         </b-col>
                       </b-row>

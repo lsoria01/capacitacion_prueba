@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Nombramiento;
+use App\Models\Bitacora;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +61,24 @@ class NombramientoController extends Controller
         $nombramientos->fec_emis = $request->fec_emis;
         $nombramientos->fec_ratif = $request->fec_ratif;
         $nombramientos->save();
+
+        $usuario = DB::table('usuarios')
+                ->where('id', $nombramientos->usuario_id)
+                ->value('usuario');
+
+        $bitacora = new Bitacora();
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = 
+        " Creó un nuevo nombramiento del tipo: ".
+        $nombramientos->tipo.
+        ", para el usuario: ".
+        $usuario.
+        ", con fecha de emisión: ".
+        $nombramientos->fec_emis.
+        ", y fecha de retificación: ".
+        $nombramientos->fec_ratif;
+        $bitacora->save(); 
+
         return $nombramientos;
     }
 
@@ -95,11 +114,49 @@ class NombramientoController extends Controller
     public function update(Request $request, $id)
     {
         $nombramientos = Nombramiento::find($id);
+
+        //Se recupera el valor anterior antes del request
+        $usuario_anterior = DB::table('usuarios')
+                ->where('id', $nombramientos->usuario_id)
+                ->value('usuario');
+
         $nombramientos->usuario_id = $request->usuario_id;
+
+        //Se obtiene el valor después del request
+        $usuario = DB::table('usuarios')
+                ->where('id', $nombramientos->usuario_id)
+                ->value('usuario');
+
+        $tipo_anterior = $nombramientos->tipo;
         $nombramientos->tipo = Str::upper($request->tipo);
+        $fec_emis_anterior = $nombramientos->fec_emis;
         $nombramientos->fec_emis = $request->fec_emis;
+        $fec_ratif_anterior = $nombramientos->fec_ratif;
         $nombramientos->fec_ratif = $request->fec_ratif;
         $nombramientos->save();
+        $bitacora = new Bitacora();
+        $bitacora->usuario_id = Auth::id();
+        $bitacora->descripcion = 
+        " Actualizó el nombramiento con id: ".
+        $nombramientos->id.
+        ", que era del tipo: ".
+        $tipo_anterior.
+        ", por el nuevo tipo: ".
+        $nombramientos->tipo.
+        ", para el usuario que antes era: ".
+        $usuario_anterior.
+        ", por el usuario que ahora es: ".
+        $usuario.
+        ", con fecha de emisión que era: ".
+        $fec_emis_anterior.
+        ", por la fecha de emisión que ahora es: ".
+        $nombramientos->fec_emis.
+        ", con fecha de ratificación que antes era: ".
+        $fec_ratif_anterior.
+        ", por la fecha de ratificación que ahora es: ".
+        $nombramientos->fec_ratif;
+        $bitacora->save(); 
+
         return $nombramientos;
     }
 

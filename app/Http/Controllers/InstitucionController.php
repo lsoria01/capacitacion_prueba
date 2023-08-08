@@ -59,7 +59,13 @@ class InstitucionController extends Controller
 
         $bitacora = new Bitacora();
         $bitacora->usuario_id = Auth::id();
-        $bitacora->descripcion = "Creó un nueva Institución, con nombre: ". $instituciones->nombre . ", de tipo: " . $request->tipo. ", con siglas: ".$request->siglas ;
+        $bitacora->descripcion =
+        "Creó un nueva Institución, con nombre: ".
+        $instituciones->nombre.
+        ", de tipo: " .
+        $request->tipo.
+        ", con siglas: ".
+        $request->siglas ;
         $bitacora->save();
 
         return $instituciones;
@@ -99,14 +105,31 @@ class InstitucionController extends Controller
     public function update(Request $request, $id)
     {
         $instituciones = Institucion::find($id);
+        $nombre_anterior = $instituciones->nombre;
         $instituciones->nombre = Str::upper($request->nombre);
+        $tipo_anterior = $instituciones->tipo;
         $instituciones->tipo = $request->tipo;
+        $siglas_anterior = $instituciones->siglas;
         $instituciones->siglas = $request->siglas;
         $instituciones->save();
 
         $bitacora = new Bitacora();
         $bitacora->usuario_id = Auth::id();
-        $bitacora->descripcion = "Actualizó la Institución con id: " .$id. ", por el nuevo nombre: ". $instituciones->nombre . ", por el tipo: " . $request->tipo. ", y por las siglas: ".$request->siglas ;
+        $bitacora->descripcion =
+        "Actualizó la Institución con id: " .
+        $id.
+        ", que antes se llamaba: " .
+        $nombre_anterior.
+        ", por el nuevo nombre: ".
+        $instituciones->nombre .
+        ", del tipo que antes era: " .
+        $tipo_anterior.
+        ", por el nuevo tipo: " .
+        $instituciones->tipo.
+        ", de las siglas que antes eran: " .
+        $siglas_anterior.
+        ", por las nuevas siglas: ".
+        $instituciones->siglas ;
         $bitacora->save();
 
         return $instituciones;

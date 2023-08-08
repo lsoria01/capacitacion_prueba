@@ -105,25 +105,36 @@ class SedeController extends Controller
     public function update(Request $request, $id)
     {
         $sedes = Sede::find($id);
+        $nombre_anterior = $sedes->nombre;
+
+        //Se recupera el valor anterior antes del request
+        $estado_anterior = DB::table('estados')
+                ->where('id', $sedes->estado_id)
+                ->value('nombre');
+        
         $sedes->nombre = Str::upper($request->nombre);
         $sedes->estado_id = $request->estado_id;
         $sedes->save();
 
+        //Se obtiene el valor después del request
         $estado = DB::table('estados')
                 ->where('id', $sedes->estado_id)
                 ->value('nombre');
-
+        
         $bitacora = new Bitacora();
         $bitacora->usuario_id = Auth::id();
         $bitacora->descripcion =
             " Actualizó el curso con id: ".
-            $id. 
-            " por el nuevo nombre: ". 
-            $sedes->nombre .
-            ", Del estado de : ". 
+            $id.
+            ", que antes se llamaba: " .
+            $nombre_anterior. 
+            ", por el nuevo nombre: ". 
+            $sedes->nombre.
+            ", del estado que antes era: ".
+            $estado_anterior.
+            ", al nuevo estado: ". 
             $estado;            
         $bitacora->save();
-        
         return $sedes;
     }
 

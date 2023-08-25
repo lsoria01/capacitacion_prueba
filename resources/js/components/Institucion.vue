@@ -42,27 +42,39 @@
             <b-modal centered id="modal-crear" size="lg" title="Nueva Institución" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
-                        <b-col cols="12">
-                          <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="institucion.nombre" style="text-transform:uppercase" autocomplete="off" required>
-                          </b-form-input>
+                        <b-col cols="12" lg="12">
+                          <b-form-group
+                              label-for="nombre" 
+                              label-size="sm" 
+                              label="Nombre:">
+                              <b-form-input id="nombre" size="sm" name="nombre" v-model="institucion.nombre" style="text-transform:uppercase" autocomplete="off" required>
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <b-row>
-                        <b-col cols="6">
-                          <label>Tipo:</label>
-                          <b-form-input id="tipo" name="tipo" v-model="institucion.tipo" autocomplete="off" required>
-                          </b-form-input>
+                        <b-col cols="12" lg="6">
+                          <b-form-group
+                              label-for="tipo" 
+                              label-size="sm" 
+                              label="Tipo:">
+                              <b-form-input id="tipo" size="sm" name="tipo" v-model="institucion.tipo" autocomplete="off" required>
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="6">
-                          <label>Siglas:</label>
-                          <b-form-input id="siglas" name="siglas" v-model="institucion.siglas" autocomplete="off" required>
-                          </b-form-input>                          
+                        <b-col cols="12" lg="6">
+                          <b-form-group
+                              label-for="tipo" 
+                              label-size="sm" 
+                              label="Siglas:">
+                              <b-form-input id="siglas" size="sm" name="siglas" v-model="institucion.siglas" autocomplete="off" required>
+                              </b-form-input>
+                          </b-form-group>                          
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <b-button class="botones" type="submit">Guardar</b-button>
+                              <b-button class="botones" size="sm" type="submit">Guardar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>
@@ -73,27 +85,39 @@
             <b-modal centered id="modal-editar" size="lg" title="Editar Institución" hide-footer>
                     <b-form @submit.prevent="editar(institucion_)">
                       <b-row>
-                        <b-col cols="12">
-                          <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="institucion_.nombre" style="text-transform:uppercase" autocomplete="off">
-                          </b-form-input>
+                        <b-col cols="12" lg="12">
+                          <b-form-group
+                              label-for="tipo" 
+                              label-size="sm" 
+                              label="Nombre:">
+                              <b-form-input id="nombre" size="sm" name="nombre" v-model="institucion_.nombre" style="text-transform:uppercase" autocomplete="off">
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <b-row>
-                        <b-col cols="6">
-                          <label>Tipo:</label>
-                          <b-form-input id="tipo" name="tipo" v-model="institucion_.tipo" autocomplete="off">
-                          </b-form-input>
+                        <b-col cols="12" lg="6">
+                          <b-form-group
+                              label-for="tipo" 
+                              label-size="sm" 
+                              label="Tipo:">
+                              <b-form-input id="tipo" size="sm" name="tipo" v-model="institucion_.tipo" autocomplete="off">
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="6">
-                          <label>Siglas:</label>
-                          <b-form-input id="siglas" name="siglas" v-model="institucion_.siglas" autocomplete="off">
-                          </b-form-input>                          
+                        <b-col cols="12" lg="6">
+                          <b-form-group
+                              label-for="tipo" 
+                              label-size="sm" 
+                              label="Siglas:">
+                            <b-form-input id="siglas" size="sm" name="siglas" v-model="institucion_.siglas" autocomplete="off">
+                            </b-form-input> 
+                          </b-form-group>                         
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <b-button class="botones" type="submit">Editar</b-button>
+                              <b-button class="botones" size="sm" type="submit">Editar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>

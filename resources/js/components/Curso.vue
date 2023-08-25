@@ -42,71 +42,112 @@
             <b-modal centered id="modal-crear" size="xl" title="Nuevo Curso" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
-                        <b-col cols="10">
-                          <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="curso.nombre" style="text-transform:uppercase" autocomplete="off" required>
-                          </b-form-input>
+                        <b-col cols="12" lg="9">
+                          <b-form-group
+                              label-for="nombre" 
+                              label-size="sm" 
+                              label="Nombre:">
+                              <b-form-input id="nombre" size="sm" name="nombre" v-model="curso.nombre" style="text-transform:uppercase" autocomplete="off" required>
+                              </b-form-input>
+                              </b-form-group>
                         </b-col>
-                        <b-col cols="2">
-                          <label for="">¿Curso Obligatorio?</label>
-                          <b-form-checkbox v-model="curso.curso_oblig" name="curso_oblig" switch required>
-                            <b v-if="curso.curso_oblig"> Si</b> <b v-else>No</b>
-                          </b-form-checkbox>
-                        </b-col>
-                      </b-row>
-                      <br>
-                      <b-row>
-                        <b-col cols="4">
-                          <label for="fecha_inicio">Fecha de inicio:</label>
-                          <b-form-datepicker id="fecha_inicio" v-model="curso.fecha_inicio" placeholder="" required></b-form-datepicker>
-                        </b-col>
-                        <b-col cols="4">
-                          <label for="fecha_fin">Fecha de fin:</label>
-                          <b-form-datepicker id="fecha_fin" v-model="curso.fecha_fin" placeholder="" required></b-form-datepicker>
-                        </b-col>
-                        <b-col cols="2">
-                          <label>Hrs de Capacitación:</label>
-                          <b-form-input type="number" v-model="curso.hrs_cap" required>
-                          </b-form-input>
-                        </b-col>
-                        <b-col cols="2">
-                          <label for="">Curso Interno o Externo:</label>
-                            <b-form-checkbox v-model="curso.curso_int_ext" name="curso_int_ext" switch required>
-                            <b v-if="curso.curso_int_ext"> Externo</b> <b v-else>Interno</b>
-                          </b-form-checkbox>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="curso_oblig" 
+                              label-size="sm" 
+                              label="¿Curso Obligatorio?">
+                              <b-form-checkbox id="curso_oblig" size="sm" v-model="curso.curso_oblig" name="curso_oblig" switch required>
+                                <b v-if="curso.curso_oblig"> Si</b> <b v-else>No</b>
+                              </b-form-checkbox>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <br>
                       <b-row>
-                        <b-col cols="2">
-                          <label for="">Difundido por la DP:</label>
-                          <b-form-select v-model="curso.difundido_DP" :options="difundido_DPs" required></b-form-select>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="fecha_inicio" 
+                              label-size="sm" 
+                              label="Fecha de inicio:">
+                              <b-form-input id="fecha_inicio" type="date" size="sm" v-model="curso.fecha_inicio" placeholder="" required></b-form-input>
+                            </b-form-group>
                         </b-col>
-                        <b-col cols="10">
-                          <label for="institucion_id">Institución:</label>
-                          <b-form-input list="institucion_id" v-model="curso.institucion_id" autocomplete="off" required>
-                          </b-form-input>
-                          <span class="span">Seleccione una institución de la lista</span>
-                          <datalist id="institucion_id">
-                            <option v-for="institucion in instituciones">{{ institucion.nombre }}</option>  
-                          </datalist>                          
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="fecha_fin" 
+                              label-size="sm" 
+                              label="Fecha de fin:">
+                              <b-form-input id="fecha_fin" type="date" size="sm" v-model="curso.fecha_fin" placeholder="" required></b-form-input>
+                            </b-form-group>
+                        </b-col>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="hrs_cap" 
+                              label-size="sm" 
+                              label="Hrs. de Capacitación:">
+                              <b-form-input id="hrs_cap" size="sm" type="number" v-model="curso.hrs_cap" required>
+                              </b-form-input>
+                          </b-form-group>
+                        </b-col>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="curso_int_ext" 
+                              label-size="sm" 
+                              label="Curso Interno o Externo:">
+                              <label for=""></label>
+                              <b-form-checkbox id="curso_int_ext" size="sm" v-model="curso.curso_int_ext" name="curso_int_ext" switch>
+                              <b v-if="curso.curso_int_ext"> Externo</b> <b v-else>Interno</b>
+                              </b-form-checkbox>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <br>
                       <b-row>
-                        <b-col cols="2">
-                          <label>Id Curso:</label>
-                          <b-form-input id="identificador_curso" name="identificador_curso" v-model="curso.identificador_curso" autocomplete="off" required>
-                          </b-form-input>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="difundido_DP" 
+                              label-size="sm" 
+                              label="Difundido por la DP:">
+                              <b-form-select id="difundido_DP" size="sm" v-model="curso.difundido_DP" :options="difundido_DPs" required></b-form-select>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="3">
-                          <label>Modalidad:</label>
-                          <b-form-select v-model="curso.modalidad" :options="modalidads" required></b-form-select>
+                        <b-col cols="12" lg="9">
+                          <b-form-group
+                              label-for="institucion_id" 
+                              label-size="sm" 
+                              label="Institución:">
+                            <b-form-input list="institucion_id" size="sm" v-model="curso.institucion_id" autocomplete="off" required>
+                            </b-form-input>
+                            <span class="span">Seleccione una institución de la lista</span>
+                            <datalist id="institucion_id">
+                              <option v-for="institucion in instituciones">{{ institucion.nombre }}</option>  
+                            </datalist>
+                          </b-form-group>                          
+                        </b-col>
+                      </b-row>
+                      <br>
+                      <b-row>
+                        <b-col cols="12" lg="2">
+                          <b-form-group
+                              label-for="identificador_curso" 
+                              label-size="sm" 
+                              label="Id Curso:">
+                              <b-form-input id="identificador_curso" size="sm" name="identificador_curso" v-model="curso.identificador_curso" autocomplete="off" required>
+                              </b-form-input>
+                          </b-form-group>
+                        </b-col>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="modalidad" 
+                              label-size="sm" 
+                              label="Modalidad:">
+                            <b-form-select id="modalidad" size="sm" v-model="curso.modalidad" :options="modalidads" required></b-form-select>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <b-button class="botones" type="submit">Guardar</b-button>
+                              <b-button class="botones" size="sm" type="submit">Guardar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>
@@ -117,72 +158,111 @@
             <b-modal centered id="modal-editar" size="xl" title="Editar Curso" hide-footer>
                     <b-form @submit.prevent="editar(curso_)">
                       <b-row>
-                        <b-col cols="10">
-                          <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="curso_.nombre" style="text-transform:uppercase" autocomplete="off">
-                          </b-form-input>
-                          <span class="span">Si desea cambiar el nombre, deberá borrar el existente y seleccionar uno nuevo</span>
+                        <b-col cols="12" lg="9">
+                          <b-form-group
+                              label-for="nombre" 
+                              label-size="sm" 
+                              label="Nombre:">
+                              <b-form-input id="nombre" size="sm" name="nombre" v-model="curso_.nombre" style="text-transform:uppercase" autocomplete="off">
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="2">
-                          <label for="">¿Curso Obligatorio?</label>
-                          <b-form-checkbox v-model="curso_.curso_oblig" name="check-button" switch>
-                            <b v-if="curso_.curso_oblig"> Si</b> <b v-else>No</b>
-                          </b-form-checkbox>
-                        </b-col>
-                      </b-row>
-                      <br>
-                      <b-row>
-                        <b-col cols="4">
-                          <label for="fecha_inicio">Fecha de inicio:</label>
-                          <b-form-datepicker id="fecha_inicio" v-model="curso_.fecha_inicio" placeholder=""></b-form-datepicker>
-                        </b-col>
-                        <b-col cols="4">
-                          <label for="fecha_fin">Fecha de fin:</label>
-                          <b-form-datepicker id="fecha_fin" v-model="curso_.fecha_fin" placeholder=""></b-form-datepicker>
-                        </b-col>
-                        <b-col cols="2">
-                          <label>Hrs de Capacitación:</label>
-                          <b-form-input type="number" v-model="curso_.hrs_cap">
-                          </b-form-input>
-                        </b-col>
-                        <b-col cols="2">
-                          <label for="">Curso Interno o Externo:</label>
-                            <b-form-checkbox v-model="curso_.curso_int_ext" switch>
-                            <b v-if="curso_.curso_int_ext"> Externo</b> <b v-else>Interno</b>
-                          </b-form-checkbox>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="curso_oblig" 
+                              label-size="sm" 
+                              label="¿Curso Obligatorio?">
+                              <b-form-checkbox size="sm" id="curso_oblig" v-model="curso_.curso_oblig" name="check-button" switch>
+                                <b v-if="curso_.curso_oblig"> Si</b> <b v-else>No</b>
+                              </b-form-checkbox>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <br>
                       <b-row>
-                        <b-col cols="2">
-                          <label for="">Difundido por la DP:</label>
-                          <b-form-select v-model="curso_.difundido_DP" :options="difundido_DPs"></b-form-select>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="fecha_inicio" 
+                              label-size="sm" 
+                              label="Fecha de inicio:">
+                              <b-form-input id="fecha_inicio" type="date" size="sm" v-model="curso_.fecha_inicio" placeholder=""></b-form-input>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="10">
-                          <label for="institucion_id">Institución:</label>
-                          <b-form-input list="institucion_id" v-model="curso_.institucion_id" autocomplete="off">
-                          </b-form-input>
-                          <span class="span">Si desea cambiar la Institución, deberá borrar la existente y seleccionar una nueva</span>
-                          <datalist id="institucion_id">
-                            <option v-for="institucion in instituciones">{{ institucion.nombre }}</option>  
-                          </datalist>                          
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="fecha_fin" 
+                              label-size="sm" 
+                              label="Fecha de fin:">
+                              <b-form-input id="fecha_fin" type="date" size="sm" v-model="curso_.fecha_fin" placeholder=""></b-form-input>
+                          </b-form-group>
+                        </b-col>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="hrs_cap" 
+                              label-size="sm" 
+                              label="Hrs de Capacitación:">
+                              <b-form-input type="number" id="hrs_cap" size="sm" v-model="curso_.hrs_cap">
+                              </b-form-input>
+                          </b-form-group>
+                        </b-col>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="curso_int_ext" 
+                              label-size="sm" 
+                              label="Curso Interno o Externo:">
+                              <b-form-checkbox id="curso_int_ext" size="sm" v-model="curso_.curso_int_ext" switch>
+                              <b v-if="curso_.curso_int_ext"> Externo</b> <b v-else>Interno</b>
+                              </b-form-checkbox>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <br>
                       <b-row>
-                        <b-col cols="2">
-                          <label>Id Curso:</label>
-                          <b-form-input id="identificador_curso" name="identificador_curso" v-model="curso_.identificador_curso" autocomplete="off">
-                          </b-form-input>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="difundido_DP" 
+                              label-size="sm" 
+                              label="Difundido por la DP:">
+                            <b-form-select id="difundido_DP" size="sm" v-model="curso_.difundido_DP" :options="difundido_DPs"></b-form-select>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="3">
-                          <label>Modalidad:</label>
-                          <b-form-select v-model="curso_.modalidad" :options="modalidads" required></b-form-select>
+                        <b-col cols="12" lg="9">
+                          <b-form-group
+                              label-for="institucion_id" 
+                              label-size="sm" 
+                              label="Institución::">
+                              <b-form-input list="institucion_id" size="sm" v-model="curso_.institucion_id" autocomplete="off">
+                              </b-form-input>
+                              <span class="span">Si desea cambiar la Institución, deberá borrar la existente y seleccionar una nueva</span>
+                              <datalist id="institucion_id">
+                                <option v-for="institucion in instituciones">{{ institucion.nombre }}</option>  
+                              </datalist> 
+                          </b-form-group>                         
+                        </b-col>
+                      </b-row>
+                      <br>
+                      <b-row>
+                        <b-col cols="12" lg="2">
+                          <b-form-group
+                              label-for="identificador_curso" 
+                              label-size="sm" 
+                              label="Id Curso:">
+                            <b-form-input id="identificador_curso" size="sm" name="identificador_curso" v-model="curso_.identificador_curso" autocomplete="off">
+                            </b-form-input>
+                          </b-form-group>
+                        </b-col>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="modalidad" 
+                              label-size="sm" 
+                              label="Modalidad:">
+                            <b-form-select id="modalidad" size="sm" v-model="curso_.modalidad" :options="modalidads" required></b-form-select>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <b-button class="botones" type="submit">Editar</b-button>
+                              <b-button class="botones" size="sm" type="submit">Editar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>
@@ -192,67 +272,106 @@
 
             <b-modal centered id="modal-detalles" size="xl" title="Detalles del Curso" ok-only>
                       <b-row>
-                        <b-col cols="10">
-                          <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="curso_.nombre" readonly>
-                          </b-form-input>
+                        <b-col cols="12" lg="9">
+                          <b-form-group
+                              label-for="nombre" 
+                              label-size="sm" 
+                              label="Nombre:">
+                              <b-form-input id="nombre" size="sm" name="nombre" v-model="curso_.nombre" readonly>
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="2">
-                          <label for="">¿Curso Obligatorio?</label> 
-                          <br>
-                          <b-form-input v-if="curso_.curso_oblig" readonly value="Si"></b-form-input>
-                          <b-form-input v-if="curso_.curso_oblig === false" readonly value="No"></b-form-input>
-                          <b-form-input v-if="curso_.curso_oblig === null " readonly value="Sin información"></b-form-input>
-                        </b-col>
-                      </b-row>
-                      <br>
-                      <b-row>
-                        <b-col cols="4">
-                          <label for="fecha_inicio">Fecha de inicio:</label>
-                          <b-form-datepicker id="fecha_inicio" v-model="curso_.fecha_inicio" readonly></b-form-datepicker>
-                        </b-col>
-                        <b-col cols="4">
-                          <label for="fecha_fin">Fecha de fin:</label>
-                          <b-form-datepicker id="fecha_fin" v-model="curso_.fecha_fin" readonly></b-form-datepicker>
-                        </b-col>
-                        <b-col cols="2">
-                          <label>Hrs de Capacitación:</label>
-                          <b-form-input v-model="curso_.hrs_cap" readonly>
-                          </b-form-input>
-                        </b-col>
-                        <b-col cols="2">
-                          <label for="">Curso Int. o Ext. :</label>
-                          <b-form-input v-if="curso_.curso_int_ext" readonly value="Externo"></b-form-input>
-                          <b-form-input v-else readonly value="Interno"></b-form-input>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="curso_oblig" 
+                              label-size="sm" 
+                              label="¿Curso Obligatorio?">
+                              <b-form-input id="curso_oblig" size="sm" v-if="curso_.curso_oblig" readonly value="Si"></b-form-input>
+                              <b-form-input id="curso_oblig" size="sm" v-if="curso_.curso_oblig === false" readonly value="No"></b-form-input>
+                              <b-form-input id="curso_oblig" size="sm" v-if="curso_.curso_oblig === null " readonly value="Sin información"></b-form-input>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <br>
                       <b-row>
-                        <b-col cols="2">
-                          <label for="">Difundido por la DP:</label>
-                          <b-form-input v-if="curso_.difundido_DP" readonly value="Si"></b-form-input>
-                          <b-form-input v-if="curso_.difundido_DP === false" readonly value="No"></b-form-input>
-                          <b-form-input v-if="curso_.difundido_DP === null " readonly value="Sin información"></b-form-input>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="fecha_inicio" 
+                              label-size="sm" 
+                              label="Fecha de inicio:">
+                              <b-form-input id="fecha_inicio" type="date" size="sm" v-model="curso_.fecha_inicio" readonly></b-form-input>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="10">
-                          <label for="institucion_id">Institución:</label>
-                          <b-form-input list="institucion_id" v-model="curso_.institucion_id" autocomplete="off" readonly>
-                          </b-form-input>
-                          <datalist id="institucion_id">
-                            <option v-for="institucion in instituciones">{{ institucion.nombre }}</option>  
-                          </datalist>                          
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="fecha_fin" 
+                              label-size="sm" 
+                              label="Fecha de fin:">
+                              <b-form-input id="fecha_fin" type="date" size="sm" v-model="curso_.fecha_fin" readonly></b-form-input>
+                          </b-form-group>
+                        </b-col>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="hrs_cap" 
+                              label-size="sm" 
+                              label="Hrs de Capacitación:">
+                              <b-form-input id="hrs_cap" size="sm" v-model="curso_.hrs_cap" readonly>
+                            </b-form-input>
+                          </b-form-group>
+                        </b-col>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="curso_int_ext" 
+                              label-size="sm" 
+                              label="Curso Int. o Ext. :">
+                              <b-form-input id="curso_int_ext" size="sm" v-if="curso_.curso_int_ext" readonly value="Externo"></b-form-input>
+                              <b-form-input id="curso_int_ext" size="sm" v-else readonly value="Interno"></b-form-input>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <br>
                       <b-row>
-                        <b-col cols="2">
-                          <label>Id Curso:</label>
-                          <b-form-input v-if="curso_.identificador_curso === null " readonly value="Sin información"></b-form-input>
-                          <b-form-input v-if="curso_.identificador_curso" readonly v-model="curso_.identificador_curso"></b-form-input>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="difundido_DP" 
+                              label-size="sm" 
+                              label="Difundido por la DP:">
+                              <b-form-input id="difundido_DP" size="sm" v-if="curso_.difundido_DP" readonly value="Si"></b-form-input>
+                              <b-form-input id="difundido_DP" size="sm" v-if="curso_.difundido_DP === false" readonly value="No"></b-form-input>
+                              <b-form-input id="difundido_DP" size="sm" v-if="curso_.difundido_DP === null " readonly value="Sin información"></b-form-input>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="3">
-                          <label>Modalidad:</label>
-                          <b-form-input v-model="curso_.modalidad" readonly></b-form-input>
+                        <b-col cols="12" lg="9">
+                          <b-form-group
+                              label-for="institucion_id" 
+                              label-size="sm" 
+                              label="Institución:">
+                              <b-form-input list="institucion_id" size="sm" v-model="curso_.institucion_id" autocomplete="off" readonly>
+                              </b-form-input>
+                              <datalist id="institucion_id">
+                                <option v-for="institucion in instituciones">{{ institucion.nombre }}</option>  
+                              </datalist> 
+                          </b-form-group>                         
+                        </b-col>
+                      </b-row>
+                      <br>
+                      <b-row>
+                        <b-col cols="12" lg="2">
+                          <b-form-group
+                              label-for="identificador_curso" 
+                              label-size="sm" 
+                              label="Id Curso:">
+                              <b-form-input id="identificador_curso" size="sm" v-if="curso_.identificador_curso === null " readonly value="Sin información"></b-form-input>
+                              <b-form-input id="identificador_curso" size="sm" v-if="curso_.identificador_curso" readonly v-model="curso_.identificador_curso"></b-form-input>
+                          </b-form-group>
+                        </b-col>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="modalidad" 
+                              label-size="sm" 
+                              label="Modalidad:">
+                              <b-form-input id="modalidad" size="sm" v-model="curso_.modalidad" readonly></b-form-input>
+                          </b-form-group>
                         </b-col>
                       </b-row>
             </b-modal>

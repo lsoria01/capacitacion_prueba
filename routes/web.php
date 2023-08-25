@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/correo', 'CorreoController@getMail');
+Route::post('/correo/getMail', 'CorreoController@getMail');
 
 Route::get('/', function () {
     return view('auth.login');

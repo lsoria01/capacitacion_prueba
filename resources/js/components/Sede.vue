@@ -42,24 +42,32 @@
             <b-modal centered id="modal-crear" title="Nueva Sede" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
-                        <b-col cols="12">
-                          <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="sede.nombre" style="text-transform:uppercase" autocomplete="off" required>
-                          </b-form-input>
+                        <b-col cols="12" lg="12">
+                          <b-form-group
+                              label-for="nombre" 
+                              label-size="sm" 
+                              label="Nombre:">
+                              <b-form-input id="nombre" size="sm" name="nombre" v-model="sede.nombre" style="text-transform:uppercase" autocomplete="off" required>
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
                         <b-col cols="12">
-                          <label>Estado:</label>
-                          <b-form-input list="estado" v-model="sede.estado_id" autocomplete="off" required>
-                          </b-form-input>
-                          <datalist id="estado">
-                            <option v-for="estado in estados">{{ estado.nombre }}</option>  
-                          </datalist>
-                          <span class="span">Seleccione un estado de la lista</span>
+                          <b-form-group
+                              label-for="estado" 
+                              label-size="sm" 
+                              label="Estado:">
+                              <b-form-input list="estado" size="sm" v-model="sede.estado_id" autocomplete="off" required>
+                              </b-form-input>
+                              <datalist id="estado">
+                              <option v-for="estado in estados">{{ estado.nombre }}</option>  
+                              </datalist>
+                              <span class="span">Seleccione un estado de la lista</span>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <b-button class="botones" type="submit">Guardar</b-button>
+                              <b-button class="botones" size="sm" type="submit">Guardar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>
@@ -70,24 +78,32 @@
             <b-modal centered id="modal-editar" title="Editar Sede" hide-footer>
                     <b-form @submit.prevent="editar(sede_)">
                       <b-row>
-                        <b-col cols="12">
-                          <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="sede_.nombre" style="text-transform:uppercase" required>
-                          </b-form-input>
+                        <b-col cols="12" lg="12">
+                          <b-form-group
+                              label-for="nombre" 
+                              label-size="sm" 
+                              label="Nombre:">
+                              <b-form-input id="nombre" size="sm" name="nombre" v-model="sede_.nombre" style="text-transform:uppercase" required>
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="12">
-                          <label>Estado:</label>
-                          <b-form-input list="estado" v-model="sede_.estado_id" autocomplete="off" required>
-                          </b-form-input>
-                          <datalist id="estado">
-                            <option v-for="estado in estados">{{ estado.nombre }}</option>  
-                          </datalist>
-                          <span class="span">Si desea editar el estado, deberá seleccionar uno nuevo de la lista:</span>
+                        <b-col cols="12" lg="12">
+                          <b-form-group
+                              label-for="estado" 
+                              label-size="sm" 
+                              label="Estado:">
+                              <b-form-input list="estado" v-model="sede_.estado_id" autocomplete="off" required>
+                              </b-form-input>
+                              <datalist id="estado">
+                                <option v-for="estado in estados">{{ estado.nombre }}</option>  
+                              </datalist>
+                              <span class="span">Si desea editar el estado, deberá seleccionar uno nuevo de la lista:</span>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <b-button class="botones" type="submit">Editar</b-button>
+                              <b-button class="botones" size="sm" type="submit">Editar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>

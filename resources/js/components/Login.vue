@@ -30,9 +30,9 @@
                                 <b-button block type="submit" class="mt-4 float-right botones">Ingresar</b-button>
                             </b-col>
                             <!-- Sección de recuperar contraseña -->
-                            <!-- <b-col cols="12">
+                            <b-col cols="12">
                                 <b-button variant="link" class="mt-4 float-right" v-b-modal.modal-reseteo style="font-size:13px;">Recuperar contraseña</b-button>
-                            </b-col>     -->                        
+                            </b-col>                            
                         </b-row>
                     </b-form>
                 </b-card-text>
@@ -49,11 +49,8 @@
                         <b-row class="my-1">
                             <p class="text-justify">Por favor, introduzca su correo <strong>electrónico institucional</strong></p> <br>
                             <b-col sm="12">
-                            <b-form-group
-                            label = Email:
-                            label-for="email"
-                            >
-                            <b-form-input type="email" id="email" required v-model="email" autocomplete="off"></b-form-input>
+                            <b-form-group>
+                            <b-form-input type="text" required v-model="correo" autocomplete="off"></b-form-input>
                             </b-form-group>
                             </b-col>
                         </b-row>
@@ -70,10 +67,21 @@
 export default {
     data(){
         return{
+            usuarios: [],
             curp: '',
-            password:''
+            password:'',
+            correo:'',
+            nombreCompleto:'',
+            indicio:''
         }
 
+    },
+
+    created(){
+        axios.get('/usuario')
+        .then(res => {
+            this.usuarios = res.data;
+        })
     },
 
     methods:{
@@ -99,9 +107,70 @@ export default {
                           }
                 }); 
         },
-        test(dataUrl,id){
-            console.log(url, id)
+
+        validar(){
+            //validar curp existente
+             var correo = this.correo;
+             var resultado = this.usuarios.filter(function(e)
+             {
+                 return e.correo === correo;
+                 
+             });
+             console.log(resultado);
+             if(resultado == ''){
+                 //Mostrar mensaje de error
+                this.$toaster.error(' El correo ingresado no coincide con los registros del sistema. ')
+             }
+             else{
+                //console.log('siguiente paso');
+                this.validar_existente();
+             }
+            
+        },
+
+        validar_existente(){
+            for(var usuario of this.usuarios){
+                if(this.correo === usuario.correo){
+                    this.nombreCompleto = usuario.persona_id;
+                    this.indicio = usuario.indicio;
+                    //console.log(usuario.correo, usuario.usuario);
+                    //console.log('pasa a la función validar_existente');
+                    const params = {
+                        correo: usuario.correo,
+                        usuario: usuario.usuario,
+                        indicio: this.indicio,
+                        nombreCompleto: this.nombreCompleto
+                    }
+                    //iniciar spinner
+                    var loader =  this.$loading.show({
+                    container: null
+                    });
+                    //ocultar modal
+                    this.$bvModal.hide('modal-reseteo');
+                    //console.log(this.correo);
+                    axios.post('/correo/getMail', params)
+                    .then(res =>{
+                        console.log(params);
+                        //ocultar spinner
+                        loader.hide(); 
+                        //Mostrar mensaje de confirmación de envío
+                        this.$toaster.success( `Se han enviado sus datos de acceso al correo: "${this.correo}" `)
+                        //limpiamos los campos
+                        this.correo = '';
+                    })
+                    .catch((error) => {
+                          if (error) {
+                              //Mostrar mensaje de error
+                              this.$toaster.error(' Ha ocurrido un error ')
+                              console.log(error);
+                          }
+                    }); 
+                }
+            }
+            
+            return;  
         }
+        
 
     }
 }

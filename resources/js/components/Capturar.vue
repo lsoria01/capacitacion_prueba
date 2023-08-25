@@ -49,37 +49,45 @@
           <b-modal centered id="modal-crear" size="xl" title="Nuevo Curso  Externo" hide-footer>
                   <b-form @submit.prevent="crear" enctype="multipart/form-data">
                     <b-row>
-                      <b-col cols="8">
-                        <label for="curso">Nombre del curso:</label> <br>
-                        <span class="span">Selecciona o busca el curso a registrar del listado:</span>
-                        <b-form-input list="curso" v-model="miCurso.curso_id" autocomplete="off" required>
-                        </b-form-input>
-                        <datalist id="curso">
-                          <option v-for="curso in cursos">{{ curso.nombre }}</option>  
-                        </datalist>
-                        <span class="span"> <u>Si tu curso no se encuentra en el listado. Debes ir al botón <strong>"el curso no aparece en el listado"</strong></u></span>                          
+                      <b-col cols="11" lg="8">
+                        <b-form-group
+                            label-for="curso_id" 
+                            label-size="sm" 
+                            label="Nombre del curso:">
+                            <span class="span">Selecciona o busca el curso a registrar del listado:</span>
+                            <b-form-input list="curso_id" size="sm" v-model="miCurso.curso_id" autocomplete="off" required>
+                            </b-form-input>
+                            <datalist id="curso_id">
+                              <option v-for="curso in cursos">{{ curso.nombre }}</option>  
+                            </datalist>
+                            <span class="span"> <u>Si tu curso no se encuentra en el listado. Debes ir al botón <strong>"el curso no aparece en el listado"</strong></u></span>  
+                        </b-form-group>                        
                       </b-col>
-                      <b-col cols="1">
+                      <b-col cols="1" lg="1">
                         <b-button size="sm" 
                           class="botones" 
-                          style="margin-top: 55px; margin-left: -20px;" 
+                          style="margin-top: 60px; margin-left: -20px;" 
                           v-b-tooltip.hover title="Haga click para buscar los detalles del curso seleccionado"
                           @click="buscaDetalles()">
                           <b-icon icon="search"></b-icon>
                         </b-button>                        
                       </b-col>
-                      <b-col cols="2">
-                        <label for="">Acreditación</label>
-                        <b-form-checkbox v-model="miCurso.aprobado" name="check-button" switch required>
-                          <b v-if="miCurso.aprobado"> Aprobado</b> <b v-else>No aprobado</b>
-                        </b-form-checkbox>
+                      <b-col cols="12" lg="3">
+                        <b-form-group
+                            label-for="aprobado" 
+                            label-size="sm" 
+                            label="Acreditación:">
+                            <b-form-checkbox id="aprobado" size="sm" v-model="miCurso.aprobado" name="check-button" switch required>
+                              <b id="aprobado" v-if="miCurso.aprobado"> Aprobado</b> <b v-else id="aprobado">No aprobado</b>
+                            </b-form-checkbox>
+                        </b-form-group>
                       </b-col>
                     </b-row>
                     <br>
                     <b-row v-if="detalles">
-                      <b-col cols="11">
+                      <b-col cols="12" lg="11">
                         <b-card sub-title="Detalles del curso">
-                          <b-card-text>
+                          <b-card-text class="tarjeta">
                             <b> - Institución:</b>  <p style="color: #285C4D; display: inline;"> {{ detallesCurso.institucion_id }} </p><br>
                             <b> - Horas de Capacitación:</b> <p style="color: #285C4D; display: inline;">{{ detallesCurso.hrs_cap }} </p><br>
                             <b> - Modalidad:</b> <p style="color: #285C4D; display: inline;">{{ detallesCurso.modalidad }} </p><br>
@@ -91,19 +99,26 @@
                     </b-row>
                     <br>
                     <b-row>
-                      <b-col cols="2">
-                          <label>Calificación:</label>
-                          <b-form-input type="number" v-model="miCurso.calif" autocomplete="off" required>
-                          </b-form-input>
+                      <b-col cols="12" lg="2">
+                          <b-form-group
+                              label-for="calif" 
+                              label-size="sm" 
+                              label="Calificación:">
+                              <b-form-input id="calif" type="number" size="sm" v-model="miCurso.calif" autocomplete="off" required>
+                              </b-form-input>
+                          </b-form-group>
                       </b-col>
-                      <b-col cols="6">
-                        <b-form-group label="Constancia:" >
-                          <b-form-file placeholder="Seleccione el archivo PDF a subir" @change="select_file" required></b-form-file>
-                          <span class="span"><strong>Importante:</strong> El archivo PDF no puede ser mayor a <u>10Mb</u></span>
+                      <b-col cols="8" lg="6">
+                        <b-form-group 
+                            label-for="archivo" 
+                            label-size="sm"
+                            label="Constancia:">
+                            <b-form-file id="archivo" size="sm" placeholder="Seleccione el archivo PDF a subir" @change="select_file" required></b-form-file>
+                            <span class="span"><strong>Importante:</strong> El archivo PDF no puede ser mayor a <u>10Mb</u></span>
                         </b-form-group>
                       </b-col>
-                      <b-col cols="4">
-                        <b-button class="botones" style="margin-top: 31px;" @click="showAlert()"
+                      <b-col cols="4" lg="4">
+                        <b-button size="sm" class="botones" style="margin-top: 38px;" @click="showAlert()"
                         v-b-modal.modal-crearCurso>
                         El curso no aparece en el listado 
                         <b-icon icon="exclamation-circle">
@@ -114,7 +129,7 @@
                     <br>
                     <b-row class="mt-4 mb-4">
                         <b-col cols="1">
-                            <b-button class="botones" type="submit">Guardar</b-button>
+                            <b-button class="botones" size="sm" type="submit">Guardar</b-button>
                         </b-col>
                     </b-row>
                   </b-form>
@@ -124,22 +139,30 @@
 
           <b-modal centered id="modal-detalles" size="xl" title="Detalles del Curso" ok-only>
                 <b-row>
-                  <b-col cols="8">
-                    <label for="curso">Nombre del curso:</label>
-                    <b-form-input list="curso" v-model="miCurso_.curso_id" autocomplete="off" readonly>
-                    </b-form-input>                        
+                  <b-col cols="12" lg="8">
+                    <b-form-group
+                        label-for="curso_id" 
+                        label-size="sm" 
+                        label="Nombre del curso:">
+                        <b-form-input list="curso_id" size="sm" v-model="miCurso_.curso_id" autocomplete="off" readonly>
+                        </b-form-input> 
+                    </b-form-group>                       
                   </b-col>
-                  <b-col cols="2">
-                    <label for="">Acreditación</label>
-                    <b-form-input v-if="miCurso_.aprobado" readonly value="Aprobado"></b-form-input>
-                    <b-form-input v-else readonly value="No aprobado"></b-form-input>
+                  <b-col cols="12" lg="3">
+                    <b-form-group
+                        label-for="aprobado" 
+                        label-size="sm" 
+                        label="Acreditación:">
+                        <b-form-input v-if="miCurso_.aprobado" size="sm" readonly value="Aprobado"></b-form-input>
+                        <b-form-input v-else readonly size="sm" value="No aprobado"></b-form-input>
+                    </b-form-group>
                   </b-col>
                 </b-row>
                 <br>
                 <b-row>
-                  <b-col cols="11">
+                  <b-col cols="12" lg="11">
                     <b-card sub-title="Detalles del curso">
-                      <b-card-text>
+                      <b-card-text class="tarjeta">
                         <b> - Institución:</b>  <p style="color: #285C4D; display: inline;"> {{ miCurso_.institucion_id }} </p><br>
                         <b> - Horas de Capacitación:</b> <p style="color: #285C4D; display: inline;">{{ miCurso_.hrs_cap }} </p><br>
                         <b> - Modalidad:</b> <p style="color: #285C4D; display: inline;">{{ miCurso_.modalidad }} </p><br>
@@ -151,16 +174,30 @@
                 </b-row>
                 <br>
                 <b-row>
-                  <b-col cols="2">
-                      <label>Calificación:</label>
-                      <b-form-input v-model="miCurso_.calif" readonly>
-                      </b-form-input>
+                  <b-col cols="6" lg="2">
+                      <b-form-group
+                          label-for="calif" 
+                          label-size="sm" 
+                          label="Calificación:">
+                          <b-form-input id="calif" size="sm" v-model="miCurso_.calif" readonly>
+                          </b-form-input>
+                      </b-form-group>
                   </b-col>
-                  <b-col cols="6">
+                  <b-col cols="6" lg="6">
                     <label>Constancia:</label>
-                    <br> 
-                    <a v-if="miCurso_.url_constancia" :href="miCurso_.url_constancia" target="blank">Descargar constancia ({{ miCurso_.nombre_constancia }})</a>
-                    <p v-else>Sin constancia</p>
+                    <!-- <b-form-group
+                          label-for="calif" 
+                          label-size="sm" 
+                          label="Constancia:">
+                          <p v-if="miCurso_.url_constancia"><a :href="miCurso_.url_constancia" target="blank">Descargar constancia ({{ miCurso_.nombre_constancia }})</a></p>
+                          <p v-else class="text-sm-start">Sin constancia</p>
+                    </b-form-group> -->
+                    <b-card class="border-0">
+                      <b-card-text class="tarjeta">
+                        <p v-if="miCurso_.url_constancia"><a :href="miCurso_.url_constancia" target="blank">Descargar constancia ({{ miCurso_.nombre_constancia }})</a></p>
+                        <p v-else class="text-sm-start">Sin constancia</p>                          
+                      </b-card-text>
+                    </b-card>
                   </b-col>
                 </b-row>
                 <br>
@@ -171,7 +208,7 @@
           <b-modal centered id="modal-crearCurso" size="xl" title="Nuevo Curso" hide-footer>
                     <b-form @submit.prevent="crearCurso">
                       <b-row>
-                        <b-col cols="12">
+                        <b-col cols="12" lg="12" class="tarjeta">
                           <b-alert
                           :show="dismissCountDown"
                           dismissible
@@ -193,10 +230,14 @@
                         </b-col>
                       </b-row>
                       <b-row>
-                        <b-col cols="12">
-                          <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="curso.nombre" style="text-transform:uppercase" autocomplete="off" required>
-                          </b-form-input>
+                        <b-col cols="12" lg="12">
+                          <b-form-group
+                              label-for="nombre" 
+                              label-size="sm" 
+                              label="Nombre:">
+                              <b-form-input id="nombre" size="sm" name="nombre" v-model="curso.nombre" style="text-transform:uppercase" autocomplete="off" required>
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
                         <!-- No se muestra del lado del usuario -->
                         <!-- <b-col cols="2">
@@ -208,24 +249,40 @@
                       </b-row>
                       <br>
                       <b-row>
-                        <b-col cols="4">
-                          <label for="fecha_inicio">Fecha de inicio:</label>
-                          <b-form-datepicker id="fecha_inicio" v-model="curso.fecha_inicio" placeholder="" required></b-form-datepicker>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="fecha_inicio" 
+                              label-size="sm" 
+                              label="Fecha de inicio:">
+                              <b-form-input type="date" id="fecha_inicio" size="sm" v-model="curso.fecha_inicio" placeholder="" required></b-form-input>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="4">
-                          <label for="fecha_fin">Fecha de fin:</label>
-                          <b-form-datepicker id="fecha_fin" v-model="curso.fecha_fin" placeholder="" required></b-form-datepicker>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="fecha_fin" 
+                              label-size="sm" 
+                              label="Fecha de fin:">
+                              <b-form-input type="date" id="fecha_fin" size="sm" v-model="curso.fecha_fin" placeholder="" required></b-form-input>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="2">
-                          <label>Hrs de Capacitación:</label>
-                          <b-form-input type="number" v-model="curso.hrs_cap" required>
-                          </b-form-input>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="hrs_cap" 
+                              label-size="sm" 
+                              label="Hrs de Capacitación:">
+                              <b-form-input id="hrs_cap" size="sm" type="number" v-model="curso.hrs_cap" required>
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="2">
-                          <label for="">Curso Interno o Externo:</label>
-                            <b-form-checkbox v-model="curso.curso_int_ext" name="curso_int_ext" switch required>
-                            <b v-if="curso.curso_int_ext"> Externo</b> <b v-else>Interno</b>
-                          </b-form-checkbox>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="curso_int_ext" 
+                              label-size="sm" 
+                              label="Curso Interno o Externo:">
+                              <b-form-checkbox size="sm" id="curso_int_ext" v-model="curso.curso_int_ext" name="curso_int_ext" switch required>
+                              <b v-if="curso.curso_int_ext" id="curso_int_ext" size="sm"> Externo</b> <b v-else size="sm" id="curso_int_ext">Interno</b>
+                              </b-form-checkbox>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <br>
@@ -235,14 +292,18 @@
                           <label for="">Difundido por la DP:</label>
                           <b-form-select v-model="curso.difundido_DP" :options="difundido_DPs"></b-form-select>
                         </b-col> -->
-                        <b-col cols="12">
-                          <label for="institucion_id">Institución:</label>
-                          <b-form-input list="institucion_id" v-model="curso.institucion_id" autocomplete="off">
-                          </b-form-input>
-                          <span class="span">Selecciona o busca la Institución a registrar del listado:</span>
-                          <datalist id="institucion_id">
-                            <option v-for="institucion in instituciones">{{ institucion.nombre }}</option>  
-                          </datalist>                          
+                        <b-col cols="12" lg="12">
+                          <b-form-group
+                              label-for="institucion_id" 
+                              label-size="sm" 
+                              label="Institución:">
+                              <b-form-input list="institucion_id" size="sm" v-model="curso.institucion_id" autocomplete="off">
+                              </b-form-input>
+                              <span class="span">Selecciona o busca la Institución a registrar del listado:</span>
+                              <datalist id="institucion_id">
+                                <option v-for="institucion in instituciones">{{ institucion.nombre }}</option>  
+                              </datalist>
+                          </b-form-group>                          
                         </b-col>
                       </b-row>
                       <br>
@@ -253,14 +314,18 @@
                           <b-form-input id="folio" name="folio" v-model="curso.folio" autocomplete="off">
                           </b-form-input>
                         </b-col> -->
-                        <b-col cols="3">
-                          <label>Modalidad:</label>
-                          <b-form-select v-model="curso.modalidad" :options="modalidads" required></b-form-select>
+                        <b-col cols="12" lg="3">
+                          <b-form-group
+                              label-for="modalidad" 
+                              label-size="sm" 
+                              label="Modalidad:">
+                              <b-form-select size="sm" id="modalidad" v-model="curso.modalidad" :options="modalidads" required></b-form-select>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <b-button class="botones" type="submit">Guardar</b-button>
+                              <b-button class="botones" size="sm" type="submit">Guardar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>
@@ -271,13 +336,18 @@
             <b-modal centered id="modal-rechazo" title="Detalles del rechazo" hide-footer>
                 <b-row>
                   <b-col>
-                    <label>Motivos de rechazo:</label>
-                    <b-form-textarea
-                      rows="3"
-                      max-rows="6"
-                      v-model="miCurso_.rechazo"
-                      readonly
-                    ></b-form-textarea>
+                    <b-form-group
+                        label-for="rechazo" 
+                        label-size="sm" 
+                        label="Motivos de rechazo:">
+                        <b-form-textarea
+                          id="rechazo"
+                          rows="3"
+                          max-rows="6"
+                          v-model="miCurso_.rechazo"
+                          readonly
+                        ></b-form-textarea>
+                    </b-form-group>
                   </b-col>
                 </b-row>
             </b-modal>
@@ -841,5 +911,8 @@ color: #fff !important;
 }
 .activo{
   background-color: #D4C19C !important;
+}
+.tarjeta{
+  font-size: 14px;
 }
 </style>

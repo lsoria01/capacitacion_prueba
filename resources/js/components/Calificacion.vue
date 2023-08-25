@@ -48,96 +48,147 @@
 
             <b-modal centered id="modal-detalles" scrollable size="xl" title="Detalles del Curso" hide-footer>
               <b-row>
-                <b-col>
-                  <label for="empleado">Usuario:</label>  
-                  <b-form-input readonly id="empleado" v-model="calificacion_.usuario_id"></b-form-input>
+                <b-col cols="12" lg="6">
+                  <b-form-group
+                      label-for="usuario_id" 
+                      label-size="sm" 
+                      label="Usuario:">
+                      <b-form-input readonly id="usuario_id" size="sm" v-model="calificacion_.usuario_id"></b-form-input>
+                  </b-form-group>
                 </b-col>
-                <b-col>
-                  <label for="empleado">Curso:</label>
-                  <b-form-input readonly id="empleado" v-model="calificacion_.curso_id"></b-form-input>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col>
-                  <label for="curso_fin">Curso finalizado:</label>
-                  <p v-if="calificacion_.curso_fin">
-                    <b-form-input readonly id="curso_fin" value="Si"></b-form-input>
-                  </p>
-                  <p v-else>
-                    <b-form-input readonly id="curso_fin" value="No"></b-form-input>
-                  </p>
-                </b-col>
-                <b-col>
-                  <label for="aprobado">Curso Aprobado:</label>
-                  <p v-if="calificacion_.aprobado">
-                    <b-form-input readonly id="aprobado" value="Si"></b-form-input>
-                  </p>
-                  <p v-else>
-                    <b-form-input readonly id="aprobado" value="No"></b-form-input>
-                  </p>
-                </b-col>
-                <b-col>
-                  <label for="curso_oblig">Curso Obligatorio:</label>
-                  <p v-if="calificacion_.curso_oblig">
-                    <b-form-input readonly id="curso_oblig" value="Si"></b-form-input>
-                  </p>
-                  <p v-else>
-                    <b-form-input readonly id="curso_oblig" value="No"></b-form-input>
-                  </p>
-                </b-col>
-                <b-col>
-                  <label for="calif">Calificación:</label>
-                  <b-form-input readonly id="calif" v-model="calificacion_.calif"></b-form-input>
+                <b-col cols="12" lg="6">
+                  <b-form-group
+                      label-for="curso_id" 
+                      label-size="sm" 
+                      label="Curso:">
+                      <b-form-input readonly id="curso_id" size="sm" v-model="calificacion_.curso_id"></b-form-input>
+                  </b-form-group>
                 </b-col>
               </b-row>
               <b-row>
-                <b-col>
-                  <label for="hrs_cap">Horas de Capacitación:</label>
-                  <b-form-input readonly id="hrs_cap" v-model="calificacion_.hrs_cap"></b-form-input>
+                <b-col cols="12" lg="3">
+                  <b-form-group
+                      label-for="curso_fin" 
+                      label-size="sm" 
+                      label="Curso finalizado:">
+                      <p v-if="calificacion_.curso_fin">
+                        <b-form-input readonly id="curso_fin" size="sm" value="Si"></b-form-input>
+                      </p>
+                      <p v-else>
+                        <b-form-input readonly id="curso_fin" size="sm" value="No"></b-form-input>
+                      </p>
+                  </b-form-group>
                 </b-col>
-                <b-col>
-                  <label for="fecha">Fecha de finalización:</label>
-                  <b-form-input readonly id="fecha" v-model="calificacion_.fecha"></b-form-input>
+                <b-col cols="12" lg="3">
+                  <b-form-group
+                      label-for="aprobado" 
+                      label-size="sm" 
+                      label="Curso Aprobado:">
+                      <p v-if="calificacion_.aprobado">
+                        <b-form-input readonly id="aprobado" size="sm" value="Si"></b-form-input>
+                      </p>
+                      <p v-else>
+                        <b-form-input readonly id="aprobado" size="sm" value="No"></b-form-input>
+                      </p>
+                  </b-form-group>
                 </b-col>
-                <b-col>
-                  <label for="curso_oblig">Tipo de Curso:</label>
-                  <p v-if="calificacion_.curso_int_ext">
-                    <b-form-input readonly id="curso_oblig" value="Externo"></b-form-input>
-                  </p>
-                  <p v-else>
-                    <b-form-input readonly id="curso_oblig" value="Interno"></b-form-input>
-                  </p>
+                <b-col cols="12" lg="3">
+                  <b-form-group
+                      label-for="curso_oblig" 
+                      label-size="sm" 
+                      label="Curso Obligatorio:">
+                      <p v-if="calificacion_.curso_oblig">
+                        <b-form-input readonly id="curso_oblig" size="sm" value="Si"></b-form-input>
+                      </p>
+                      <p v-else>
+                        <b-form-input readonly id="curso_oblig" size="sm" value="No"></b-form-input>
+                      </p>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="3">
+                  <b-form-group
+                      label-for="calif" 
+                      label-size="sm" 
+                      label="Calificación:">
+                      <b-form-input readonly id="calif" size="sm" v-model="calificacion_.calif"></b-form-input>
+                  </b-form-group>
                 </b-col>
               </b-row>
               <b-row>
-                <b-col>
-                  <label for="institucion_id">Institución que imparte:</label>
-                  <b-form-input readonly id="institucion_id" v-model="calificacion_.institucion_id"></b-form-input>
+                <b-col cols="12" lg="4">
+                  <b-form-group
+                      label-for="hrs_cap" 
+                      label-size="sm" 
+                      label="Horas de Capacitación:">
+                      <b-form-input readonly id="hrs_cap" size="sm" v-model="calificacion_.hrs_cap"></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="4">
+                  <b-form-group
+                      label-for="fecha" 
+                      label-size="sm" 
+                      label="Fecha de finalización:">
+                      <b-form-input readonly id="fecha" size="sm" v-model="calificacion_.fecha"></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="4">
+                  <b-form-group
+                      label-for="curso_int_ext" 
+                      label-size="sm" 
+                      label="Tipo de Curso:">
+                      <p v-if="calificacion_.curso_int_ext">
+                        <b-form-input readonly id="curso_int_ext" size="sm" value="Externo"></b-form-input>
+                      </p>
+                      <p v-else>
+                        <b-form-input readonly id="curso_int_ext" size="sm" value="Interno"></b-form-input>
+                      </p>
+                  </b-form-group>
                 </b-col>
               </b-row>
               <b-row>
-                <b-col>
-                  <label for="difundido_DP">Difundido por la Dirección de Profesionalización:</label>
-                  <p v-if="calificacion_.difundido_DP">
-                    <b-form-input readonly id="difundido_DP" value="Si"></b-form-input>
-                  </p>
-                  <p v-else>
-                    <b-form-input readonly id="difundido_DP" value="No"></b-form-input>
-                  </p>
+                <b-col cols="12" lg="12">
+                  <b-form-group
+                      label-for="institucion_id" 
+                      label-size="sm" 
+                      label="Institución que imparte:">
+                      <b-form-input readonly id="institucion_id" size="sm" v-model="calificacion_.institucion_id"></b-form-input>
+                  </b-form-group>
                 </b-col>
-                <b-col>
-                  <label for="modalidad">Modalidad:</label>
-                  <b-form-input readonly id="modalidad" v-model="calificacion_.modalidad"></b-form-input>
+              </b-row>
+              <b-row>
+                <b-col cols="12" lg="6">
+                  <b-form-group
+                      label-for="difundido_DP" 
+                      label-size="sm"
+                      label="Difundido por la Dirección de Profesionalización:">
+                      <p v-if="calificacion_.difundido_DP">
+                        <b-form-input readonly id="difundido_DP" size="sm" value="Si"></b-form-input>
+                      </p>
+                      <p v-else>
+                        <b-form-input readonly id="difundido_DP" size="sm" value="No"></b-form-input>
+                      </p>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" lg="6">
+                  <b-form-group
+                      label-for="modalidad" 
+                      label-size="sm"
+                      label="Modalidad:">
+                    <b-form-input readonly id="modalidad" size="sm" v-model="calificacion_.modalidad"></b-form-input>
+                  </b-form-group>
                 </b-col>
               </b-row>
               <hr>
               <b-row>
-                <b-col cols="12">
-                  <label>Constancia:</label>
-                  <br> 
-                  <a v-if="calificacion_.url_constancia" :href="calificacion_.url_constancia" target="blank">Descargar constancia</a>
-                  <p v-else>Sin constancia</p>
-                  <!-- <iframe src='storage/constancias/IDkmXqU6mKX4RaUNgn2eiBzANTRum2A3v7CXktAY.pdf' height="100%" width="100%" scrolling="auto"></iframe> -->
+                <b-col cols="12" lg="12">
+                  <b-form-group
+                      label-for="url_constancia" 
+                      label-size="sm"
+                      label="Constancia:">
+                      <a v-if="calificacion_.url_constancia" :href="calificacion_.url_constancia" id="url_constancia" size="sm" target="blank">Descargar constancia</a>
+                      <p v-else id="url_constancia" size="sm">Sin constancia</p>
+                      <!-- <iframe src='storage/constancias/IDkmXqU6mKX4RaUNgn2eiBzANTRum2A3v7CXktAY.pdf' height="100%" width="100%" scrolling="auto"></iframe> -->
+                  </b-form-group>
                 </b-col>
               </b-row>
               <br>
@@ -146,21 +197,27 @@
             <!-- Inicio modal rechazo  -->
 
             <b-modal centered id="modal-rechazar" title="Rechazar curso registrado" hide-footer>
-                    <p style="color: #9d2449;">Está a punto de rechazar el curso seleccionado. <b-icon icon="exclamation-circle-fill" variant="danger"></b-icon></p>
+                    <p class="tarjeta" style="color: #9d2449;">Está a punto de rechazar el curso seleccionado. <b-icon icon="exclamation-circle-fill" variant="danger"></b-icon></p>
                     <b-form @submit.prevent="editar(calificacion_)">
                       <b-row>
                         <b-col>
-                          <label>Antes de continuar, ingrese los motivos de rechazo:</label>
-                          <b-form-textarea
-                            rows="3"
-                            max-rows="6"
-                            v-model="calificacion_.rechazo"
-                          ></b-form-textarea>
+                          <b-form-group
+                              label-for="rechazo" 
+                              label-size="sm"
+                              label="Antes de continuar, ingrese los motivos de rechazo:">
+                              <b-form-textarea
+                                id="rechazo"
+                                size="sm"
+                                rows="3"
+                                max-rows="6"
+                                v-model="calificacion_.rechazo"
+                              ></b-form-textarea>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <b-button class="botones" type="submit">Rechazar</b-button>
+                              <b-button class="botones" size="sm" type="submit">Rechazar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>
@@ -584,5 +641,8 @@ height: 48px;
 }
 .activo{
   background-color: #D4C19C !important;
+}
+.tarjeta{
+  font-size: 14px;
 }
 </style>

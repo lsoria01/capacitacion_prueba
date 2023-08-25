@@ -37,7 +37,7 @@
             <br> <br>
             <!-- Información del usuario -->
             <div style="padding-left: 90px; padding-right: 90px;" >
-                <table class="table striped hover">
+                <table class="table table-sm striped hover">
                     <thead style="display:none">
                         <tr>
                         <th></th>
@@ -48,7 +48,7 @@
                         <th></th>
                         </tr>
                     </thead>
-                    <tbody style="text-align: center;" v-for="autentic in autenticado" :key="autentic.id">
+                    <tbody class="text-center small" v-for="autentic in autenticado" :key="autentic.id">
                         <tr>
                             <th colspan="3" class="renglonUno">ID Empleado</th>
                             <th colspan="3" class="renglonUno">Nombre</th>
@@ -114,11 +114,15 @@
             <p class="my-4 row justify-content-center"><b>Seleccione el año del ejercicio:</b></p>
             <b-row class="my-4 row justify-content-center" style="margin-left: 120px;">
                 <b-col cols="3">
-                    <label for="anio">Año:</label>
-                    <b-form-input id="anio" type="number" v-model="anio">año</b-form-input>
+                    <b-form-group
+                        label-for="anio" 
+                        label-size="sm" 
+                        label="Año:">
+                        <b-form-input id="anio" size="sm" type="number" v-model="anio">año</b-form-input>
+                    </b-form-group>
                 </b-col>
                 <b-col cols="3">
-                    <b-button class="renglonDos" @click="buscarAnio()" style="margin-top: 32px;">Consultar</b-button>
+                    <b-button class="renglonDos" size="sm" @click="buscarAnio()" style="margin-top: 38px;">Consultar</b-button>
                 </b-col>
 
                 <!-- <b-col cols="3">
@@ -140,7 +144,7 @@
             <!-- Historial de horas de capacitación -->
             <div v-if="historial == 1">
                 <p class="my-4"><b>A continuación se detalla el historial de las horas de capacitación tomadas en el año 2022:</b></p>
-                    <table class="table table-striped" style="text-align: center;">
+                    <table class="table table-striped small" style="text-align: center;">
                         <thead>
                             <tr>
                                 <!-- <th class="renglonUno">No.</th> -->
@@ -170,7 +174,7 @@
                     </table>
                     <br> <br>
                     <div style="margin-left: 60%;">
-                        <table class="table table-striped" style="text-align: center;">
+                        <table class="table table-striped small" style="text-align: center;">
                             <thead>
                                 <tr>
                                     <!-- <th class="renglonUno">No.</th> -->
@@ -249,7 +253,7 @@
                                         <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody style="text-align: center; font-size: 10px" v-for="autentic in autenticado" :key="autentic.id">
+                                    <tbody class="text-center small" style="font-size: 10px" v-for="autentic in autenticado" :key="autentic.id">
                                         <tr>
                                             <th colspan="3" class="renglonUno">ID Empleado</th>
                                             <th colspan="3" class="renglonUno">Nombre</th>

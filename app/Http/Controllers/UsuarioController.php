@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
-    public function __construct()
+    /* public function __construct()
     {
         $this->middleware('auth');
-    }
+    } */
     /**
      * Display a listing of the resource.
      *
@@ -50,7 +50,8 @@ class UsuarioController extends Controller
             'usuarios.correo',
             'usuarios.usuario',
             'usuarios.rol',
-            'usuarios.estatus'
+            'usuarios.estatus',
+            'usuarios.indicio'
             )
         ->orderBy("id")
         ->get();

@@ -42,35 +42,55 @@
                 <b-tab title="Datos generales" active>
                     <br> <br>
                     <b-row>
-                        <b-col cols="">
-                            <label>Número de empleado:</label>
-                            <b-form-input v-model="usuario.num_empleado" readonly>
-                            </b-form-input>
+                        <b-col cols="12" lg="4">
+                            <b-form-group
+                                label-for="num_empleado" 
+                                label-size="sm" 
+                                label="Número de empleado:">
+                                <b-form-input id="num_empleado" size="sm" v-model="usuario.num_empleado" readonly>
+                                </b-form-input>
+                                </b-form-group>
                         </b-col>
-                        <b-col cols="">
-                            <label>Nombre completo:</label>
-                            <b-form-input v-model="usuario.persona_id" readonly>
-                            </b-form-input>
+                        <b-col cols="12" lg="4">
+                            <b-form-group
+                                label-for="persona_id" 
+                                label-size="sm" 
+                                label="Nombre completo:">
+                                <b-form-input id="persona_id" size="sm" v-model="usuario.persona_id" readonly>
+                                </b-form-input>
+                            </b-form-group>
                         </b-col>
-                        <b-col cols="">
-                            <label>Puesto:</label>
-                            <b-form-input v-model="usuario.puesto_id" readonly>
-                            </b-form-input>
+                        <b-col cols="12" lg="4">
+                            <b-form-group
+                                label-for="puesto_id" 
+                                label-size="sm" 
+                                label="Puesto:">
+                                <b-form-input id="puesto_id" size="sm" v-model="usuario.puesto_id" readonly>
+                                </b-form-input>
+                            </b-form-group>
                         </b-col>
                     </b-row>
                     <br>
                     <hr>
                     <br>
                     <b-row>
-                        <b-col cols="">
-                            <label>Correo:</label>
-                            <b-form-input v-model="usuario.correo" readonly>
-                            </b-form-input>
+                        <b-col cols="12" lg="6">
+                            <b-form-group
+                                label-for="correo" 
+                                label-size="sm" 
+                                label="Correo:">
+                                <b-form-input id="correo" size="sm" v-model="usuario.correo" readonly>
+                                </b-form-input>
+                            </b-form-group>
                         </b-col>
-                        <b-col cols="">
-                            <label>Adscripción:</label>
-                            <b-form-input v-model="usuario.adscripcion_id" readonly>
-                            </b-form-input>
+                        <b-col cols="12" lg="6">
+                            <b-form-group
+                                label-for="adscripcion_id" 
+                                label-size="sm" 
+                                label="Adscripción:">
+                                <b-form-input id="adscripcion_id" size="sm" v-model="usuario.adscripcion_id" readonly>
+                                </b-form-input>
+                            </b-form-group>
                         </b-col>
                     </b-row>
                 </b-tab>
@@ -80,23 +100,35 @@
                     <br>
                     <b-form @submit.prevent="actualizar">
                         <b-row>
-                            <b-col cols="">
-                                <label>Contraseña actual:</label>
-                                <b-form-input type="password" v-model="passwordAnterior" required>
-                                </b-form-input>
+                            <b-col cols="12" lg="12">
+                                <b-form-group
+                                    label-for="passwordAnterior" 
+                                    label-size="sm" 
+                                    label="Contraseña actual:">
+                                    <b-form-input id="passwordAnterior" size="sm" type="password" v-model="passwordAnterior" required>
+                                    </b-form-input>
+                                </b-form-group>
                             </b-col>
                         </b-row>
                         <br> <hr> <br>
                         <b-row>
-                            <b-col cols="">
-                                <label>Nueva contraseña:</label>
-                                <b-form-input type="password" v-model="password" required>
-                                </b-form-input>
+                            <b-col cols="12" lg="4">
+                                <b-form-group
+                                    label-for="password" 
+                                    label-size="sm" 
+                                    label="Nueva contraseña:">
+                                    <b-form-input id="password" size="sm" type="password" v-model="password" required>
+                                    </b-form-input>
+                                </b-form-group>
                             </b-col>
-                            <b-col cols="">
-                                <label>Confirmar la contraseña:</label>
-                                <b-form-input type="password" v-model="indicio" required>
-                                </b-form-input>
+                            <b-col cols="12" lg="4">
+                                <b-form-group
+                                    label-for="indicio" 
+                                    label-size="sm" 
+                                    label="Confirmar la contraseña:">
+                                    <b-form-input id="indicio" size="sm" type="password" v-model="indicio" required>
+                                    </b-form-input>
+                                </b-form-group>
                             </b-col>
                             <!-- Mensaje de password correcto -->
                             <b-col cols="2" v-if="password === indicio && password != '' ">
@@ -111,7 +143,7 @@
                         </b-row>
                         <b-row align-h="end" class="my-4 mr-2">
                             <b-col cols="1">
-                                <b-button class="botones" type="submit">Guardar</b-button>
+                                <b-button class="botones" size="sm" type="submit">Guardar</b-button>
                             </b-col>
                         </b-row>
                     </b-form>

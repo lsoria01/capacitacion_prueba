@@ -61,33 +61,50 @@
                           </div>                         
                         </b-col> -->
                         <b-col cols="12">
-                          <label>Usuario:</label>
-                          <b-form-input list="usuario" v-model="nombramiento.usuario_id" autocomplete="off" required>
-                          </b-form-input>
-                          <datalist id="usuario">
-                            <option v-for="usuario in usuarios">{{ usuario.persona_id }}</option>  
-                          </datalist>
-                          <span class="span">Seleccione un usuario de la lista</span>
+                          <b-form-group 
+                              label-for="usuario_id" 
+                              label-size="sm" 
+                              label="Usuario:"
+                              >
+                              <b-form-input id="usuario_id" size="sm" list="usuario" v-model="nombramiento.usuario_id" autocomplete="off" required>
+                              </b-form-input>
+                              <datalist id="usuario">
+                                <option v-for="usuario in usuarios">{{ usuario.persona_id }}</option>  
+                              </datalist>
+                              <span class="span">Seleccione un usuario de la lista</span>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="12" class="mb-4">
-                          <label>Tipo:</label>
-                          <b-form-input id="tipo"  name="tipo" v-model="nombramiento.tipo" autocomplete="off" style="text-transform:uppercase" required>
-                          </b-form-input>
+                        <b-col cols="12">
+                          <b-form-group
+                              label-for="tipo" 
+                              label-size="sm" 
+                              label="Tipo:">
+                              <b-form-input id="tipo" size="sm" name="tipo" v-model="nombramiento.tipo" autocomplete="off" style="text-transform:uppercase" required>
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
                         <b-col cols="6">
-                          <label>Fecha de Emisión:</label>
-                          <b-form-input type="date" v-model="nombramiento.fec_emis" placeholder="Seleccione una fecha" required>
-                          </b-form-input>
+                          <b-form-group
+                              label-for="fec_emis" 
+                              label-size="sm" 
+                              label="Fecha de Emisión:">
+                              <b-form-input type="date" id="fec_emis" size="sm" v-model="nombramiento.fec_emis" placeholder="Seleccione una fecha" required>
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
                         <b-col cols="6">
-                          <label>Fecha de Ratificación:</label>
-                          <b-form-input type="date" v-model="nombramiento.fec_ratif" required>
-                          </b-form-input>
+                          <b-form-group
+                            label-for="fec_ratif" 
+                            label-size="sm" 
+                            label="Fecha de Ratificación:">
+                            <b-form-input id="fec_ratif" size="sm" type="date" v-model="nombramiento.fec_ratif" required>
+                            </b-form-input>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <b-button class="botones" type="submit">Guardar</b-button>
+                              <b-button class="botones" size="sm" type="submit">Guardar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>
@@ -122,33 +139,50 @@
                           </div>
                         </b-col> -->
                         <b-col cols="12">
-                          <label>Usuario:</label>
-                          <b-form-input list="usuario" v-model="nombramiento_.usuario_id" autocomplete="off">
-                          </b-form-input>
-                          <datalist id="usuario">
-                            <option v-for="usuario in usuarios">{{ usuario.persona_id }}</option>  
-                          </datalist>
+                          <b-form-group
+                            label-for="usuario_id" 
+                            label-size="sm" 
+                            label="Usuario:">
+                            <b-form-input id="usuario_id" size="sm" list="usuario" v-model="nombramiento_.usuario_id" autocomplete="off">
+                            </b-form-input>
+                            <datalist id="usuario">
+                              <option v-for="usuario in usuarios">{{ usuario.persona_id }}</option>  
+                            </datalist>
+                            <span class="span">Si desea cambiar el usuario, deberá borrar el existente y seleccionar un nuevo</span>
+                          </b-form-group>
                         </b-col>
                         <b-col cols="12" class="mb-4">
-                          <label>Tipo</label>
-                          <b-form-input id="tipo" name="tipo" v-model="nombramiento_.tipo" style="text-transform:uppercase">
-                          </b-form-input>
+                          <b-form-group
+                            label-for="tipo" 
+                            label-size="sm" 
+                            label="Tipo:">
+                            <b-form-input id="tipo" size="sm" name="tipo" v-model="nombramiento_.tipo" style="text-transform:uppercase">
+                            </b-form-input>
+                          </b-form-group>
                         </b-col>
                         <b-col cols="6">
-                          <label>Fecha de Emisión</label>
-                          <b-form-input id="fec_emis" name="fec_emis" type="date" v-model="nombramiento_.fec_emis">
-                          </b-form-input>
+                          <b-form-group
+                            label-for="fec_emis" 
+                            label-size="sm" 
+                            label="Fecha de Emisión:">
+                            <b-form-input id="fec_emis" size="sm" name="fec_emis" type="date" v-model="nombramiento_.fec_emis">
+                            </b-form-input>
+                          </b-form-group>
                         </b-col>
                         <b-col cols="6">
-                          <label>Fecha de Ratificación</label>
-                          <b-form-input id="fec_ratif" name="fec_ratif" type="date" v-model="nombramiento_.fec_ratif">
-                          </b-form-input>
+                          <b-form-group
+                            label-for="fec_ratif" 
+                            label-size="sm" 
+                            label="Fecha de Ratificación:">
+                            <b-form-input id="fec_ratif" size="sm" name="fec_ratif" type="date" v-model="nombramiento_.fec_ratif">
+                            </b-form-input>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <b-row align-h="end" class="mt-4 mb-4">
                           <b-col>
-                              <b-button class="botones mr-2" type="submit">Editar</b-button>
-                              <b-button class="botones" @click="cancelar()">Cancelar</b-button>
+                              <b-button class="botones mr-2" size="sm" type="submit">Editar</b-button>
+                              <b-button class="botones" size="sm" @click="cancelar()">Cancelar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>
@@ -644,6 +678,6 @@ height: 48px;
 }
 .span{
   color:#B38E5D;
-  font-size:14px;
+  font-size:12px;
 }
 </style>

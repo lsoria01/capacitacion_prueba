@@ -42,20 +42,28 @@
             <b-modal centered id="modal-crear" title="Nuevo Nivel" hide-footer>
                     <b-form @submit.prevent="crear">
                       <b-row>
-                        <b-col cols="4">
-                          <label>Nomenclatura:</label>
-                          <b-form-input id="nomenclatura" name="nomenclatura" v-model="nivel.nomenclatura" autocomplete="off" required>
-                          </b-form-input>
+                        <b-col cols="12" lg="4">
+                          <b-form-group
+                              label-for="nomenclatura" 
+                              label-size="sm" 
+                              label="Nomenclatura:">
+                              <b-form-input id="nomenclatura" size="sm" name="nomenclatura" v-model="nivel.nomenclatura" autocomplete="off" required>
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="8">
-                          <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="nivel.nombre" style="text-transform:uppercase" autocomplete="off" required>
-                          </b-form-input>
+                        <b-col cols="12" lg="8">
+                          <b-form-group
+                              label-for="nombre" 
+                              label-size="sm" 
+                              label="Nombre:">
+                              <b-form-input id="nombre" size="sm" name="nombre" v-model="nivel.nombre" style="text-transform:uppercase" autocomplete="off" required>
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <b-button class="botones" type="submit">Guardar</b-button>
+                              <b-button class="botones" size="sm" type="submit">Guardar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>
@@ -66,20 +74,28 @@
             <b-modal centered id="modal-editar" title="Editar Nivel" hide-footer>
                     <b-form @submit.prevent="editar(nivel_)">
                       <b-row>
-                        <b-col cols="4">
-                          <label>Nomenclatura:</label>
-                          <b-form-input id="nomenclatura" name="nomenclatura" v-model="nivel_.nomenclatura" autocomplete="off">
-                          </b-form-input>
+                        <b-col cols="12" lg="4">
+                          <b-form-group
+                              label-for="nomenclatura" 
+                              label-size="sm" 
+                              label="Nomenclatura:">
+                              <b-form-input id="nomenclatura" size="sm" name="nomenclatura" v-model="nivel_.nomenclatura" autocomplete="off">
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
-                        <b-col cols="8">
-                          <label>Nombre:</label>
-                          <b-form-input id="nombre" name="nombre" v-model="nivel_.nombre" style="text-transform:uppercase" autocomplete="off">
-                          </b-form-input>
+                        <b-col cols="12" lg="8">
+                          <b-form-group
+                              label-for="nombre" 
+                              label-size="sm" 
+                              label="Nombre:">
+                              <b-form-input id="nombre" size="sm" name="nombre" v-model="nivel_.nombre" style="text-transform:uppercase" autocomplete="off">
+                              </b-form-input>
+                          </b-form-group>
                         </b-col>
                       </b-row>
                       <b-row class="mt-4 mb-4">
                           <b-col cols="1">
-                              <b-button class="botones" type="submit">Editar</b-button>
+                              <b-button class="botones" size="sm" type="submit">Editar</b-button>
                           </b-col>
                       </b-row>
                     </b-form>
